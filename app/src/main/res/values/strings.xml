@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Faruq Traders</string>
+    <string name="product_name">Product Name:</string>
+    <string name="demo_product_name">Demo Product Name</string>
+    <string name="category">Category</string>
+    <string name="honey_and_jam_spread">Honey and Jam Spread</string>
+    <string name="price">1057.3৳</string>
+    <string name="category_name">honey_and_jam_spread</string>
+    <string name="related_products">Related Products</string>
+    <string name="more_products">More Products</string>
+    <string name="add_to_cart_btn">Add to Cart</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
