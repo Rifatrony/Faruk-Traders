@@ -1,6 +1,8 @@
 package com.example.faruqtraders.Model;
 
-public class LatestProductModel {
+import java.io.Serializable;
+
+public class LatestProductModel implements Serializable {
 
     private String name, category, price;
     private int id, image;

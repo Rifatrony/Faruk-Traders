@@ -2,23 +2,20 @@ package com.example.faruqtraders.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.example.faruqtraders.Adapter.RelatedProductAdapter;
-import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
 import com.example.faruqtraders.Model.LatestProductModel;
 import com.example.faruqtraders.Model.RelatedProductModel;
-import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,20 +24,20 @@ import java.util.List;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView product_name, product_category, product_price;
-    int id;
+    TextView product_name, product_category, product_discount_price, product_details_main_price;
+    ImageView imageView;
+
     List<LatestProductModel> latestProductModelList = new ArrayList<>();
 
     RecyclerView product_details_related_product_recycler_view;
 
-    Toolbar toolbar;
-
-    AppCompatImageView imageView;
     FloatingActionButton add_button, minus_button;
     AppCompatButton add_to_cart_button, add_to_favourite_button;
 
     TextView quantityNumberTextView, product_details_main_product_price;
     int count = 1;
+
+    LatestProductModel latestProductModel = null;
 
 
     @Override
@@ -60,13 +57,23 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         relateProduct();
 
         setListener();
-        //Counter();
-        quantityNumberTextView.setText(String.valueOf(count));
-        product_details_main_product_price.setText("1000 ৳");
-        //tv.setText("");
-        product_details_main_product_price.setPaintFlags(product_details_main_product_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
+        final Object object = getIntent().getSerializableExtra("detail");
+        if (object instanceof LatestProductModel){
+            latestProductModel = (LatestProductModel) object;
+        }
 
+        if (latestProductModel != null){
+            Glide.with(getApplicationContext()).load(latestProductModel.getImage()).into(imageView);
+            product_name.setText(String.valueOf(latestProductModel.getName()));
+            product_details_main_price.setText(String.valueOf(latestProductModel.getPrice()));
+            product_category.setText(latestProductModel.getCategory());
+
+        }
+
+        //quantityNumberTextView.setText(String.valueOf(count));
+        //product_details_main_product_price.setText(String.valueOf("1000"));
+        //product_details_main_product_price.setPaintFlags(product_details_main_product_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,14 +88,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     private void initialization() {
 
-        /*product_name = findViewById(R.id.product_details_product_name);
+        product_name = findViewById(R.id.product_details_product_name);
         product_category = findViewById(R.id.product_details_product_category);
-        product_price = findViewById(R.id.product_details_product_price);*/
+        product_details_main_price = findViewById(R.id.product_details_product_main_price);
+        product_details_main_price = findViewById(R.id.product_details_product_main_price);
+        product_discount_price = findViewById(R.id.product_details_product_dicount_price);
 
         product_details_related_product_recycler_view = findViewById(R.id.product_details_related_product_recyclerView);
 
         quantityNumberTextView = findViewById(R.id.quantityNumberTextView);
-        product_details_main_product_price = findViewById(R.id.product_details_main_product_price);
 
         imageView = findViewById(R.id.imageBack);
         add_button = findViewById(R.id.add_button);
@@ -96,6 +104,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         add_to_cart_button = findViewById(R.id.add_to_cart_button);
         add_to_favourite_button = findViewById(R.id.add_to_favourite_button);
 
+        imageView = findViewById(R.id.imageView);
 
     }
 

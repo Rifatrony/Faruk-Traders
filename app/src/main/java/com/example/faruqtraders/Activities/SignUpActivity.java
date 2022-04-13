@@ -16,6 +16,8 @@ import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Response.UserRegisterResponse;
 import com.example.faruqtraders.R;
 
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,8 +38,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         initialization();
         setListener();
-
-
 
     }
 
@@ -137,22 +137,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         RetrofitClient.getRetrofitClient().createUser(name, email, phone, password, confirmPassword, device_name).enqueue(new Callback<UserRegisterResponse>() {
             @Override
             public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    showToast("Successful");
-                    System.out.println("In Body=========>" + response.body());
-                    /*try {
-                        showToast("Successful ....."+response.message());
-                        Log.e("TAG", response.message());
-                    }catch (Exception e){
-                        showToast("Exception ....."+e.getLocalizedMessage());
-                        Log.e("TAG", e.getLocalizedMessage());
-                    }*/
+
+                if (response.isSuccessful()){
+                    showToast("Account Created Successfully...");
+
+                    fullNameEditText.setText("");
+                    emailEditText.setText("");
+                    numberEditText.setText("");
+                    passwordEditText.setText("");
+                    confirmPasswordEditText.setText("");
+
                 }
                 else {
-                    showToast("Error..."+ response.errorBody());
-                    System.out.println("Error body ==================>"+response.errorBody());
+                    String errorMessage = response.errorBody().toString();
+                    showToast(errorMessage);
                 }
-
             }
 
             @Override

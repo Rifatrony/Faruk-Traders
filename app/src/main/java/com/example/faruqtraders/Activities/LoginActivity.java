@@ -1,5 +1,6 @@
 package com.example.faruqtraders.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -13,8 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.faruqtraders.API.RetrofitClient;
+import com.example.faruqtraders.MainActivity;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Request.LoginRequest;
 import com.example.faruqtraders.Response.LoginResponse;
+import com.example.faruqtraders.Response.UserRegisterResponse;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -27,6 +37,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     AppCompatButton signInButton;
     EditText loginEmailEditText, loginPasswordEditText;
     CircleImageView facebook, google;
+
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +59,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginEmailEditText = findViewById(R.id.loginEmailEditText);
         loginPasswordEditText = findViewById(R.id.loginPasswordEditText);
 
-        facebook= findViewById(R.id.facebookLogin);
-        google= findViewById(R.id.googleLogin);
+        facebook = findViewById(R.id.facebookLogin);
+        google = findViewById(R.id.googleLogin);
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this,gso);
+
     }
 
-    private void setListener(){
+    private void setListener() {
         textCreateNewAccount.setOnClickListener(this);
         lostYourPasswordTextView.setOnClickListener(this);
         signInButton.setOnClickListener(this);
@@ -60,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.textCreateNewAccount:
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
                 finish();
@@ -78,107 +96,104 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.googleLogin:
-                showToast("Google Login");
+                googleLogin();
                 break;
         }
     }
 
-    private void userLogin(){
-        String loginEmail = loginEmailEditText.getText().toString().trim();
-        String loginPassword = loginPasswordEditText.getText().toString().trim();
+    private void googleLogin(){
+        Intent intent = gsc.getSignInIntent();
+        startActivityForResult(intent, 1000);
+    }
 
-        if (loginEmail.isEmpty()){
-            showToast("Enter Email");
-            return;
-        }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        else if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail).matches()){
-            showToast("Enter a valid Email Address");
-            return;
-        }
 
-        else if (loginPassword.isEmpty()){
-            showToast("Enter Password");
-            return;
-        }
-
-        else if (loginPassword.length() < 6){
-            showToast("Minimum Password is 6");
-            return;
-        }
-
-        else {
-            Login(loginEmail, loginPassword, "");
-
-            //Login();
-            //Login(loginEmail, loginPassword, "");
-            /*showToast("Call Api Now and work on login now");
-            RetrofitClient.getRetrofitClient().userLogin(loginEmail, loginPassword,"").enqueue(new Callback<LoginResponse>() {
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-
-                    LoginResponse obj = response.body();
-                    String output = obj.getMessage();
-                    Log.e("TAG", response.message());
-
-                    *//*if user failed to log in*//*
-                    if (output.equals("The given data was invalid.")){
-                        showToast("Login Failed...");
-                    }
-
-                    *//*If user exist*//*
-                    else if (output.equals("You are already signed in")){
-                        showToast("Login successful");
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
-
-                }
-            });
-*/
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1000){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                task.getResult(ApiException.class);
+                showToast("Sign In successfully");
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            } catch (ApiException e) {
+                showToast("Something went wrong");
+            }
         }
     }
 
+    private void userLogin() {
+        String loginEmail = loginEmailEditText.getText().toString().trim();
+        String loginPassword = loginPasswordEditText.getText().toString().trim();
 
-    private void Login( String email, String password, String device_name) {
-        RetrofitClient.getRetrofitClient().userLogin(email, password, device_name).enqueue(new Callback<LoginResponse>() {
+        if (loginEmail.isEmpty()) {
+            showToast("Enter Email");
+            return;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail).matches()) {
+            showToast("Enter a valid Email Address");
+            return;
+        } else if (loginPassword.isEmpty()) {
+            showToast("Enter Password");
+            return;
+        } else if (loginPassword.length() < 6) {
+            showToast("Minimum Password is 6");
+            return;
+        } else {
+            //login();
+            Login(loginEmail, loginPassword, "");
+
+        }
+    }
+
+    /*public void login(){
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail(loginEmailEditText.getText().toString().trim());
+        loginRequest.setPassword(loginPasswordEditText.getText().toString().trim());
+        RetrofitClient.getRetrofitClient().userLogin(loginRequest).enqueue(new Callback<UserRegisterResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-
-                LoginResponse data = response.body();
-                String output = data.getMessage();
-                System.out.println("Printing the Response==================>>>" + data);
-
-                if(response.body() != null){
-                    if (output.equals("The given data was invalid.")){
-                        showToast("Error");
-                    }
-                    else if (output.equals("You are already signed in")){
-                        showToast("Success...");
-                    }
+            public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
+                if (response.isSuccessful()){
+                    showToast("Successful");
                 }
-
-
-                /*try {
-                    showToast("Successful "+response.message());
-                    System.out.println("Response is =================>"+response.body().getMessage());
-                }catch (Exception e){
-                    Toast.makeText(LoginActivity.this, "Exception...... "+e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    //showToast("Exception...... "+e.getLocalizedMessage());
-                }*/
-
+                else {
+                    showToast("Error");
+                }
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                showToast("Failure "+t.getLocalizedMessage());
+            public void onFailure(Call<UserRegisterResponse> call, Throwable t) {
+                showToast("Failed");
+            }
+        });
+    }*/
+
+
+    private void Login(String email, String password, String device_name) {
+        RetrofitClient.getRetrofitClient().userLogin(email, password, "").enqueue(new Callback<UserRegisterResponse>() {
+            @Override
+            public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
+                if (response.isSuccessful() && response.body().getToken_type().isEmpty()){
+
+                    showToast("No token found");
+
+                }
+                else {
+                    showToast(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserRegisterResponse> call, Throwable t) {
+                showToast(t.getLocalizedMessage());
             }
         });
     }
 
-    private void showToast(String message){
+    private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void fetchFeatureProduct() {
 
-        RetrofitClient.getRetrofitClient().getFeatureProduct().enqueue(new Callback<List<FeatureModel>>() {
+       /* RetrofitClient.getRetrofitClient().getFeatureProduct().enqueue(new Callback<List<FeatureModel>>() {
             @Override
             public void onResponse(Call<List<FeatureModel>> call, Response<List<FeatureModel>> response) {
                 try {
@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         /*featureModelList.add(new FeatureModel("","Fox’s Crystal Clear Fruits 180g","Chocolate & More",200,100));
         featureModelList.add(new FeatureModel("","Fox’s Crystal Clear Fruits 180g","Chocolate & More",200,100));
@@ -365,12 +365,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //List<LatestProductModel> latestProductList = new ArrayList<>();
 
-        latestProductList.add(new LatestProductModel("Test & Harvey Juicy Apple Drops", "Chocolate&More","120",1, R.drawable.latest));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate&More","130",2, R.drawable.feature));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate&More","140",3, R.drawable.certified));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate&More","150",4, R.drawable.img));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate&More","160",5, R.drawable.sell));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate&More","170",6, R.drawable.best_selling));
+        latestProductList.add(new LatestProductModel("Test & Harvey Juicy Apple Drops", "Chocolate & More 1","120",1, R.drawable.latest));
+        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 2","130",2, R.drawable.feature));
+        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 3","140",3, R.drawable.certified));
+        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 4","150",4, R.drawable.img));
+        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 5","160",5, R.drawable.sell));
+        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 6","170",6, R.drawable.best_selling));
 
         latestProductAdapter = new LatestProductAdapter(latestProductList, this);
         latestProductRecyclerView.setAdapter(latestProductAdapter);

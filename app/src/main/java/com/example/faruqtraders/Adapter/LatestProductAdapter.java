@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +58,10 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
             public void onClick(View view) {
 
                 Intent intent = new Intent(context, ProductDetailsActivity.class);
-                intent.putExtra("id", data.getId());
+                intent.putExtra("detail", latestProductModelList.get(position));
 
                 context.startActivity(intent);
-                Toast.makeText(context, data.getId() + " is clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, data.getId() + " is clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
