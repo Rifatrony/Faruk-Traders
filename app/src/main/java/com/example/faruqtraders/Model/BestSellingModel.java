@@ -1,21 +1,18 @@
 package com.example.faruqtraders.Model;
 
-public class BestSellingModel {
+import java.io.Serializable;
 
-    private String image, name, category, price;
+public class BestSellingModel implements Serializable {
 
-    public BestSellingModel(String image, String name, String category, String price) {
-        this.image = image;
+    private String name, category;
+    double main_price, discount_price;
+    private int image;
+
+    public BestSellingModel(String name, String category, double main_price, double discount_price, int image) {
         this.name = name;
         this.category = category;
-        this.price = price;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
+        this.main_price = main_price;
+        this.discount_price = discount_price;
         this.image = image;
     }
 
@@ -35,11 +32,27 @@ public class BestSellingModel {
         this.category = category;
     }
 
-    public String getPrice() {
-        return price;
+    public double getMain_price() {
+        return main_price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setMain_price(double main_price) {
+        this.main_price = main_price;
+    }
+
+    public double getDiscount_price() {
+        return discount_price;
+    }
+
+    public void setDiscount_price(double discount_price) {
+        this.discount_price = discount_price;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }

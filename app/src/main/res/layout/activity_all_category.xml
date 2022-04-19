@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.AboutUsActivity">
-
+    tools:context=".Activities.AllCategoryActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="About Us"
+                android:text="Categories"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -50,7 +49,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/constraint_layout">
 
-            <ScrollView
+            <!--<ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +67,13 @@
 
                 </LinearLayout>
 
-            </ScrollView>
+            </ScrollView>-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/allCategoryRecyclerView"
+                />
 
 
 
@@ -78,6 +83,5 @@
 
 
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

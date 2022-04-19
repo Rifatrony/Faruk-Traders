@@ -26,7 +26,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     List<CartModel> cartModelList;
 
     int totalAmount = 0;
-    int sum = 0, count = 0;
+    int sum = 0, count = 0, each_price = 0;
+    int number;
 
     public CartAdapter(Context context, List<CartModel> cartModelList) {
         this.context = context;
@@ -46,7 +47,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         CartModel data = cartModelList.get(position);
         holder.name.setText(data.getProduct_name());
         holder.price.setText(String.valueOf(data.getProduct_price()));
-        holder.quantity.setText("Quantity: "+String.valueOf(data.getProduct_quantity()));
+        holder.quantity.setText(String.valueOf(data.getProduct_quantity()));
+
+        //number = data.getProduct_quantity();
+        count = data.getProduct_quantity();
+        each_price = data.getProduct_price();
+        System.out.println("Number is =================>>>" + count);
+        System.out.println("Each Price is =================>>>" + each_price);
 
         holder.deleteCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +63,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 /*cartModelList.remove(position);
                 notifyDataSetChanged();*/
 
+            }
+        });
+
+        holder.increase_image_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+            }
+        });
+        holder.decrease_image_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Decrease", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -76,7 +97,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     class CartViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, price, quantity;
-        ImageView cartProductImage;
+        ImageView cartProductImage, increase_image_button, decrease_image_button;
 
         ImageView deleteCartButton;
 
@@ -88,7 +109,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             quantity = itemView.findViewById(R.id.cartProductQuantity);
             cartProductImage = itemView.findViewById(R.id.cartProductImage);
             deleteCartButton = itemView.findViewById(R.id.deleteCartButtonId);
+            increase_image_button = itemView.findViewById(R.id.increase_image_button);
+            decrease_image_button = itemView.findViewById(R.id.decrease_image_button);
 
         }
+    }
+
+    private void increaseCount(){
+
     }
 }

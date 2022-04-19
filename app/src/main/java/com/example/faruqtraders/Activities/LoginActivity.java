@@ -111,19 +111,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1000){
+        if (requestCode == 1000){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 task.getResult(ApiException.class);
-                showToast("Sign In successfully");
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            } catch (ApiException e) {
-                showToast("Something went wrong");
+                sendToSecondActivity();
+                showToast("Login Successful");
+
+            }catch (ApiException e){
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+    private void sendToSecondActivity(){
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
+    }
+
 
     private void userLogin() {
         String loginEmail = loginEmailEditText.getText().toString().trim();
@@ -147,29 +152,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
     }
-
-    /*public void login(){
-
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(loginEmailEditText.getText().toString().trim());
-        loginRequest.setPassword(loginPasswordEditText.getText().toString().trim());
-        RetrofitClient.getRetrofitClient().userLogin(loginRequest).enqueue(new Callback<UserRegisterResponse>() {
-            @Override
-            public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
-                if (response.isSuccessful()){
-                    showToast("Successful");
-                }
-                else {
-                    showToast("Error");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserRegisterResponse> call, Throwable t) {
-                showToast("Failed");
-            }
-        });
-    }*/
 
 
     private void Login(String email, String password, String device_name) {

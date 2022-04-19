@@ -5,46 +5,53 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.denzcoskun.imageslider.ImageSlider;
+import com.bumptech.glide.Glide;
+import com.example.faruqtraders.API.ApiInterface;
 import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Activities.AboutUsActivity;
+import com.example.faruqtraders.Activities.AllCategoryActivity;
 import com.example.faruqtraders.Activities.CartActivity;
-import com.example.faruqtraders.Activities.CategoryActivity;
 import com.example.faruqtraders.Activities.ContactUsActivity;
 import com.example.faruqtraders.Activities.LoginActivity;
 import com.example.faruqtraders.Activities.TopCategoryActivity;
-import com.example.faruqtraders.Adapter.BestSellingAdapter;
 import com.example.faruqtraders.Adapter.FeatureAdapter;
 import com.example.faruqtraders.Adapter.ImageAdapter;
 import com.example.faruqtraders.Adapter.LatestProductAdapter;
 
+import com.example.faruqtraders.Adapter.PeopleAreAlsoLookingForAdapter;
 import com.example.faruqtraders.Adapter.SellProductAdapter;
 import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
-import com.example.faruqtraders.Model.BestSellingModel;
 import com.example.faruqtraders.Model.FeatureModel;
 import com.example.faruqtraders.Model.ImageModel;
 import com.example.faruqtraders.Model.LatestProductModel;
-import com.example.faruqtraders.Model.SellProductModel;
-import com.example.faruqtraders.Model.TopInCategoriesModel;
+import com.example.faruqtraders.Response.ApiResponseModel;
+import com.example.faruqtraders.Response.VisitedProductResponse;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -58,15 +65,14 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView featureRecyclerView , bestSellingRecyclerView,
-            sellProductRecyclerView, topInCategoriesRecyclerView, latestProductRecyclerView;
+            sellProductRecyclerView, topInCategoriesRecyclerView, latestProductRecyclerView,
+            peoplesAreAlsoLookingForRecyclerView;
 
     private long backPressedTime;
     private Toast backToast;
 
     EditText searchEditText;
-    TextView all_category_text_view, top_in_categories_more_product;
-
-    TextView name, email;
+    TextView all_category_text_view, top_in_categories_more_product, more_product;
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -78,11 +84,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageAdapter adapter;
     Handler slideHandler = new Handler();
 
-    List<LatestProductModel> latestProductList = new ArrayList<>();
     LatestProductAdapter latestProductAdapter;
-
-    List<FeatureModel> featureModelList = new ArrayList<>();
     FeatureAdapter featureAdapter;
+    SellProductAdapter sellProductAdapter;
+    TopInCategoriesAdapter topInCategoriesAdapter;
+    PeopleAreAlsoLookingForAdapter peopleAreAlsoLookingForAdapter;
+
+    ApiInterface apiInterface;
+    ApiResponseModel data;
+    VisitedProductResponse data1;
+    ProgressDialog progressDialog;
+
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+
+    String person_name, person_email;
+    Uri person_picture;
 
 
     @Override
@@ -97,9 +114,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fetchSellProduct();
         fetchFeatureProduct();
         fetchTopInCategoriesProduct();
+        fetchPeopleAreLookingAlsoForProduct();
         ImageSlider();
         setListener();
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
 
                     case R.id.nav_categories:
-                        startActivity(new Intent(getApplicationContext(), CategoryActivity.class));
+                        startActivity(new Intent(getApplicationContext(), AllCategoryActivity.class));
                         break;
 
                     case R.id.nav_track_order:
@@ -138,6 +155,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     case R.id.nav_login:
                         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        break;
+
+                    case R.id.nav_logout:
+                        signOut();
                         break;
 
                     case R.id.nav_share:
@@ -190,52 +211,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                filter(editable.toString());
-            }
-        });
-
     }
 
     private void setListener(){
         all_category_text_view.setOnClickListener(this);
         top_in_categories_more_product.setOnClickListener(this);
+        more_product.setOnClickListener(this);
     }
 
-    private void filter(String text){
-        List<LatestProductModel> list = new ArrayList<>();
-
-        for (LatestProductModel item : latestProductList){
-            if (item.getName().toLowerCase().contains(text.toLowerCase())){
-                list.add(item);
-            }
-        }
-        latestProductAdapter.filterList(list);
-
-
-    }
 
     private void initialization() {
+
+        apiInterface = RetrofitClient.getRetrofitClient();
+        progressDialog = new ProgressDialog(this);
 
         toolbar = findViewById(R.id.topAppBar);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
         bottomNavigationView = findViewById(R.id.bottom_nav);
-
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
 
         viewPager2 = findViewById(R.id.viewPagerImageSlider);
         imageModelList = new ArrayList<>();
@@ -244,139 +237,175 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         all_category_text_view = findViewById(R.id.all_category);
         top_in_categories_more_product = findViewById(R.id.top_in_categories_more_product);
+        more_product = findViewById(R.id.more_product);
 
-        /// Feature RecyclerView
         featureRecyclerView = findViewById(R.id.featureRecyclerView);
-        featureRecyclerView.setHasFixedSize(true);
-
-        featureRecyclerView.setLayoutManager(new LinearLayoutManager(this , LinearLayoutManager.HORIZONTAL , false));
-        featureAdapter = new FeatureAdapter(featureModelList);
-
-        featureRecyclerView.setAdapter(featureAdapter);
-    }
-
-
-    private void fetchTopInCategoriesProduct() {
-        // Top in Categories RecyclerView
-
+        sellProductRecyclerView = findViewById(R.id.sellProductRecyclerview);
         topInCategoriesRecyclerView = findViewById(R.id.topCategoriesRecyclerView);
-        topInCategoriesRecyclerView.setHasFixedSize(true);
-        topInCategoriesRecyclerView.setLayoutManager(new GridLayoutManager(this , 3));
+        peoplesAreAlsoLookingForRecyclerView = findViewById(R.id.peoplesAreAlsoLookingForRecyclerView);
+        latestProductRecyclerView = findViewById(R.id.latest_product_Recyclerview);
 
-        List<TopInCategoriesModel> topInCategoriesModelList = new ArrayList<>();
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
 
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","Honey&Jam Spread","1057.3৳"));
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","Honey&Jam Spread","1057.3৳"));
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","Honey&Jam Spread","1057.3৳"));
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","Honey&Jam Spread","1057.3৳"));
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","Honey&Jam Spread","1057.3৳"));
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","","1057.3৳"));
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","Honey&Jam Spread","1057.3৳"));
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","Honey&Jam Spread","1057.3৳"));
-        topInCategoriesModelList.add(new TopInCategoriesModel("","Capilano Manuka Active Honey 340g","Honey&Jam Spread","1057.3৳"));
+        if (acct != null){
+            person_name = acct.getDisplayName();
+            person_email = acct.getEmail();
+            person_picture = acct.getPhotoUrl();
 
-        TopInCategoriesAdapter topInCategoriesAdapter = new TopInCategoriesAdapter(topInCategoriesModelList);
+            updateHeader();
 
-        topInCategoriesRecyclerView.setAdapter(topInCategoriesAdapter);
+        }
+
+
     }
 
-    private void fetchFeatureProduct() {
+    private void updateHeader(){
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        View headerView = navigationView.getHeaderView(0);
 
-       /* RetrofitClient.getRetrofitClient().getFeatureProduct().enqueue(new Callback<List<FeatureModel>>() {
+        TextView navUserName = headerView.findViewById(R.id.user_name);
+        TextView navUserEmail = headerView.findViewById(R.id.user_email);
+        ImageView navUserImage = headerView.findViewById(R.id.nav_user_photo);
+
+        navUserName.setText(person_name);
+        navUserEmail.setText(person_email);
+
+        Glide.with(this).load(person_picture).into(navUserImage);
+    }
+
+    private void signOut() {
+        gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onResponse(Call<List<FeatureModel>> call, Response<List<FeatureModel>> response) {
-                try {
-                    if (response.isSuccessful() && response.body() != null){
+            public void onComplete(@NonNull Task<Void> task) {
+                showToast("Logout");
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        });
+    }
 
-                        featureModelList.addAll(response.body());
-                        adapter.notifyDataSetChanged();
+    private void showToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
 
-                        Toast.makeText(MainActivity.this, "Success...", Toast.LENGTH_SHORT).show();
-                        //Log.e("failure", t.getLocalizedMessage());
+    private void fetchPeopleAreLookingAlsoForProduct() {
 
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
-                    }
-                }catch (Exception e){
-                    Log.e("exception", e.getLocalizedMessage());
-                    Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        peoplesAreAlsoLookingForRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        apiInterface.getSuggestion().enqueue(new Callback<VisitedProductResponse>() {
+            @Override
+            public void onResponse(Call<VisitedProductResponse> call, Response<VisitedProductResponse> response) {
+                if (response.body() != null){
+                    data1 = response.body();
+                    peopleAreAlsoLookingForAdapter = new PeopleAreAlsoLookingForAdapter(MainActivity.this, data1);
+                    peoplesAreAlsoLookingForRecyclerView.setAdapter(peopleAreAlsoLookingForAdapter);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<FeatureModel>> call, Throwable t) {
-                Log.e("failure", t.getLocalizedMessage());
+            public void onFailure(Call<VisitedProductResponse> call, Throwable t) {
 
-                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+    }
 
-        /*featureModelList.add(new FeatureModel("","Fox’s Crystal Clear Fruits 180g","Chocolate & More",200,100));
-        featureModelList.add(new FeatureModel("","Fox’s Crystal Clear Fruits 180g","Chocolate & More",200,100));
-        featureModelList.add(new FeatureModel("Fox’s Crystal Clear Fruits 180g","","Chocolate & More",200,100));*/
+    private void fetchTopInCategoriesProduct() {
+
+        topInCategoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        apiInterface.getTopInCategories().enqueue(new Callback<ApiResponseModel>() {
+            @Override
+            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+
+                if (response.body() != null){
+                    data = response.body();
+                    topInCategoriesAdapter = new TopInCategoriesAdapter(MainActivity.this, data);
+                    topInCategoriesRecyclerView.setAdapter(topInCategoriesAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void fetchFeatureProduct() {
+
+        featureRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        apiInterface.getFeature().enqueue(new Callback<ApiResponseModel>() {
+            @Override
+            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+                if (response.body() != null){
+                    data = response.body();
+                    featureAdapter = new FeatureAdapter(MainActivity.this, data);
+                    featureRecyclerView.setAdapter(featureAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+
+            }
+        });
 
     }
 
     private void fetchSellProduct() {
+        sellProductRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        // Sell Product RecyclerView
+        apiInterface.getSale().enqueue(new Callback<ApiResponseModel>() {
+            @Override
+            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+                if (response.body() != null){
+                    data = response.body();
+                    sellProductAdapter = new SellProductAdapter(MainActivity.this, data);
+                    sellProductRecyclerView.setAdapter(sellProductAdapter);
+                }
+            }
 
-        sellProductRecyclerView = findViewById(R.id.sellProductRecyclerview);
-        sellProductRecyclerView.setHasFixedSize(true);
-        sellProductRecyclerView.setLayoutManager(new LinearLayoutManager(this , LinearLayoutManager.HORIZONTAL , false));
+            @Override
+            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
 
-        List<SellProductModel> sellProductModelList = new ArrayList<>();
-
-        sellProductModelList.add(new SellProductModel("", "Up to 30% off","",""));
-        sellProductModelList.add(new SellProductModel("", "Up to 30% off","",""));
-        sellProductModelList.add(new SellProductModel("", "Up to 30% off","",""));
-
-        SellProductAdapter sellProductAdapter = new SellProductAdapter(sellProductModelList);
-        sellProductRecyclerView.setAdapter(sellProductAdapter);
+            }
+        });
     }
 
+    // best sell RecyclerView
     private void fetchBestSellingProduct() {
-        // best RecyclerView
 
-        bestSellingRecyclerView = findViewById(R.id.bestSellingRecyclerview);
-        bestSellingRecyclerView.setHasFixedSize(true);
-        bestSellingRecyclerView.setLayoutManager(new LinearLayoutManager(this , LinearLayoutManager.HORIZONTAL , false));
 
-        List<BestSellingModel> bestSellerList = new ArrayList<>();
-
-        bestSellerList.add(new BestSellingModel("", "Lindt Dark Chocolate 90% 100gm","Chocolate & More","297 tk"));
-        bestSellerList.add(new BestSellingModel("", "Lindt Dark Chocolate 90% 100gm","Chocolate & More","297 tk"));
-        bestSellerList.add(new BestSellingModel("", "Lindt Dark Chocolate 90% 100gm","Chocolate & More","297 tk"));
-        bestSellerList.add(new BestSellingModel("", "Lindt Dark Chocolate 90% 100gm","Chocolate & More","297 tk"));
-        bestSellerList.add(new BestSellingModel("", "Lindt Dark Chocolate 90% 100gm","Chocolate & More","297 tk"));
-
-        BestSellingAdapter bestSellerAdapter = new BestSellingAdapter(bestSellerList);
-
-        bestSellingRecyclerView.setAdapter(bestSellerAdapter);
     }
+
+    // Latest Product RecyclerView
 
     private void fetchLatestProduct() {
-        // Latest Product RecyclerView
 
-        latestProductRecyclerView = findViewById(R.id.latest_product_Recyclerview);
-        latestProductRecyclerView.setHasFixedSize(true);
-        latestProductRecyclerView.setLayoutManager(new LinearLayoutManager(this , LinearLayoutManager.HORIZONTAL , false));
+        latestProductRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        //List<LatestProductModel> latestProductList = new ArrayList<>();
+        apiInterface.getLatest().enqueue(new Callback<ApiResponseModel>() {
+            @Override
+            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+                if (response.body() != null){
+                    data = response.body();
+                    latestProductAdapter = new LatestProductAdapter(MainActivity.this, data);
+                    latestProductRecyclerView.setAdapter(latestProductAdapter);
+                }
+            }
 
-        latestProductList.add(new LatestProductModel("Test & Harvey Juicy Apple Drops", "Chocolate & More 1","120",1, R.drawable.latest));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 2","130",2, R.drawable.feature));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 3","140",3, R.drawable.certified));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 4","150",4, R.drawable.img));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 5","160",5, R.drawable.sell));
-        latestProductList.add(new LatestProductModel("Cavendish & Harvey Juicy Apple Drops", "Chocolate & More 6","170",6, R.drawable.best_selling));
+            @Override
+            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
 
-        latestProductAdapter = new LatestProductAdapter(latestProductList, this);
-        latestProductRecyclerView.setAdapter(latestProductAdapter);
+            }
+        });
+
     }
 
-
+    /*Image Slider using view pager*/
 
     private void ImageSlider(){
         imageModelList.add(new ImageModel(R.drawable.first));
@@ -441,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         else {
-            backToast = Toast.makeText(this, "Tap Again to Exit...", Toast.LENGTH_SHORT);
+            backToast = Toast.makeText(this, "Tap again to exit...", Toast.LENGTH_SHORT);
             backToast.show();
         }
 
@@ -452,10 +481,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.all_category:
-                startActivity(new Intent(getApplicationContext(), CategoryActivity.class));
+                startActivity(new Intent(getApplicationContext(), AllCategoryActivity.class));
                 break;
 
             case R.id.top_in_categories_more_product:
+
+            case R.id.more_product:
                 startActivity(new Intent(getApplicationContext(), TopCategoryActivity.class));
                 break;
 

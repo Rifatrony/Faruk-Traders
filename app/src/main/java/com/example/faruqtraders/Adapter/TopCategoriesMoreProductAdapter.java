@@ -1,6 +1,7 @@
 package com.example.faruqtraders.Adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.faruqtraders.Model.TopCategoriesMoreProductModel;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.ApiResponseModel;
 
 import java.util.List;
 
 public class TopCategoriesMoreProductAdapter extends RecyclerView.Adapter<TopCategoriesMoreProductAdapter.TopCategoriesMoreProductViewHolder> {
 
     Context context;
-    List<TopCategoriesMoreProductModel> topCategoriesMoreProductModelList;
+    ApiResponseModel data;
 
-    public TopCategoriesMoreProductAdapter(Context context, List<TopCategoriesMoreProductModel> topCategoriesMoreProductModelList) {
+    public TopCategoriesMoreProductAdapter(Context context, ApiResponseModel data) {
         this.context = context;
-        this.topCategoriesMoreProductModelList = topCategoriesMoreProductModelList;
+        this.data = data;
+    }
+
+    public TopCategoriesMoreProductAdapter() {
     }
 
     @NonNull
@@ -37,18 +42,21 @@ public class TopCategoriesMoreProductAdapter extends RecyclerView.Adapter<TopCat
 
     @Override
     public void onBindViewHolder(@NonNull TopCategoriesMoreProductViewHolder holder, int position) {
-        TopCategoriesMoreProductModel data = topCategoriesMoreProductModelList.get(position);
+        if (data.products.data.size() > 0){
+            holder.name.setText(data.products.data.get(position).name);
+            //holder.category.setText(data.products.data.get(position).slug);
+            holder.main_price.setText(data.products.data.get(position).price + "৳");
+            holder.discount_price.setText(data.products.data.get(position).discounted_price.toString() + "৳");
+            holder.main_price.setPaintFlags(holder.main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        holder.name.setText(data.getName());
-        holder.main_price.setText(String.valueOf(data.getMain_price()));
-        holder.discount_price.setText(String.valueOf(data.getDiscount_price()));
+            Glide.with(context).load(data.products.data.get(position).thumbnail).into(holder.imageView);
 
-        Glide.with(context).load(data.getImage()).into(holder.imageView);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return topCategoriesMoreProductModelList.size();
+        return data.products.data.size();
     }
 
     public class TopCategoriesMoreProductViewHolder extends RecyclerView.ViewHolder{

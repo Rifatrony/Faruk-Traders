@@ -46,7 +46,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         initialization();
         setListener();
         fetchCartProduct();
-
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(broadcastReceiver, new IntentFilter("MyTotalAmount"));
 
@@ -81,7 +80,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 return;
         }
-
     }
 
     private void fetchCartProduct() {
@@ -95,7 +93,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",400,4));
         cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",1240,7));
+        /*cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",237,5));
         cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",237,5));
+        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",237,5));
+        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",237,5));*/
         //cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",456,2));*/
 
         CartAdapter cartAdapter = new CartAdapter(this, cartModelList);
@@ -103,7 +104,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         cartRecyclerView.setAdapter(cartAdapter);
 
     }
-
 
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override

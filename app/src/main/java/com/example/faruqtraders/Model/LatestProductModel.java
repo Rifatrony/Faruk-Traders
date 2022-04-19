@@ -4,15 +4,16 @@ import java.io.Serializable;
 
 public class LatestProductModel implements Serializable {
 
-    private String name, category, price;
-    private int id, image;
+    private String name, category;
+    double discount_price, main_price;
+    private int  image;
 
 
-    public LatestProductModel(String name, String category, String price, int id, int image) {
+    public LatestProductModel(String name, String category, double discount_price, double main_price, int image) {
         this.name = name;
         this.category = category;
-        this.price = price;
-        this.id = id;
+        this.discount_price = discount_price;
+        this.main_price = main_price;
         this.image = image;
     }
 
@@ -32,20 +33,20 @@ public class LatestProductModel implements Serializable {
         this.category = category;
     }
 
-    public String getPrice() {
-        return price;
+    public double getDiscount_price() {
+        return discount_price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setDiscount_price(double discount_price) {
+        this.discount_price = discount_price;
     }
 
-    public int getId() {
-        return id;
+    public double getMain_price() {
+        return main_price;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMain_price(double main_price) {
+        this.main_price = main_price;
     }
 
     public int getImage() {

@@ -18,13 +18,14 @@
             android:layout_height="60dp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageBack"
+                android:id="@+id/imageBackId"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/back"
                 android:tint="@color/black"
+                android:scaleType="fitStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +40,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/imageBack"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/imageBack" />
+                app:layout_constraintTop_toTopOf="@id/imageBack"
+                tools:ignore="NotSibling" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -63,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="10dp">
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -71,6 +73,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:layout_margin="10dp"
                             android:id="@+id/imageView"
                             android:layout_width="match_parent"
                             android:layout_height="210dp"
@@ -89,6 +92,8 @@
                             android:paddingEnd="10dp"
                             android:text="@string/product_name"
                             android:textColor="@color/black"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -97,11 +102,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:layout_marginTop="8dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="10dp"
-                            android:text="NeoCare Baby Diaper Pant XL 12-18 kg 28 pcs"
                             android:textColor="@color/yellow"
                             android:textStyle="bold" />
 
@@ -109,6 +115,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="70dp"
                             android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -152,6 +160,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:orientation="horizontal"
                             >
                             <TextView
@@ -172,7 +182,7 @@
                                 android:layout_weight="1"
                                 android:padding="10dp"
                                 android:text="1100৳"
-                                android:textColor="#AACEDF"
+                                android:textColor="@color/main_price_text_color"
                                 android:textSize="22sp"
                                 />
 
@@ -186,6 +196,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="62dp"
                             android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:paddingTop="3dp"
@@ -297,6 +309,8 @@
                             android:id="@+id/product_details_related_product_layout"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:layout_marginTop="10dp">
 
                             <TextView
@@ -328,7 +342,8 @@
                             android:id="@+id/product_details_related_product_recyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="10dp" />
+                            android:layout_margin="10dp"
+                            />
 
                         <!--<LinearLayout
                             android:layout_width="match_parent"

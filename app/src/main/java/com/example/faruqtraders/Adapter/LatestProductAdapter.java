@@ -4,13 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
-import android.os.Parcelable;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,76 +18,76 @@ import com.bumptech.glide.Glide;
 import com.example.faruqtraders.Activities.ProductDetailsActivity;
 import com.example.faruqtraders.Model.LatestProductModel;
 import com.example.faruqtraders.R;
-import com.squareup.picasso.Picasso;
+import com.example.faruqtraders.Response.ApiResponseModel;
 
 import java.util.List;
 
 public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdapter.LatestProductViewHolder> {
 
-    private List<LatestProductModel> latestProductModelList;
     Context context;
+    ApiResponseModel data;
 
-    public LatestProductAdapter(List<LatestProductModel> latestProductModelList, Context context) {
-        this.latestProductModelList = latestProductModelList;
+    public LatestProductAdapter(Context context, ApiResponseModel data) {
         this.context = context;
+        this.data = data;
+    }
+
+    public LatestProductAdapter() {
     }
 
     @NonNull
     @Override
     public LatestProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.latest_product_layout,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_layout,parent, false);
         return new LatestProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull LatestProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        if (data.products.data.size() > 0){
+            holder.name.setText(data.products.data.get(position).name);
+            //holder.category.setText(data.products.data.get(position).slug);
+            holder.main_price.setText(data.products.data.get(position).price + "৳");
+            holder.discount_price.setText(data.products.data.get(position).discounted_price.toString() + "৳");
+            holder.main_price.setPaintFlags(holder.main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        LatestProductModel data = latestProductModelList.get(position);
+            Glide.with(context).load(data.products.data.get(position).thumbnail).into(holder.imageView);
 
-        holder.name.setText(data.getName());
-        holder.category.setText(data.getCategory());
-        holder.price.setText(data.getPrice());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    intent.putExtra("name", data.products.data.get(position).name);
+                    intent.putExtra("main_price", data.products.data.get(position).price);
+                    intent.putExtra("discount_price", data.products.data.get(position).discounted_price.toString());
+                    intent.putExtra("thumbnail", data.products.data.get(position).thumbnail);
+                    context.startActivity(intent);
 
-        Glide.with(context)
-                .load(data.getImage())
-                .into(holder.imageView)
-;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(context, ProductDetailsActivity.class);
-                intent.putExtra("detail", latestProductModelList.get(position));
-
-                context.startActivity(intent);
-                //Toast.makeText(context, data.getId() + " is clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+                }
+            });
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return latestProductModelList.size();
+        return data.products.data.size();
     }
 
-    public void filterList(List<LatestProductModel> list){
-        latestProductModelList = list;
-        notifyDataSetChanged();
-    }
 
     public class LatestProductViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView imageView;
-        private TextView name, category, price;
+        private TextView name, category, discount_price, main_price;
 
         public LatestProductViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.latest_product_image);
+            imageView = itemView.findViewById(R.id.product_image);
             name = itemView.findViewById(R.id.latest_product_name);
-            category = itemView.findViewById(R.id.latest_product_category);
-            price = itemView.findViewById(R.id.latest_product_price);
+            //category = itemView.findViewById(R.id.product_category);
+            discount_price = itemView.findViewById(R.id.product_discount_price);
+            main_price = itemView.findViewById(R.id.product_main_price);
 
         }
     }

@@ -12,59 +12,58 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.faruqtraders.Model.BestSellingModel;
-import com.example.faruqtraders.Model.FeatureModel;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.ApiResponseModel;
+import com.example.faruqtraders.Response.VisitedProductResponse;
 
-import java.util.List;
-
-public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureProductViewHolder>{
+public class PeopleAreAlsoLookingForAdapter extends RecyclerView.Adapter<PeopleAreAlsoLookingForAdapter.SuggestProductViewHolder> {
 
     Context context;
-    ApiResponseModel data;
+    VisitedProductResponse data;
 
-    public FeatureAdapter(Context context, ApiResponseModel data) {
+    public PeopleAreAlsoLookingForAdapter(Context context, VisitedProductResponse data) {
         this.context = context;
         this.data = data;
     }
 
-    public FeatureAdapter() {
+    public PeopleAreAlsoLookingForAdapter() {
     }
 
     @NonNull
     @Override
-    public FeatureProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SuggestProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_layout , parent , false);
-        return new FeatureProductViewHolder(view);
+        return new SuggestProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeatureProductViewHolder holder, int position) {
-        if (data.products.data.size() > 0){
-            holder.name.setText(data.products.data.get(position).name);
+    public void onBindViewHolder(@NonNull SuggestProductViewHolder holder, int position) {
+
+        if (data.products.size() > 0){
+
+            holder.name.setText(data.products.get(position).name);
             //holder.category.setText(data.products.data.get(position).slug);
-            holder.main_price.setText(data.products.data.get(position).price + "৳");
-            holder.discount_price.setText(data.products.data.get(position).discounted_price.toString() + "৳");
+            holder.main_price.setText(data.products.get(position).price + "৳");
+            holder.discount_price.setText(data.products.get(position).discounted_price.toString() + "৳");
             holder.main_price.setPaintFlags(holder.main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-            Glide.with(context).load(data.products.data.get(position).thumbnail).into(holder.imageView);
+            Glide.with(context).load(data.products.get(position).thumbnail).into(holder.imageView);
 
         }
-
     }
 
     @Override
     public int getItemCount() {
-        return data.products.data.size();
+        return data.products.size();
     }
 
-    public class FeatureProductViewHolder extends RecyclerView.ViewHolder{
+
+    public class SuggestProductViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
         private TextView name, category, discount_price, main_price;
 
-        public FeatureProductViewHolder(@NonNull View itemView) {
+        public SuggestProductViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.product_image);
