@@ -25,8 +25,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     Context context;
     List<CartModel> cartModelList;
 
-    int totalAmount = 0;
-    int sum = 0, count = 0, each_price = 0;
+    int totalAmount = 0, dec, total_dec;
+    int sum = 0, count, each_price = 0;
     int number;
 
     public CartAdapter(Context context, List<CartModel> cartModelList) {
@@ -46,14 +46,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         CartModel data = cartModelList.get(position);
         holder.name.setText(data.getProduct_name());
-        holder.price.setText(String.valueOf(data.getProduct_price()));
+        holder.price.setText(String.valueOf(data.getProduct_price()+" Tk."));
         holder.quantity.setText(String.valueOf(data.getProduct_quantity()));
 
-        //number = data.getProduct_quantity();
-        count = data.getProduct_quantity();
-        each_price = data.getProduct_price();
-        System.out.println("Number is =================>>>" + count);
-        System.out.println("Each Price is =================>>>" + each_price);
+        int finalResult = cartModelList.get(position).getProduct_price() * cartModelList.get(position).getProduct_quantity();
+        holder.sub_total_amount_each_cart.setText(String.valueOf(finalResult) + " Tk.");
 
         holder.deleteCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,26 +59,42 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 Toast.makeText(context, "Cart Deleted Clicked", Toast.LENGTH_SHORT).show();
                 /*cartModelList.remove(position);
                 notifyDataSetChanged();*/
-
             }
         });
 
         holder.increase_image_button.setOnClickListener(new View.OnClickListener() {
+
+            int a;
+
             @Override
             public void onClick(View view) {
 
+                a = 0;
+
+                //count = cartModelList.get(position).getProduct_quantity() ;
+                holder.quantity.setText(String.valueOf(count));
+                //increaseCount();
+                Toast.makeText(context, "Increase", Toast.LENGTH_SHORT).show();
 
             }
         });
         holder.decrease_image_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                int decrease = Integer.parseInt(String.valueOf(holder.quantity.getText()));
+                count = cartModelList.get(position).getProduct_quantity() ;
+                decreaseCount();
+                System.out.println("Decrease is " + dec);
+                holder.quantity.setText(String.valueOf(count));
                 Toast.makeText(context, "Decrease", Toast.LENGTH_SHORT).show();
             }
         });
 
+
+
         totalAmount = cartModelList.get(position).getProduct_price() * cartModelList.get(position).getProduct_quantity();
-        sum = totalAmount +sum;
+        sum = totalAmount + sum;
 
         Intent intent = new Intent("MyTotalAmount");
         intent.putExtra("totalAmount", sum);
@@ -96,7 +109,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     class CartViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, price, quantity;
+        TextView name, price, quantity, sub_total_amount_each_cart;
         ImageView cartProductImage, increase_image_button, decrease_image_button;
 
         ImageView deleteCartButton;
@@ -111,11 +124,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             deleteCartButton = itemView.findViewById(R.id.deleteCartButtonId);
             increase_image_button = itemView.findViewById(R.id.increase_image_button);
             decrease_image_button = itemView.findViewById(R.id.decrease_image_button);
+            sub_total_amount_each_cart = itemView.findViewById(R.id.sub_total_amount_each_cart);
 
         }
     }
 
     private void increaseCount(){
+        count = count + 1;
+
+    }
+    private void decreaseCount(){
+        count = count - 1;
 
     }
 }

@@ -1,6 +1,8 @@
 package com.example.faruqtraders.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.faruqtraders.Activities.ProductDetailsActivity;
 import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.ApiResponseModel;
@@ -40,7 +43,7 @@ public class TopInCategoriesAdapter extends RecyclerView.Adapter<TopInCategories
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TopInCategoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TopInCategoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         if (data.products.data.size() > 0){
             holder.discount_percent.setText(data.products.data.get(position).discount +" % OFF");
@@ -52,16 +55,19 @@ public class TopInCategoriesAdapter extends RecyclerView.Adapter<TopInCategories
 
             Glide.with(context).load(data.products.data.get(position).thumbnail).into(holder.imageView);
 
-            /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
-                    //intent.putExtra("sell_details", data);
+                    intent.putExtra("name", data.products.data.get(position).name);
+                    intent.putExtra("main_price", data.products.data.get(position).price);
+                    intent.putExtra("discount_price", data.products.data.get(position).discounted_price.toString());
+                    intent.putExtra("thumbnail", data.products.data.get(position).thumbnail);
+                    intent.putExtra("id", data.products.data.get(position).id);
                     context.startActivity(intent);
-                    Toast.makeText(context, "Clicked Item id is..." + data.products.data.get(position), Toast.LENGTH_SHORT).show();
 
                 }
-            });*/
+            });
         }
 
     }

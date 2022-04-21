@@ -16,8 +16,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -41,9 +39,7 @@ import com.example.faruqtraders.Adapter.LatestProductAdapter;
 import com.example.faruqtraders.Adapter.PeopleAreAlsoLookingForAdapter;
 import com.example.faruqtraders.Adapter.SellProductAdapter;
 import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
-import com.example.faruqtraders.Model.FeatureModel;
 import com.example.faruqtraders.Model.ImageModel;
-import com.example.faruqtraders.Model.LatestProductModel;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.VisitedProductResponse;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -91,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PeopleAreAlsoLookingForAdapter peopleAreAlsoLookingForAdapter;
 
     ApiInterface apiInterface;
-    ApiResponseModel data;
+    //public static ApiResponseModel apiResponseData;
+    public static ApiResponseModel apiResponseData;
     VisitedProductResponse data1;
     ProgressDialog progressDialog;
 
@@ -100,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     String person_name, person_email;
     Uri person_picture;
+
+
+
+
 
 
     @Override
@@ -117,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fetchPeopleAreLookingAlsoForProduct();
         ImageSlider();
         setListener();
+
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         more_product.setOnClickListener(this);
     }
 
-
     private void initialization() {
 
         apiInterface = RetrofitClient.getRetrofitClient();
@@ -261,7 +263,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /*Update navigation header*/
     private void updateHeader(){
+
         NavigationView navigationView = findViewById(R.id.navigation_view);
         View headerView = navigationView.getHeaderView(0);
 
@@ -320,8 +324,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 
                 if (response.body() != null){
-                    data = response.body();
-                    topInCategoriesAdapter = new TopInCategoriesAdapter(MainActivity.this, data);
+                    apiResponseData = response.body();
+                    topInCategoriesAdapter = new TopInCategoriesAdapter(MainActivity.this, apiResponseData);
                     topInCategoriesRecyclerView.setAdapter(topInCategoriesAdapter);
                 }
             }
@@ -341,8 +345,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
                 if (response.body() != null){
-                    data = response.body();
-                    featureAdapter = new FeatureAdapter(MainActivity.this, data);
+                    apiResponseData = response.body();
+                    featureAdapter = new FeatureAdapter(MainActivity.this, apiResponseData);
                     featureRecyclerView.setAdapter(featureAdapter);
                 }
             }
@@ -362,8 +366,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
                 if (response.body() != null){
-                    data = response.body();
-                    sellProductAdapter = new SellProductAdapter(MainActivity.this, data);
+                    apiResponseData = response.body();
+                    sellProductAdapter = new SellProductAdapter(MainActivity.this, apiResponseData);
                     sellProductRecyclerView.setAdapter(sellProductAdapter);
                 }
             }
@@ -391,8 +395,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
                 if (response.body() != null){
-                    data = response.body();
-                    latestProductAdapter = new LatestProductAdapter(MainActivity.this, data);
+                    apiResponseData = response.body();
+                    latestProductAdapter = new LatestProductAdapter(MainActivity.this, apiResponseData);
                     latestProductRecyclerView.setAdapter(latestProductAdapter);
                 }
             }

@@ -3,13 +3,14 @@ package com.example.faruqtraders.Model;
 public class CartModel {
 
     String image, product_name;
-    int product_price, product_quantity;
+    int product_price, product_quantity, sub_total_price;
 
-    public CartModel(String image, String product_name, int product_price, int product_quantity) {
+    public CartModel(String image, String product_name, int product_price, int product_quantity, int sub_total_price) {
         this.image = image;
         this.product_name = product_name;
         this.product_price = product_price;
         this.product_quantity = product_quantity;
+        this.sub_total_price = sub_total_price;
     }
 
     public String getImage() {
@@ -42,5 +43,13 @@ public class CartModel {
 
     public void setProduct_quantity(int product_quantity) {
         this.product_quantity = product_quantity;
+    }
+
+    public int getSub_total_price() {
+        return sub_total_price;
+    }
+
+    public void setSub_total_price(int sub_total_price) {
+        this.sub_total_price = sub_total_price;
     }
 }

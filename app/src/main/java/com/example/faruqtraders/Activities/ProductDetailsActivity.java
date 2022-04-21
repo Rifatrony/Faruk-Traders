@@ -15,11 +15,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.faruqtraders.Adapter.RelatedProductAdapter;
-import com.example.faruqtraders.Model.BestSellingModel;
-import com.example.faruqtraders.Model.LatestProductModel;
 import com.example.faruqtraders.Model.RelatedProductModel;
 import com.example.faruqtraders.R;
-import com.example.faruqtraders.Response.ApiResponseModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -38,12 +35,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     int count = 1;
 
-    LatestProductModel latestProductModel = null;
-    BestSellingModel bestSellingModel = null;
+    //LatestProductModel latestProductModel = null;
 
-    ApiResponseModel data = null;
+    //BestSellingModel bestSellingModel = null;
 
-    String name, main_price, discount_price, thumbnail;
+    //ApiResponseModel data = null;
+
+    String name, main_price, discount_price, thumbnail, id;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +53,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         relateProduct();
         setListener();
 
-        received_latest_product_details();
-        received_best_selling_details();
-        receive_sale_details();
+        received_product_details();
 
+        //setData();
+        /*position = getIntent().getIntExtra("position", 0);
+        System.out.println("Product Name is "+ apiResponseData.products.data.get(position).name);*/
     }
 
     private void initialization() {
@@ -77,6 +77,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         minus_button = findViewById(R.id.minus_button);
         add_to_cart = findViewById(R.id.add_to_cart_button);
         add_to_favourite = findViewById(R.id.add_to_favourite_button);
+
+    }
+
+    private void setData(){
+
+        /*product_name.setText(apiResponseModel.products.data.get(position).name);
+        product_details_main_price.setText(apiResponseModel.products.data.get(position).price);
+        product_discount_price.setText(apiResponseModel.products.data.get(position).discounted_price.toString());
+        Glide.with(this).load(thumbnail).into(imageView);*/
 
     }
 
@@ -105,33 +114,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         imageBack.setOnClickListener(this);
     }
 
-
-    private void received_latest_product_details(){
-        /*final Object object = getIntent().getSerializableExtra("details");
-
-        if (object instanceof LatestProductModel){
-            latestProductModel = (LatestProductModel) object;
-        }
-
-        if (latestProductModel != null){
-
-            Glide.with(getApplicationContext()).load(latestProductModel.getImage()).into(imageView);
-            product_name.setText(String.valueOf(latestProductModel.getName()));
-            product_details_main_price.setText(latestProductModel.getMain_price() +" ৳");
-
-            product_category.setText(latestProductModel.getCategory());
-            product_discount_price.setText(latestProductModel.getDiscount_price() +" ৳");
-            product_details_main_price.setPaintFlags(product_details_main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            quantityNumberTextView.setText(String.valueOf(count));
-        }*/
-    }
-
-    private void received_best_selling_details(){
+    private void received_product_details(){
 
         name = getIntent().getStringExtra("name");
         main_price = getIntent().getStringExtra("main_price");
         discount_price = getIntent().getStringExtra("discount_price");
         thumbnail = getIntent().getStringExtra("thumbnail");
+        id = getIntent().getStringExtra("id");
 
         product_name.setText(name);
         product_details_main_price.setText(main_price+" ৳");
@@ -140,18 +129,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         Glide.with(this).load(thumbnail).into(imageView);
         quantityNumberTextView.setText(String.valueOf(count));
 
-    }
-
-    private void receive_sale_details(){
-        /*final Object object = getIntent().getSerializableExtra("sale_details");
-        if (object instanceof ApiResponseModel){
-            data = (ApiResponseModel) object;
-
-        }
-        if (data != null){
-            System.out.println("Data in activity file is ====================> " +data.products);
-            Toast.makeText(this, "Item id is ::: " + data, Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     @Override
@@ -198,7 +175,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         System.out.println("Main Price in double is : " + main_price);
         System.out.println("Discount Price is : " + discount_price);
 
-        showToast("Added Cart item are : \n" +"\n"+name +"\n" +category +"\n"+ main_price +"\n"+ discount_price +"\n"+ count);
+        showToast("Added Cart item are : \n" +"\n"+name +"\n" +category +"\n"+ main_price +"\n"+ discount_price +"\n"+ count + "\n" + id);
 
     }
 

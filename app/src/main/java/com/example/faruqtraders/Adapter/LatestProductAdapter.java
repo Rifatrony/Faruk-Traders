@@ -57,6 +57,7 @@ public class LatestProductAdapter extends RecyclerView.Adapter<LatestProductAdap
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    // intent.putExtra("position", holder.getAdapterPosition());
                     intent.putExtra("name", data.products.data.get(position).name);
                     intent.putExtra("main_price", data.products.data.get(position).price);
                     intent.putExtra("discount_price", data.products.data.get(position).discounted_price.toString());

@@ -31,12 +31,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatImageView imageView;
 
     RecyclerView cartRecyclerView;
-    TextView totalPriceOfCart;
+    TextView totalPriceOfCart, sub_total, others, grand_total;
 
     AppCompatButton checkoutButton;
 
-
-    int overAllAmount;
+    int grand_total_amount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +48,16 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(broadcastReceiver, new IntentFilter("MyTotalAmount"));
 
+
+        System.out.println("Grand Total is  " + String.valueOf(grand_total_amount));
+        grand_total.setText(String.valueOf(grand_total_amount));
+
     }
 
     private void initialization() {
 
         imageView = findViewById(R.id.imageBack);
-        totalPriceOfCart = findViewById(R.id.totalPriceOfCart);
+        grand_total = findViewById(R.id.grand_total);
 
         cartRecyclerView = findViewById(R.id.cartRecyclerView);
         checkoutButton = findViewById(R.id.checkoutButton);
@@ -91,13 +94,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         List<CartModel> cartModelList = new ArrayList<>();
 
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",400,4));
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",1240,7));
-        /*cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",237,5));
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",237,5));
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",237,5));
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",237,5));*/
-        //cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",456,2));*/
+        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",500,2,0));
+        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",1000,5, 0 ));
+        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",200,6, 0 ));
+        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",300,6, 0 ));
+        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",100,5, 0 ));
 
         CartAdapter cartAdapter = new CartAdapter(this, cartModelList);
 
@@ -108,8 +109,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int totalBill = intent.getIntExtra("totalAmount", 0);
-            totalPriceOfCart.setText(String.valueOf(totalBill));
+            grand_total_amount = intent.getIntExtra("totalAmount", 0);
+            grand_total.setText(String.valueOf(grand_total_amount) +" Tk.");
+            System.out.println("Sub Total Amount is ======> " + grand_total_amount);
         }
     };
 

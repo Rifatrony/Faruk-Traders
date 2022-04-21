@@ -15,7 +15,7 @@
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/menu.xml" value="0.1515" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/minus.xml" value="0.1485" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/plus.xml" value="0.156" />
-        <entry key="..\:/FaruqTraders/app/src/main/res/drawable/progress_dialog_background.xml" value="0.125" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/drawable/progress_dialog_background.xml" value="0.1" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/search_background.xml" value="0.1" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/selector_my_button.xml" value="0.1345" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/text_background.xml" value="0.125" />
@@ -26,6 +26,7 @@
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_category.xml" value="0.22" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_contact_us.xml" value="0.21" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_each_category.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_each_product.xml" value="0.25" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_product_details.xml" value="0.22" />
@@ -44,6 +45,7 @@
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/latest_product_layout.xml" value="0.33" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/nav_header.xml" value="0.18" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/offer_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout/product_details_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/product_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/progress_dialog.xml" value="0.18" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/related_product_layout.xml" value="0.22" />
