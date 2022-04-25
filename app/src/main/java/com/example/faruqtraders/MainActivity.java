@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    BottomNavigationView bottomNavigationView;
+    //BottomNavigationView bottomNavigationView;
 
     ViewPager2 viewPager2;
     List<ImageModel> imageModelList;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ApiInterface apiInterface;
     //public static ApiResponseModel apiResponseData;
     public static ApiResponseModel apiResponseData;
-    VisitedProductResponse data1;
+    VisitedProductResponse visitedProductResponse;
     ProgressDialog progressDialog;
 
     GoogleSignInOptions gso;
@@ -97,11 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     String person_name, person_email;
     Uri person_picture;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +113,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fetchPeopleAreLookingAlsoForProduct();
         ImageSlider();
         setListener();
-
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        /*bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -212,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 return true;
             }
-        });
+        });*/
 
     }
 
@@ -230,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar = findViewById(R.id.topAppBar);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
-        bottomNavigationView = findViewById(R.id.bottom_nav);
+        //bottomNavigationView = findViewById(R.id.bottom_nav);
 
         viewPager2 = findViewById(R.id.viewPagerImageSlider);
         imageModelList = new ArrayList<>();
@@ -302,8 +295,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<VisitedProductResponse> call, Response<VisitedProductResponse> response) {
                 if (response.body() != null){
-                    data1 = response.body();
-                    peopleAreAlsoLookingForAdapter = new PeopleAreAlsoLookingForAdapter(MainActivity.this, data1);
+                    visitedProductResponse = response.body();
+                    peopleAreAlsoLookingForAdapter = new PeopleAreAlsoLookingForAdapter(MainActivity.this, visitedProductResponse);
                     peoplesAreAlsoLookingForRecyclerView.setAdapter(peopleAreAlsoLookingForAdapter);
                 }
             }

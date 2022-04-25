@@ -81,7 +81,7 @@
                             android:paddingTop="12dp"
                             android:paddingRight="18dp"
                             android:paddingBottom="12dp"
-                            android:hint="Search Product"
+                            android:hint="@string/search_product"
 
                             android:drawableEnd="@drawable/search"
                             android:background="@drawable/search_background"
@@ -106,12 +106,11 @@
                             android:layout_marginRight="12dp"
                             android:layout_marginTop="15dp"
                             android:drawableRight="@drawable/big_arrow"
-                            android:drawableTint="@color/yellow"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/mainActivitySearch"
-                            />
+                            app:drawableTint="@color/yellow" />
 
                         <LinearLayout
                             android:id="@+id/latest_category"
@@ -132,7 +131,7 @@
                                 android:id="@+id/latest_product"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:text="Latest Product"
+                                android:text="@string/latest_product"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
                                 android:gravity="center_vertical"
@@ -174,7 +173,7 @@
                                 android:id="@+id/best_selling_product"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="Best Selling"
+                                android:text="@string/best_selling"
                                 android:gravity="center_vertical"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
@@ -227,7 +226,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="Sale Product"
+                                android:text="@string/sale_product"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
                                 android:padding="7dp"
@@ -279,7 +278,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="Feature Product"
+                                android:text="@string/feature_product"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
                                 android:gravity="center_vertical"
@@ -332,7 +331,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Top in Categories"
+                                android:text="@string/top_in_categories"
                                 android:gravity="center_vertical"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
@@ -343,14 +342,14 @@
                                 android:id="@+id/top_in_categories_more_product"
                                 android:layout_width="fill_parent"
                                 android:layout_height="match_parent"
-                                android:text="More Products"
+                                android:text="@string/more_products"
                                 android:padding="8dp"
                                 android:gravity="center_vertical|end"
                                 android:textColor="@color/yellow"
                                 android:textStyle="bold"
                                 android:drawablePadding="10dp"
                                 android:drawableTint="@color/yellow"
-                                android:drawableRight="@drawable/arrow"
+                                android:drawableEnd="@drawable/arrow"
                                 />
 
                         </LinearLayout>
@@ -387,7 +386,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Peoples Are Also Looking For"
+                                android:text="@string/peoples_are_also_looking_for"
                                 android:gravity="center_vertical"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
@@ -398,14 +397,14 @@
                                 android:id="@+id/more_product"
                                 android:layout_width="fill_parent"
                                 android:layout_height="match_parent"
-                                android:text="More"
+                                android:text="@string/more"
                                 android:padding="8dp"
                                 android:gravity="center_vertical|end"
                                 android:textColor="@color/yellow"
                                 android:textStyle="bold"
                                 android:drawablePadding="10dp"
                                 android:drawableTint="@color/yellow"
-                                android:drawableRight="@drawable/arrow"
+                                android:drawableEnd="@drawable/arrow"
                                 />
 
                         </LinearLayout>
@@ -433,7 +432,7 @@
 
             </LinearLayout>
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
+            <!--<com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -446,7 +445,7 @@
                 app:itemIconSize="28dp"
                 app:itemTextColor="#01192C"
                 android:textAlignment="center"
-                />
+                />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

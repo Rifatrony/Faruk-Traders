@@ -134,7 +134,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void callApi(String name, String email, String phone, String password, String confirmPassword, String device_name) {
+
         RetrofitClient.getRetrofitClient().createUser(name, email, phone, password, confirmPassword, device_name).enqueue(new Callback<UserRegisterResponse>() {
+
             @Override
             public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
 

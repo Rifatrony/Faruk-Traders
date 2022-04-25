@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Guest User"
+        android:text="@string/guest_user"
         android:textColor="@color/black"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="guest@gmail.com"
+        android:text="@string/guest_email"
         android:textColor="@color/black"
         android:textSize="12sp"
         />
@@ -37,8 +37,6 @@
 
     <View
         style="@style/line"
-        android:layout_width="match_parent"
-        android:layout_below="@id/user_email"
-        />
+        android:layout_width="match_parent" />
 
 </LinearLayout>

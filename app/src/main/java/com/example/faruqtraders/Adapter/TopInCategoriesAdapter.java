@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +43,7 @@ public class TopInCategoriesAdapter extends RecyclerView.Adapter<TopInCategories
         return new TopInCategoryViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TopInCategoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
@@ -52,7 +54,7 @@ public class TopInCategoriesAdapter extends RecyclerView.Adapter<TopInCategories
             holder.main_price.setText(data.products.data.get(position).price + "৳");
             holder.discount_price.setText(data.products.data.get(position).discounted_price.toString() + "৳");
             holder.main_price.setPaintFlags(holder.main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
+            //Toast.makeText(context, data.products.data.get(position).slug, Toast.LENGTH_SHORT).show();
             Glide.with(context).load(data.products.data.get(position).thumbnail).into(holder.imageView);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {

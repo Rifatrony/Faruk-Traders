@@ -43,6 +43,7 @@ public class SellProductAdapter extends RecyclerView.Adapter<SellProductAdapter.
         return new SellProductViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SellProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (data.products.data.size() > 0){

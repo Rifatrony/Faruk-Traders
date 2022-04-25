@@ -83,7 +83,7 @@ public class TopCategoryActivity extends AppCompatActivity implements View.OnCli
 
 
     private void fetchTopCategoryMoreProduceProduct() {
-        top_in_category_recycler_view.setLayoutManager(new GridLayoutManager(this, 2));
+        top_in_category_recycler_view.setLayoutManager(new GridLayoutManager(this, 3));
 
         progressDialog.show();
         progressDialog.setMessage("Loading Please Wait");

@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cart"
+                android:text="@string/cart"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -47,14 +47,12 @@
             android:layout_height="match_parent"
             android:layout_below="@id/constraint_layout">
 
-            |
-
             <TextView
                 android:id="@+id/myCartTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="My Cart List"
+                android:text="@string/my_cart_list"
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"
@@ -144,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Grand Total:"
+                    android:text="@string/grand_total"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -156,7 +154,7 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:paddingRight="40dp"
-                    android:text="350 Tk."
+                    android:paddingLeft="40dp"
                     android:textColor="@color/yellow"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -188,7 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/add_to_cart_button"
-                    android:text="Check Out"
+                    android:text="@string/check_out"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp" />

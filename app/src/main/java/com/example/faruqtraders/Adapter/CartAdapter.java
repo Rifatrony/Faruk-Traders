@@ -64,16 +64,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         holder.increase_image_button.setOnClickListener(new View.OnClickListener() {
 
-            int a;
-
             @Override
             public void onClick(View view) {
 
-                a = 0;
-
+                count = cartModelList.get(position).getProduct_quantity() ;
                 //count = cartModelList.get(position).getProduct_quantity() ;
+                increaseCount();
                 holder.quantity.setText(String.valueOf(count));
-                //increaseCount();
                 Toast.makeText(context, "Increase", Toast.LENGTH_SHORT).show();
 
             }
@@ -90,8 +87,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 Toast.makeText(context, "Decrease", Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         totalAmount = cartModelList.get(position).getProduct_price() * cartModelList.get(position).getProduct_quantity();
         sum = totalAmount + sum;

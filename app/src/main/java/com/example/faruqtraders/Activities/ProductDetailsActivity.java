@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
@@ -14,13 +15,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Adapter.RelatedProductAdapter;
 import com.example.faruqtraders.Model.RelatedProductModel;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.AddToCartResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +39,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     FloatingActionButton add_button, minus_button;
     AppCompatButton add_to_cart, add_to_favourite;
     AppCompatImageView imageBack;
+
+    List<AddToCartResponse.Data> data;
 
     int count = 1;
 
@@ -114,6 +123,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         imageBack.setOnClickListener(this);
     }
 
+    @SuppressLint("SetTextI18n")
     private void received_product_details(){
 
         name = getIntent().getStringExtra("name");
@@ -131,6 +141,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -156,7 +167,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 break;
 
             default:
-                return;
         }
     }
 
@@ -164,7 +174,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     public void addToCart(){
 
-        showToast("Added to Cart Successfully");
+        //showToast("Added to Cart Successfully");
 
         String name = product_name.getText().toString().trim();
         String category = product_category.getText().toString().trim();
@@ -177,10 +187,49 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         showToast("Added Cart item are : \n" +"\n"+name +"\n" +category +"\n"+ main_price +"\n"+ discount_price +"\n"+ count + "\n" + id);
 
+        Call<AddToCartResponse> call = RetrofitClient.getRetrofitClient().addProductToCart(name, category, main_price, discount_price,id);
+
+        call.enqueue(new Callback<AddToCartResponse>() {
+            @Override
+            public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
+                if (response.isSuccessful()){
+                    showToast("Success");
+                }
+                else {
+                    showToast(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartResponse> call, Throwable t) {
+
+            }
+        });
+
+
+      /* RetrofitClient.getRetrofitClient().addProductToCart(data.get(position).product.toString(),String.valueOf(data.get(position).total),String.valueOf(data.get(position).price),String.valueOf(data.get(position).quantity)).enqueue(new Callback<List<AddToCartResponse>>() {
+           @Override
+           public void onResponse(Call<List<AddToCartResponse>> call, Response<List<AddToCartResponse>> response) {
+               if (response.isSuccessful()){
+                   showToast("Successfully Added");
+               }
+
+               else {
+                   showToast(response.errorBody().toString());
+               }
+           }
+
+           @Override
+           public void onFailure(Call<List<AddToCartResponse>> call, Throwable t) {
+               showToast(t.getLocalizedMessage());
+           }
+       });*/
+
+
     }
 
     private void increaseCount(){
-        count = count+1;
+        count++;
         quantityNumberTextView.setText(String.valueOf(count));
     }
 

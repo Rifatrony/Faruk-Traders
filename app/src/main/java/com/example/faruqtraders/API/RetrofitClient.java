@@ -12,8 +12,6 @@ public class RetrofitClient {
     public static final String BASE_URL= "https://faruqtraders.com/api/v1/";
     public static Retrofit retrofit = null;
 
-
-
     public static ApiInterface getRetrofitClient(){
 
         if (retrofit == null){
@@ -31,6 +29,5 @@ public class RetrofitClient {
 
         return retrofit.create(ApiInterface.class);
     }
-
 
 }

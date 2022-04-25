@@ -6,6 +6,7 @@ import com.example.faruqtraders.Model.LatestProductModel;
 import com.example.faruqtraders.Model.SellProductModel;
 import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.Request.LoginRequest;
+import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CategoryResponseModel;
 import com.example.faruqtraders.Response.EachProductResponse;
@@ -22,6 +23,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -65,8 +67,17 @@ public interface ApiInterface {
     Call<VisitedProductResponse> getSuggestion();
 
     @GET("product/details")
-    Call<EachProductResponse> getEachProduct(
-            @Query("slug") String slug
-            );
+    Call<EachProductResponse> getEachProduct();
+
+
+    @FormUrlEncoded
+    @POST("carts/add")
+    Call<AddToCartResponse> addProductToCart(
+            @Field("name") String name,
+            @Field("total") String total,
+            @Field("price") String price,
+            @Field("quantity") String quantity,
+            @Query("product_id") String product_id
+    );
 
 }
