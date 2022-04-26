@@ -17,6 +17,9 @@
         android:theme="@style/Theme.FaruqTraders"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activities.CategoryWiseProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.EachProductActivity"
             android:exported="false" />
         <activity

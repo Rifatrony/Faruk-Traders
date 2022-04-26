@@ -20,6 +20,7 @@ import com.example.faruqtraders.Adapter.RelatedProductAdapter;
 import com.example.faruqtraders.Model.RelatedProductModel;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.AddToCartResponse;
+import com.example.faruqtraders.Response.ProductDetailsResponseModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView product_name, product_category, product_discount_price, product_details_main_price, quantityNumberTextView;
-    ImageView imageView;
+    ImageView imageView, brand_image;
 
     RecyclerView recyclerView;
 
@@ -42,6 +43,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     List<AddToCartResponse.Data> data;
 
+    ProductDetailsResponseModel productDetails;
+
     int count = 1;
 
     //LatestProductModel latestProductModel = null;
@@ -50,7 +53,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     //ApiResponseModel data = null;
 
-    String name, main_price, discount_price, thumbnail, id;
+    String name, main_price, discount_price, thumbnail, id, slug;
     int position;
 
     @Override
@@ -76,6 +79,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         product_details_main_price = findViewById(R.id.product_details_product_main_price);
         product_discount_price = findViewById(R.id.product_details_product_dicount_price);
         imageView = findViewById(R.id.imageView);
+        brand_image = findViewById(R.id.product_details_product_brand_image);
 
         recyclerView = findViewById(R.id.product_details_related_product_recyclerView);
 
@@ -86,6 +90,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         minus_button = findViewById(R.id.minus_button);
         add_to_cart = findViewById(R.id.add_to_cart_button);
         add_to_favourite = findViewById(R.id.add_to_favourite_button);
+
+
 
     }
 
@@ -131,13 +137,38 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         discount_price = getIntent().getStringExtra("discount_price");
         thumbnail = getIntent().getStringExtra("thumbnail");
         id = getIntent().getStringExtra("id");
+        slug = getIntent().getStringExtra("slug");
 
-        product_name.setText(name);
-        product_details_main_price.setText(main_price+" ৳");
-        product_discount_price.setText(discount_price+" ৳");
-        product_details_main_price.setPaintFlags(product_details_main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        Glide.with(this).load(thumbnail).into(imageView);
-        quantityNumberTextView.setText(String.valueOf(count));
+
+        RetrofitClient.getRetrofitClient().getProductDetails(slug).enqueue(new Callback<ProductDetailsResponseModel>() {
+            @Override
+            public void onResponse(Call<ProductDetailsResponseModel> call, Response<ProductDetailsResponseModel> response) {
+                if (response.body() != null){
+
+                    productDetails = response.body();
+
+                    System.out.println("Name is ====== >" +productDetails.getName());
+                    product_name.setText(productDetails.getName());
+                    product_category.setText(productDetails.category.name);
+                    Glide.with(getApplicationContext()).load(productDetails.brand.image).into(brand_image);
+                    Glide.with(getApplicationContext()).load(productDetails.getThumbnail()).into(imageView);
+                    System.out.println("Category is ==== > " + productDetails.category.name);
+                    product_details_main_price.setText(productDetails.getPrice()+" ৳");
+                    product_discount_price.setText(productDetails.getFinal_price() + " ৳");
+                    product_details_main_price.setPaintFlags(product_details_main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    quantityNumberTextView.setText(String.valueOf(count));
+
+                }
+                else {
+                    System.out.println("Error=========>" + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductDetailsResponseModel> call, Throwable t) {
+                System.out.println("Failure========>" + t.getMessage());
+            }
+        });
 
     }
 
@@ -180,12 +211,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         String category = product_category.getText().toString().trim();
         String main_price = product_details_main_price.getText().toString().trim();
         String discount_price = product_discount_price.getText().toString().trim();
+        String quantity = quantityNumberTextView.getText().toString().trim();
 
-        System.out.println("Product Name is : " + name +"\n"+ "Category is : " + category +"\n"+ "Quantity is : " + count);
+        System.out.println("Product Name is : " + name +"\n"+ "Category is : " + category +"\n"+ "Quantity is : " + quantity);
         System.out.println("Main Price in double is : " + main_price);
         System.out.println("Discount Price is : " + discount_price);
 
-        showToast("Added Cart item are : \n" +"\n"+name +"\n" +category +"\n"+ main_price +"\n"+ discount_price +"\n"+ count + "\n" + id);
+        showToast("Added Cart item are : \n" +"\n"+name +"\n" +category +"\n"+ main_price +"\n"+ discount_price +"\n"+ quantity + "\n" + id);
 
         Call<AddToCartResponse> call = RetrofitClient.getRetrofitClient().addProductToCart(name, category, main_price, discount_price,id);
 
@@ -205,27 +237,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
             }
         });
-
-
-      /* RetrofitClient.getRetrofitClient().addProductToCart(data.get(position).product.toString(),String.valueOf(data.get(position).total),String.valueOf(data.get(position).price),String.valueOf(data.get(position).quantity)).enqueue(new Callback<List<AddToCartResponse>>() {
-           @Override
-           public void onResponse(Call<List<AddToCartResponse>> call, Response<List<AddToCartResponse>> response) {
-               if (response.isSuccessful()){
-                   showToast("Successfully Added");
-               }
-
-               else {
-                   showToast(response.errorBody().toString());
-               }
-           }
-
-           @Override
-           public void onFailure(Call<List<AddToCartResponse>> call, Throwable t) {
-               showToast(t.getLocalizedMessage());
-           }
-       });*/
-
-
     }
 
     private void increaseCount(){

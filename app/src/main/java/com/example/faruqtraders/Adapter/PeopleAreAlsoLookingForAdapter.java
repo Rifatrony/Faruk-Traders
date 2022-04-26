@@ -57,10 +57,11 @@ public class PeopleAreAlsoLookingForAdapter extends RecyclerView.Adapter<PeopleA
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     intent.putExtra("name", data.products.get(position).name);
-                    intent.putExtra("name", data.products.get(position).name);
                     intent.putExtra("main_price", data.products.get(position).price);
                     intent.putExtra("discount_price", data.products.get(position).discounted_price.toString());
                     intent.putExtra("thumbnail", data.products.get(position).thumbnail);
+                    intent.putExtra("id", data.products.get(position).id);
+                    intent.putExtra("slug", data.products.get(position).slug);
                     context.startActivity(intent);
                 }
             });

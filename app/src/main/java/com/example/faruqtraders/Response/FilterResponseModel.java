@@ -1,17 +1,16 @@
 package com.example.faruqtraders.Response;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ApiResponseModel {
+public class FilterResponseModel {
 
-    public Products products;
+    public static Products products;
 
-    public ApiResponseModel(Products products) {
+    public FilterResponseModel(Products products) {
         this.products = products;
     }
 
-    public ApiResponseModel() {
+    public FilterResponseModel() {
     }
 
     public Products getProducts() {
@@ -29,7 +28,7 @@ public class ApiResponseModel {
         public String thumbnail;
         public String discount;
         public String price;
-        public Object discounted_price;
+        public double discounted_price;
         public boolean has_attribute;
     }
 

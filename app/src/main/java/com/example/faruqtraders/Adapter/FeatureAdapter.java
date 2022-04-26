@@ -58,12 +58,13 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureP
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, EachProductActivity.class);
+                    Intent intent = new Intent(context, ProductDetailsActivity.class);
                     //intent.putExtra("position", holder.getAdapterPosition());
                     intent.putExtra("name", data.products.data.get(position).name);
                     intent.putExtra("main_price", data.products.data.get(position).price);
                     intent.putExtra("discount_price", data.products.data.get(position).discounted_price.toString());
                     intent.putExtra("thumbnail", data.products.data.get(position).thumbnail);
+                    intent.putExtra("slug", data.products.data.get(position).slug);
                     context.startActivity(intent);
 
                     Toast.makeText(context,data.products.data.get(position).slug, Toast.LENGTH_SHORT).show();

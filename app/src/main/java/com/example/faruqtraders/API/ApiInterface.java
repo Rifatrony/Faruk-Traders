@@ -10,7 +10,9 @@ import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CategoryResponseModel;
 import com.example.faruqtraders.Response.EachProductResponse;
+import com.example.faruqtraders.Response.FilterResponseModel;
 import com.example.faruqtraders.Response.LoginResponse;
+import com.example.faruqtraders.Response.ProductDetailsResponseModel;
 import com.example.faruqtraders.Response.UserRegisterResponse;
 import com.example.faruqtraders.Response.VisitedProductResponse;
 import com.google.android.gms.common.api.Api;
@@ -66,9 +68,13 @@ public interface ApiInterface {
     @GET("product/visited")
     Call<VisitedProductResponse> getSuggestion();
 
-    @GET("product/details")
-    Call<EachProductResponse> getEachProduct();
+    @GET("product/details/{slug}")
+    Call<ProductDetailsResponseModel> getProductDetails(@Path("slug") String slug);
 
+    @GET("product/products")
+    Call<ApiResponseModel> getCategoryWiseProduct(
+            @Query("category") String Category
+            );
 
     @FormUrlEncoded
     @POST("carts/add")

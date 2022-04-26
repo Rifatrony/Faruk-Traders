@@ -36,7 +36,8 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
     AppCompatImageView imageView;
     CategoriesAdapter categoriesAdapter;
     ApiInterface apiInterface;
-    CategoryResponseModel data;
+    public static CategoryResponseModel data;
+    public static ApiResponseModel apiResponseData;
 
     ProgressDialog progressDialog;
 
