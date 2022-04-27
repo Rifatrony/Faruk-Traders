@@ -15,8 +15,10 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.faruqtraders.Activities.CartActivity;
 import com.example.faruqtraders.Model.CartModel;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.CartResponseModel;
 
 import java.util.List;
 
@@ -32,6 +34,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public CartAdapter(Context context, List<CartModel> cartModelList) {
         this.context = context;
         this.cartModelList = cartModelList;
+    }
+
+    public CartAdapter(CartActivity context, CartResponseModel cartResponseModelList) {
     }
 
     @NonNull

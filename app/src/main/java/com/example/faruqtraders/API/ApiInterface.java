@@ -8,6 +8,7 @@ import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.Request.LoginRequest;
 import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
+import com.example.faruqtraders.Response.CartResponseModel;
 import com.example.faruqtraders.Response.CategoryResponseModel;
 import com.example.faruqtraders.Response.EachProductResponse;
 import com.example.faruqtraders.Response.FilterResponseModel;
@@ -71,9 +72,16 @@ public interface ApiInterface {
     @GET("product/details/{slug}")
     Call<ProductDetailsResponseModel> getProductDetails(@Path("slug") String slug);
 
+
+    @GET("product/products")
+    Call<ApiResponseModel> getRelatedProduct(
+            @Path("category") String category
+            );
+
+
     @GET("product/products")
     Call<ApiResponseModel> getCategoryWiseProduct(
-            @Query("category") String Category
+            @Path("category") String Category
             );
 
     @FormUrlEncoded
@@ -85,5 +93,10 @@ public interface ApiInterface {
             @Field("quantity") String quantity,
             @Query("product_id") String product_id
     );
+
+
+    @GET("carts")
+    Call<CartResponseModel> getCartDetails();
+
 
 }

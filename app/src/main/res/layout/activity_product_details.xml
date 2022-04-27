@@ -80,7 +80,6 @@
                             android:layout_height="210dp"
                             android:background="@color/textview_background"
                             android:gravity="center"
-                            android:scaleType="fitXY"
                             android:textSize="33sp"
                             />
 

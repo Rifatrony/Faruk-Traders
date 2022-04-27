@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,6 +48,8 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
     VisitedProductResponse visitedProductResponse;
     ApiResponseModel apiResponseModel;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,8 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
 
         setListener();
         fetchCategories();
+
+
 
         //position = getIntent().getIntExtra("position", 0);
 
@@ -73,6 +78,8 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
     private void initialization(){
 
         apiInterface = RetrofitClient.getRetrofitClient();
+
+        progressDialog = new ProgressDialog(this);
 
         imageBack = findViewById(R.id.imageBackId);
 
@@ -98,12 +105,22 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
 
     private void fetchCategories() {
 
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Loading Please Wait...");
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         apiInterface.getCategoryWiseProduct("chocolatemore").enqueue(new Callback<ApiResponseModel>() {
+
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 
                 if (response.body() != null){
+
+                    progressDialog.dismiss();
+
                     apiResponseModel = response.body();
                     detailsAdapter = new CategoryDetailsAdapter(CategoryWiseProductActivity.this, apiResponseModel);
                     recyclerView.setAdapter(detailsAdapter);

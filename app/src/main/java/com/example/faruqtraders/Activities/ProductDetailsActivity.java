@@ -1,8 +1,11 @@
 package com.example.faruqtraders.Activities;
 
+import static com.example.faruqtraders.Activities.AllCategoryActivity.apiResponseData;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,15 +18,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.faruqtraders.API.ApiInterface;
 import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Adapter.RelatedProductAdapter;
+import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
+import com.example.faruqtraders.MainActivity;
 import com.example.faruqtraders.Model.RelatedProductModel;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.AddToCartResponse;
+import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.ProductDetailsResponseModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,6 +44,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     ImageView imageView, brand_image;
 
     RecyclerView recyclerView;
+    RelatedProductAdapter relatedProductAdapter;
 
     FloatingActionButton add_button, minus_button;
     AppCompatButton add_to_cart, add_to_favourite;
@@ -43,7 +52,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     List<AddToCartResponse.Data> data;
 
+    ApiInterface apiInterface;
+
+    List<ProductDetailsResponseModel> productDetails1 = new ArrayList<>();
     ProductDetailsResponseModel productDetails;
+
 
     int count = 1;
 
@@ -62,8 +75,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_product_details);
 
         initialization();
-        relateProduct();
+        //relateProduct();
         setListener();
+
+        //fetchRelatedProduct();
 
         received_product_details();
 
@@ -73,6 +88,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     }
 
     private void initialization() {
+
+        apiInterface = RetrofitClient.getRetrofitClient();
 
         product_name = findViewById(R.id.product_details_product_name);
         product_category = findViewById(R.id.product_details_product_category);
@@ -95,21 +112,33 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void setData(){
 
-        /*product_name.setText(apiResponseModel.products.data.get(position).name);
-        product_details_main_price.setText(apiResponseModel.products.data.get(position).price);
-        product_discount_price.setText(apiResponseModel.products.data.get(position).discounted_price.toString());
-        Glide.with(this).load(thumbnail).into(imageView);*/
+    private void fetchRelatedProduct() {
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        apiInterface.getRelatedProduct(apiResponseData.products.data.get(position).slug).enqueue(new Callback<ApiResponseModel>() {
+            @Override
+            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+
+                if (response.body() != null){
+                    apiResponseData = response.body();
+                    relatedProductAdapter = new RelatedProductAdapter(ProductDetailsActivity.this, apiResponseData);
+                    recyclerView.setAdapter(relatedProductAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+
+            }
+        });
     }
+
 
     private void relateProduct() {
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        List<RelatedProductModel> relatedProductModelList = new ArrayList<>();
+       /* List<RelatedProductModel> relatedProductModelList = new ArrayList<>();
 
         relatedProductModelList.add(new RelatedProductModel(R.drawable.img,"Capilano Manuka Active Honey 340g","1057.3৳"));
         relatedProductModelList.add(new RelatedProductModel(R.drawable.sell,"Capilano Manuka Active Honey 340g","1057.3৳"));
@@ -117,8 +146,22 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         RelatedProductAdapter relatedProductAdapter = new RelatedProductAdapter(relatedProductModelList, this);
 
-        recyclerView.setAdapter(relatedProductAdapter);
+        recyclerView.setAdapter(relatedProductAdapter);*/
 
+        RetrofitClient.getRetrofitClient().getCategoryWiseProduct("milk").enqueue(new Callback<ApiResponseModel>() {
+            @Override
+            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    //productDetails1.addAll(response.body());
+                    relatedProductAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+
+            }
+        });
     }
 
     private void setListener(){
@@ -157,6 +200,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     product_discount_price.setText(productDetails.getFinal_price() + " ৳");
                     product_details_main_price.setPaintFlags(product_details_main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     quantityNumberTextView.setText(String.valueOf(count));
+                    System.out.println("ID is ============ >" + productDetails.discount);
 
                 }
                 else {
@@ -207,10 +251,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         //showToast("Added to Cart Successfully");
 
-        String name = product_name.getText().toString().trim();
-        String category = product_category.getText().toString().trim();
-        String main_price = product_details_main_price.getText().toString().trim();
-        String discount_price = product_discount_price.getText().toString().trim();
+        String name = productDetails.name.trim();
+        String category = productDetails.category.name.trim();
+        String main_price = productDetails.price.trim();
+        double discount_price = productDetails.final_price;
         String quantity = quantityNumberTextView.getText().toString().trim();
 
         System.out.println("Product Name is : " + name +"\n"+ "Category is : " + category +"\n"+ "Quantity is : " + quantity);
@@ -219,7 +263,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         showToast("Added Cart item are : \n" +"\n"+name +"\n" +category +"\n"+ main_price +"\n"+ discount_price +"\n"+ quantity + "\n" + id);
 
-        Call<AddToCartResponse> call = RetrofitClient.getRetrofitClient().addProductToCart(name, category, main_price, discount_price,id);
+        Call<AddToCartResponse> call = RetrofitClient.getRetrofitClient().addProductToCart(name, category, main_price, String.valueOf(discount_price),id);
 
         call.enqueue(new Callback<AddToCartResponse>() {
             @Override

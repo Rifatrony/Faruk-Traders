@@ -17,14 +17,24 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.faruqtraders.API.ApiInterface;
+import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Adapter.CartAdapter;
+import com.example.faruqtraders.Adapter.CartDetailsAdapter;
 import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
+import com.example.faruqtraders.MainActivity;
 import com.example.faruqtraders.Model.CartModel;
 import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.ApiResponseModel;
+import com.example.faruqtraders.Response.CartResponseModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CartActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,6 +46,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatButton checkoutButton;
 
     int grand_total_amount = 0;
+    CartResponseModel cartResponseModelList;
+    ApiInterface apiInterface;
+    CartDetailsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +69,13 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initialization() {
 
+        apiInterface = RetrofitClient.getRetrofitClient();
+
+        cartRecyclerView = findViewById(R.id.cartRecyclerView);
+
         imageView = findViewById(R.id.imageBack);
         grand_total = findViewById(R.id.grand_total);
 
-        cartRecyclerView = findViewById(R.id.cartRecyclerView);
         checkoutButton = findViewById(R.id.checkoutButton);
 
     }
@@ -86,13 +102,52 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void fetchCartProduct() {
-        // Top in Categories RecyclerView
 
-        cartRecyclerView = findViewById(R.id.cartRecyclerView);
-        cartRecyclerView.setHasFixedSize(true);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        List<CartModel> cartModelList = new ArrayList<>();
+        RetrofitClient.getRetrofitClient().getCartDetails().enqueue(new Callback<CartResponseModel>() {
+            @Override
+            public void onResponse(Call<CartResponseModel> call, Response<CartResponseModel> response) {
+                if (response.body() != null){
+                    cartResponseModelList = response.body();
+                    adapter = new CartDetailsAdapter(CartActivity.this,cartResponseModelList);
+                    cartRecyclerView.setAdapter(adapter);
+
+                    Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                }
+
+                else {
+                    Toast.makeText(CartActivity.this, "Error Body "+response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartResponseModel> call, Throwable t) {
+
+                System.out.println("Failure "+ t.getMessage());
+                Toast.makeText(CartActivity.this,"Failure"+ t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    /*.enqueue(new Callback<ApiResponseModel>() {
+            @Override
+            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+
+                if (response.body() != null){
+                    apiResponseData = response.body();
+                    topInCategoriesAdapter = new TopInCategoriesAdapter(MainActivity.this, apiResponseData);
+                    topInCategoriesRecyclerView.setAdapter(topInCategoriesAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+
+            }
+        });*/
+
+        /*List<CartModel> cartModelList = new ArrayList<>();
 
         cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",500,2,0));
         cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",1000,5, 0 ));
@@ -102,7 +157,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         CartAdapter cartAdapter = new CartAdapter(this, cartModelList);
 
-        cartRecyclerView.setAdapter(cartAdapter);
+        cartRecyclerView.setAdapter(cartAdapter);*/
 
     }
 

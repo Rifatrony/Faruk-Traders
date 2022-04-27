@@ -166,6 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="120dp"
+                android:padding="10dp"
                 android:layout_marginBottom="60dp"
                 app:layout_constraintBottom_toTopOf="@+id/layout"
                 app:layout_constraintEnd_toEndOf="parent"
