@@ -70,7 +70,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             />
 
-                        <EditText
+                        <!--<EditText
                             android:id="@+id/mainActivitySearch"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
@@ -89,7 +89,7 @@
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/viewPagerImageSlider"
-                            />
+                            />-->
 
                         <TextView
                             android:id="@+id/all_category"
@@ -109,7 +109,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/mainActivitySearch"
+                            app:layout_constraintTop_toBottomOf="@id/viewPagerImageSlider"
                             app:drawableTint="@color/yellow" />
 
                         <LinearLayout

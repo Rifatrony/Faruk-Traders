@@ -10,7 +10,6 @@ public class AddToCartResponse {
         this.data = data;
     }
 
-
     public List<Data> getData() {
         return data;
     }

@@ -5,7 +5,6 @@ import static com.example.faruqtraders.Activities.AllCategoryActivity.apiRespons
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,9 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.faruqtraders.API.ApiInterface;
 import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Adapter.RelatedProductAdapter;
-import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
-import com.example.faruqtraders.MainActivity;
-import com.example.faruqtraders.Model.RelatedProductModel;
+
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
@@ -31,7 +28,6 @@ import com.example.faruqtraders.Response.ProductDetailsResponseModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -56,6 +52,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     List<ProductDetailsResponseModel> productDetails1 = new ArrayList<>();
     ProductDetailsResponseModel productDetails;
+
+    ApiResponseModel apiResponseModel;
 
 
     int count = 1;
@@ -181,6 +179,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         thumbnail = getIntent().getStringExtra("thumbnail");
         id = getIntent().getStringExtra("id");
         slug = getIntent().getStringExtra("slug");
+        //System.out.println("ID is ============ >" + apiResponseModel.products.data.get(position).id);
 
 
         RetrofitClient.getRetrofitClient().getProductDetails(slug).enqueue(new Callback<ProductDetailsResponseModel>() {
@@ -200,7 +199,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     product_discount_price.setText(productDetails.getFinal_price() + " ৳");
                     product_details_main_price.setPaintFlags(product_details_main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     quantityNumberTextView.setText(String.valueOf(count));
-                    System.out.println("ID is ============ >" + productDetails.discount);
 
                 }
                 else {
@@ -263,9 +261,31 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         showToast("Added Cart item are : \n" +"\n"+name +"\n" +category +"\n"+ main_price +"\n"+ discount_price +"\n"+ quantity + "\n" + id);
 
-        Call<AddToCartResponse> call = RetrofitClient.getRetrofitClient().addProductToCart(name, category, main_price, String.valueOf(discount_price),id);
+       /* RetrofitClient.getRetrofitClient().addCart(name, "", "", quantity, slug).enqueue(new Callback<AddCartResponse>() {
+            @Override
+            public void onResponse(Call<AddCartResponse> call, Response<AddCartResponse> response) {
+                if (response.body() != null){
 
-        call.enqueue(new Callback<AddToCartResponse>() {
+                    System.out.println("Quantity is ==========> " + response.body().quantity);
+
+                    showToast("Added to cart");
+                }
+
+                else {
+                    showToast(response.errorBody().toString());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AddCartResponse> call, Throwable t) {
+
+            }
+        });*/
+
+        //Call<AddToCartResponse> call = RetrofitClient.getRetrofitClient().addProductToCart(name, category, main_price, String.valueOf(discount_price),id);
+
+       /* call.enqueue(new Callback<AddToCartResponse>() {
             @Override
             public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
                 if (response.isSuccessful()){
@@ -280,7 +300,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             public void onFailure(Call<AddToCartResponse> call, Throwable t) {
 
             }
-        });
+        });*/
     }
 
     private void increaseCount(){

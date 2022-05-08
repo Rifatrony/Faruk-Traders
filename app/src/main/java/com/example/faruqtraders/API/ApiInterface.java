@@ -6,6 +6,7 @@ import com.example.faruqtraders.Model.LatestProductModel;
 import com.example.faruqtraders.Model.SellProductModel;
 import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.Request.LoginRequest;
+import com.example.faruqtraders.Response.AddCartResponse;
 import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CartResponseModel;
@@ -87,6 +88,17 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("carts/add")
     Call<AddToCartResponse> addProductToCart(
+            @Field("name") String name,
+            @Field("total") String total,
+            @Field("price") String price,
+            @Field("quantity") String quantity,
+            @Query("product_id") String product_id
+    );
+
+    @FormUrlEncoded
+    @POST("carts/add/{product_id}")
+    Call<AddCartResponse> addCart(
+
             @Field("name") String name,
             @Field("total") String total,
             @Field("price") String price,

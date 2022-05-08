@@ -28,6 +28,10 @@ import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CartResponseModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +54,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     ApiInterface apiInterface;
     CartDetailsAdapter adapter;
 
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+    GoogleSignInAccount acct;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +66,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         initialization();
         setListener();
         fetchCartProduct();
+        //checkLogin();
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(broadcastReceiver, new IntentFilter("MyTotalAmount"));
 
@@ -78,11 +87,35 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         checkoutButton = findViewById(R.id.checkoutButton);
 
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this, gso);
+        acct = GoogleSignIn.getLastSignedInAccount(this);
+
     }
 
     private void setListener(){
         imageView.setOnClickListener(this);
         checkoutButton.setOnClickListener(this);
+    }
+
+    private void checkLogin(){
+        if (acct != null){
+            /*showToast(acct.getDisplayName());
+            showToast(acct.getId());*/
+            showToast("Go for Checkout");
+            Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
+            intent.putExtra("name", acct.getDisplayName());
+            intent.putExtra("email", acct.getEmail());
+            startActivity(intent);
+            //startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
+
+        }
+
+        else {
+            showToast("Need to Login");
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        }
     }
 
     @Override
@@ -94,7 +127,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.checkoutButton:
-                showToast("Checkout");
+                checkLogin();
                 break;
             default:
                 return;

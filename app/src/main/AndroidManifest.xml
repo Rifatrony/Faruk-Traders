@@ -17,6 +17,12 @@
         android:theme="@style/Theme.FaruqTraders"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activities.CheckoutNextActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.CheckoutActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CategoryWiseProductActivity"
             android:exported="false" />
         <activity

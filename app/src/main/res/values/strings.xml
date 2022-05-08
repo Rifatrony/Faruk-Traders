@@ -51,4 +51,8 @@
     <string name="add_to_favourite">Add to Favourite</string>
     <string name="quantity">Quantity:</string>
     <string name="title">Here will Come Category Name</string>
+    <string name="clear_cart">Clear Cart</string>
+    <string name="name">Name*</string>
+    <string name="address">Address</string>
+    <string name="next">Next ...</string>
 </resources>

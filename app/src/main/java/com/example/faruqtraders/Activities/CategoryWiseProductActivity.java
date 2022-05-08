@@ -58,9 +58,7 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
         initialization();
 
         setListener();
-        fetchCategories();
-
-
+        //fetchCategories();
 
         //position = getIntent().getIntExtra("position", 0);
 

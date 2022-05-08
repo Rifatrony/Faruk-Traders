@@ -228,7 +228,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager2 = findViewById(R.id.viewPagerImageSlider);
         imageModelList = new ArrayList<>();
 
-        searchEditText = findViewById(R.id.mainActivitySearch);
 
         all_category_text_view = findViewById(R.id.all_category);
         top_in_categories_more_product = findViewById(R.id.top_in_categories_more_product);
