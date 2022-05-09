@@ -3,13 +3,18 @@ package com.example.faruqtraders.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Utility.NetworkChangeListener;
 
 public class CheckoutNextActivity extends AppCompatActivity implements View.OnClickListener {
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     AppCompatImageView imageView;
     EditText nameEditText, emailEditText;
@@ -57,5 +62,19 @@ public class CheckoutNextActivity extends AppCompatActivity implements View.OnCl
                 return;
 
         }
+    }
+
+    @Override
+    protected void onStart() {
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

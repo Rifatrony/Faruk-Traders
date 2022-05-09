@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.IntentFilter;
 import android.graphics.Paint;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.ProductDetailsResponseModel;
+import com.example.faruqtraders.Utility.NetworkChangeListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -35,6 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     TextView product_name, product_category, product_discount_price, product_details_main_price, quantityNumberTextView;
     ImageView imageView, brand_image;
@@ -321,6 +326,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     private void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onStart() {
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 
 }

@@ -13,6 +13,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,7 @@ import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
 import com.example.faruqtraders.Model.ImageModel;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.VisitedProductResponse;
+import com.example.faruqtraders.Utility.NetworkChangeListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -59,6 +63,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     private RecyclerView featureRecyclerView , bestSellingRecyclerView,
             sellProductRecyclerView, topInCategoriesRecyclerView, latestProductRecyclerView,
@@ -97,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     String person_name, person_email;
     Uri person_picture;
+
+    TextView errorTextView;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     private void setListener(){
         all_category_text_view.setOnClickListener(this);
         top_in_categories_more_product.setOnClickListener(this);
@@ -216,6 +226,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initialization() {
+
+        errorTextView = findViewById(R.id.errorTextView);
+        progressBar = findViewById(R.id.progressBar);
 
         apiInterface = RetrofitClient.getRetrofitClient();
         progressDialog = new ProgressDialog(this);
@@ -293,7 +306,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         apiInterface.getSuggestion().enqueue(new Callback<VisitedProductResponse>() {
             @Override
             public void onResponse(Call<VisitedProductResponse> call, Response<VisitedProductResponse> response) {
+
+                progressBar.setVisibility(View.VISIBLE);
+
                 if (response.body() != null){
+                    progressBar.setVisibility(View.GONE);
                     visitedProductResponse = response.body();
                     peopleAreAlsoLookingForAdapter = new PeopleAreAlsoLookingForAdapter(MainActivity.this, visitedProductResponse);
                     peoplesAreAlsoLookingForRecyclerView.setAdapter(peopleAreAlsoLookingForAdapter);
@@ -302,7 +319,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<VisitedProductResponse> call, Throwable t) {
-
+                progressBar.setVisibility(View.GONE);
+                errorTextView.setText("Something went wrong try again");
             }
         });
     }
@@ -490,4 +508,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
         }
     }
+
+    @Override
+    protected void onStart() {
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
+    }
+
 }

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Response.UserRegisterResponse;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Utility.NetworkChangeListener;
 
 import java.io.IOException;
 
@@ -25,6 +28,8 @@ import retrofit2.Response;
 
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     EditText fullNameEditText, emailEditText, numberEditText, passwordEditText, confirmPasswordEditText;
     TextView haveAccountTextView;
@@ -166,5 +171,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStart() {
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

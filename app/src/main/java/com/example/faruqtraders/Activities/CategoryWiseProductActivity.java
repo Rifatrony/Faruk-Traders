@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,12 +29,15 @@ import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CategoryResponseModel;
 import com.example.faruqtraders.Response.FilterResponseModel;
 import com.example.faruqtraders.Response.VisitedProductResponse;
+import com.example.faruqtraders.Utility.NetworkChangeListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CategoryWiseProductActivity extends AppCompatActivity implements View.OnClickListener {
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     CategoryResponseModel categoryModel;
     FilterResponseModel filterResponseModel;
@@ -136,5 +141,19 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
 
 
 
+    }
+
+    @Override
+    protected void onStart() {
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

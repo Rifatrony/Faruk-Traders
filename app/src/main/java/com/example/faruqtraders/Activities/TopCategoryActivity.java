@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import com.example.faruqtraders.Model.LatestProductModel;
 import com.example.faruqtraders.Model.TopCategoriesMoreProductModel;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.ApiResponseModel;
+import com.example.faruqtraders.Utility.NetworkChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TopCategoryActivity extends AppCompatActivity implements View.OnClickListener {
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
     AppCompatImageView imageView;
     RecyclerView top_in_category_recycler_view;
@@ -111,5 +116,18 @@ public class TopCategoryActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
+    @Override
+    protected void onStart() {
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
+    }
 
 }
