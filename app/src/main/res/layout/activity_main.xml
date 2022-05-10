@@ -165,6 +165,7 @@
                                 android:layout_height="30dp"
                                 android:id="@+id/progressBar"
                                 android:layout_gravity="center"
+                                android:visibility="gone"
                                 />
 
                             <TextView

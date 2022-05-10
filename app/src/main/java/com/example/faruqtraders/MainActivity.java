@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<VisitedProductResponse> call, Response<VisitedProductResponse> response) {
 
-                progressBar.setVisibility(View.VISIBLE);
+                //progressBar.setVisibility(View.VISIBLE);
 
                 if (response.body() != null){
                     progressBar.setVisibility(View.GONE);
@@ -319,8 +319,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<VisitedProductResponse> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                errorTextView.setText("Something went wrong try again");
+                /*progressBar.setVisibility(View.GONE);
+                errorTextView.setText("Something went wrong try again");*/
             }
         });
     }

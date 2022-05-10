@@ -7,6 +7,7 @@ import retrofit2.http.Tag;
 public class ProductDetailsResponseModel {
 
 
+    public String id;
     public String name;
     public String slug;
     public String description;
@@ -25,7 +26,8 @@ public class ProductDetailsResponseModel {
     public boolean hasAttribute;
     public ArrayList<Object> attributes;
 
-    public ProductDetailsResponseModel(String name, String slug, String description, String sku, String price, String discount, String discount_type, double final_price, String thumbnail, String image1, String image2, String image3, Category category, Brand brand, ArrayList<Tag> tag, boolean hasAttribute, ArrayList<Object> attributes) {
+    public ProductDetailsResponseModel(String id, String name, String slug, String description, String sku, String price, String discount, String discount_type, double final_price, String thumbnail, String image1, String image2, String image3, Category category, Brand brand, ArrayList<Tag> tag, boolean hasAttribute, ArrayList<Object> attributes) {
+        this.id = id;
         this.name = name;
         this.slug = slug;
         this.description = description;
@@ -46,6 +48,14 @@ public class ProductDetailsResponseModel {
     }
 
     public ProductDetailsResponseModel() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -184,7 +194,14 @@ public class ProductDetailsResponseModel {
         this.attributes = attributes;
     }
 
-    public static class Category{
+    public class Brand{
+        public String name;
+        public String slug;
+        public String image;
+        public Object url;
+    }
+
+    public class Category{
         public String name;
         public String slug;
         public String icon;
@@ -192,10 +209,8 @@ public class ProductDetailsResponseModel {
         public Object description;
     }
 
-    public static class Brand{
+    public class Tag{
         public String name;
         public String slug;
-        public String image;
-        public Object url;
     }
 }

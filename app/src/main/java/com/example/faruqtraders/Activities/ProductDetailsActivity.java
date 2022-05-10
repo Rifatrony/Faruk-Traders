@@ -24,6 +24,7 @@ import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Adapter.RelatedProductAdapter;
 
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.AddCartResponse;
 import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.ProductDetailsResponseModel;
@@ -62,6 +63,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
 
     int count = 1;
+    int quantity;
+    String product_id;
 
     //LatestProductModel latestProductModel = null;
 
@@ -116,7 +119,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     }
 
 
-    private void fetchRelatedProduct() {
+    /*private void fetchRelatedProduct() {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -136,7 +139,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
             }
         });
-    }
+    }*/
 
 
     private void relateProduct() {
@@ -151,7 +154,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         recyclerView.setAdapter(relatedProductAdapter);*/
 
-        RetrofitClient.getRetrofitClient().getCategoryWiseProduct("milk").enqueue(new Callback<ApiResponseModel>() {
+        /*RetrofitClient.getRetrofitClient().getCategoryWiseProduct("milk").enqueue(new Callback<ApiResponseModel>() {
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
                 if (response.isSuccessful() && response.body() != null){
@@ -164,7 +167,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             public void onFailure(Call<ApiResponseModel> call, Throwable t) {
 
             }
-        });
+        });*/
     }
 
     private void setListener(){
@@ -184,7 +187,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         thumbnail = getIntent().getStringExtra("thumbnail");
         id = getIntent().getStringExtra("id");
         slug = getIntent().getStringExtra("slug");
-        //System.out.println("ID is ============ >" + apiResponseModel.products.data.get(position).id);
+
+        //System.out.println("ID is ============ >" + apiResponseModel.products.data.get(position).id.toString());
 
 
         RetrofitClient.getRetrofitClient().getProductDetails(slug).enqueue(new Callback<ProductDetailsResponseModel>() {
@@ -200,6 +204,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     Glide.with(getApplicationContext()).load(productDetails.brand.image).into(brand_image);
                     Glide.with(getApplicationContext()).load(productDetails.getThumbnail()).into(imageView);
                     System.out.println("Category is ==== > " + productDetails.category.name);
+                    System.out.println("Id is ==== > " + productDetails.id);
                     product_details_main_price.setText(productDetails.getPrice()+" ৳");
                     product_discount_price.setText(productDetails.getFinal_price() + " ৳");
                     product_details_main_price.setPaintFlags(product_details_main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -252,60 +257,35 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     public void addToCart(){
 
-        //showToast("Added to Cart Successfully");
-
         String name = productDetails.name.trim();
         String category = productDetails.category.name.trim();
         String main_price = productDetails.price.trim();
-        double discount_price = productDetails.final_price;
-        String quantity = quantityNumberTextView.getText().toString().trim();
 
-        System.out.println("Product Name is : " + name +"\n"+ "Category is : " + category +"\n"+ "Quantity is : " + quantity);
-        System.out.println("Main Price in double is : " + main_price);
-        System.out.println("Discount Price is : " + discount_price);
+        product_id = productDetails.id;
+        double price = productDetails.final_price;
+        quantity = count;
 
-        showToast("Added Cart item are : \n" +"\n"+name +"\n" +category +"\n"+ main_price +"\n"+ discount_price +"\n"+ quantity + "\n" + id);
+        System.out.println("Inside Cart quantity ================= > " + count);
+        System.out.println("Inside Cart Product ID ================= > " + product_id);
 
-       /* RetrofitClient.getRetrofitClient().addCart(name, "", "", quantity, slug).enqueue(new Callback<AddCartResponse>() {
+        RetrofitClient.getRetrofitClient().addCart(quantity, product_id).enqueue(new Callback<AddCartResponse>() {
             @Override
             public void onResponse(Call<AddCartResponse> call, Response<AddCartResponse> response) {
                 if (response.body() != null){
-
-                    System.out.println("Quantity is ==========> " + response.body().quantity);
-
-                    showToast("Added to cart");
+                    showToast("Success");
                 }
 
                 else {
                     showToast(response.errorBody().toString());
                 }
-
             }
 
             @Override
             public void onFailure(Call<AddCartResponse> call, Throwable t) {
-
+                showToast(t.getMessage());
             }
-        });*/
+        });
 
-        //Call<AddToCartResponse> call = RetrofitClient.getRetrofitClient().addProductToCart(name, category, main_price, String.valueOf(discount_price),id);
-
-       /* call.enqueue(new Callback<AddToCartResponse>() {
-            @Override
-            public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
-                if (response.isSuccessful()){
-                    showToast("Success");
-                }
-                else {
-                    showToast(response.errorBody().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AddToCartResponse> call, Throwable t) {
-
-            }
-        });*/
     }
 
     private void increaseCount(){
