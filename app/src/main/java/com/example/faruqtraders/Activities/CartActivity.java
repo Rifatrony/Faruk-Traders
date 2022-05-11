@@ -1,5 +1,6 @@
 package com.example.faruqtraders.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +51,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatImageView imageView;
 
     RecyclerView cartRecyclerView;
-    TextView totalPriceOfCart, sub_total, others, grand_total;
+    TextView grand_total;
 
     AppCompatButton checkoutButton;
 
@@ -70,12 +72,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         initialization();
         setListener();
         fetchCartProduct();
-        //checkLogin();
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(broadcastReceiver, new IntentFilter("MyTotalAmount"));
 
 
-        System.out.println("Grand Total is  " + String.valueOf(grand_total_amount));
+        System.out.println("Grand Total is  " + grand_total_amount);
         grand_total.setText(String.valueOf(grand_total_amount));
 
     }
@@ -122,6 +123,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
 
@@ -134,7 +136,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 checkLogin();
                 break;
             default:
-                return;
         }
     }
 
@@ -144,7 +145,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         RetrofitClient.getRetrofitClient().getCartDetails().enqueue(new Callback<CartResponseModel>() {
             @Override
-            public void onResponse(Call<CartResponseModel> call, Response<CartResponseModel> response) {
+            public void onResponse(@NonNull Call<CartResponseModel> call, Response<CartResponseModel> response) {
                 if (response.body() != null){
                     cartResponseModelList = response.body();
                     adapter = new CartDetailsAdapter(CartActivity.this,cartResponseModelList);
@@ -165,37 +166,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(CartActivity.this,"Failure"+ t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
-    /*.enqueue(new Callback<ApiResponseModel>() {
-            @Override
-            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
-
-                if (response.body() != null){
-                    apiResponseData = response.body();
-                    topInCategoriesAdapter = new TopInCategoriesAdapter(MainActivity.this, apiResponseData);
-                    topInCategoriesRecyclerView.setAdapter(topInCategoriesAdapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
-
-            }
-        });*/
-
-        /*List<CartModel> cartModelList = new ArrayList<>();
-
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",500,2,0));
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",1000,5, 0 ));
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",200,6, 0 ));
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",300,6, 0 ));
-        cartModelList.add(new CartModel("","Capilano Manuka Active Honey 340g",100,5, 0 ));
-
-        CartAdapter cartAdapter = new CartAdapter(this, cartModelList);
-
-        cartRecyclerView.setAdapter(cartAdapter);*/
-
     }
 
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

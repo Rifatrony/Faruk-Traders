@@ -115,7 +115,7 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        apiInterface.getCategoryWiseProduct(slug, name).enqueue(new Callback<ApiResponseModel>() {
+        apiInterface.getCategoryWiseProduct("biscuitschips", 2).enqueue(new Callback<ApiResponseModel>() {
 
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
@@ -142,9 +142,6 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
                 Toast.makeText(CategoryWiseProductActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
 
     @Override

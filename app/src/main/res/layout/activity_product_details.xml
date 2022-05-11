@@ -78,7 +78,6 @@
                             android:id="@+id/imageView"
                             android:layout_width="match_parent"
                             android:layout_height="210dp"
-                            android:background="@color/textview_background"
                             android:gravity="center"
                             android:textSize="33sp"
                             />

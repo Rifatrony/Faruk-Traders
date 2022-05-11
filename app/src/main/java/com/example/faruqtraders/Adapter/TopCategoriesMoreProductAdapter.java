@@ -1,6 +1,8 @@
 package com.example.faruqtraders.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.faruqtraders.Activities.ProductDetailsActivity;
 import com.example.faruqtraders.Model.TopCategoriesMoreProductModel;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.ApiResponseModel;
@@ -41,7 +44,7 @@ public class TopCategoriesMoreProductAdapter extends RecyclerView.Adapter<TopCat
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TopCategoriesMoreProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TopCategoriesMoreProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (data.products.data.size() > 0){
             holder.name.setText(data.products.data.get(position).name);
             //holder.category.setText(data.products.data.get(position).slug);
@@ -50,6 +53,20 @@ public class TopCategoriesMoreProductAdapter extends RecyclerView.Adapter<TopCat
             holder.main_price.setPaintFlags(holder.main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
             Glide.with(context).load(data.products.data.get(position).thumbnail).into(holder.imageView);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    intent.putExtra("name", data.products.data.get(position).name);
+                    intent.putExtra("main_price", data.products.data.get(position).price);
+                    intent.putExtra("discount_price", data.products.data.get(position).discounted_price.toString());
+                    intent.putExtra("thumbnail", data.products.data.get(position).thumbnail);
+                    intent.putExtra("slug", data.products.data.get(position).slug);
+                    intent.putExtra("id", data.products.data.get(position).id);
+                    context.startActivity(intent);
+                }
+            });
 
         }
     }

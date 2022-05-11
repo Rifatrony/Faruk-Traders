@@ -84,13 +84,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         //relateProduct();
         setListener();
 
-        //fetchRelatedProduct();
+        fetchRelatedProduct();
 
         received_product_details();
 
         //setData();
-        /*position = getIntent().getIntExtra("position", 0);
-        System.out.println("Product Name is "+ apiResponseData.products.data.get(position).name);*/
+        //position = getIntent().getIntExtra("position", 0);
+        /*System.out.println("Product Name is "+ apiResponseData.products.data.get(position).name);*/
     }
 
     private void initialization() {
@@ -114,16 +114,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         add_to_cart = findViewById(R.id.add_to_cart_button);
         add_to_favourite = findViewById(R.id.add_to_favourite_button);
 
-
-
     }
 
-
-    /*private void fetchRelatedProduct() {
+    private void fetchRelatedProduct() {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        apiInterface.getRelatedProduct(apiResponseData.products.data.get(position).slug).enqueue(new Callback<ApiResponseModel>() {
+        apiInterface.getRelatedProduct("juicedrinks").enqueue(new Callback<ApiResponseModel>() {
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 
@@ -139,35 +136,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
             }
         });
-    }*/
-
-
-    private void relateProduct() {
-
-       /* List<RelatedProductModel> relatedProductModelList = new ArrayList<>();
-
-        relatedProductModelList.add(new RelatedProductModel(R.drawable.img,"Capilano Manuka Active Honey 340g","1057.3৳"));
-        relatedProductModelList.add(new RelatedProductModel(R.drawable.sell,"Capilano Manuka Active Honey 340g","1057.3৳"));
-        relatedProductModelList.add(new RelatedProductModel(R.drawable.feature,"Capilano Manuka Active Honey 340g","1057.3৳"));
-
-        RelatedProductAdapter relatedProductAdapter = new RelatedProductAdapter(relatedProductModelList, this);
-
-        recyclerView.setAdapter(relatedProductAdapter);*/
-
-        /*RetrofitClient.getRetrofitClient().getCategoryWiseProduct("milk").enqueue(new Callback<ApiResponseModel>() {
-            @Override
-            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    //productDetails1.addAll(response.body());
-                    relatedProductAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
-
-            }
-        });*/
     }
 
     private void setListener(){
@@ -271,7 +239,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         RetrofitClient.getRetrofitClient().addCart(quantity, product_id).enqueue(new Callback<AddCartResponse>() {
             @Override
             public void onResponse(Call<AddCartResponse> call, Response<AddCartResponse> response) {
-                if (response.body() != null){
+                if (response.isSuccessful()){
                     showToast("Success");
                 }
 

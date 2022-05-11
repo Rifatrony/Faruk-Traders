@@ -27,6 +27,8 @@ import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,9 +45,11 @@ public class TopCategoryActivity extends AppCompatActivity implements View.OnCli
     TopCategoriesMoreProductAdapter adapter;
 
     ApiInterface apiInterface;
-    ApiResponseModel data;
+    ApiResponseModel apiResponseModel;
 
     ProgressDialog progressDialog;
+
+    int page = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,18 +98,22 @@ public class TopCategoryActivity extends AppCompatActivity implements View.OnCli
         progressDialog.setMessage("Loading Please Wait");
         progressDialog.setCancelable(false);
 
-        apiInterface.getTopInCategories().enqueue(new Callback<ApiResponseModel>() {
+        apiInterface.getTopInCategories(8).enqueue(new Callback<ApiResponseModel>() {
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 
                 progressDialog.dismiss();
 
                 if (response.body() != null){
-                    data = response.body();
-                    adapter = new TopCategoriesMoreProductAdapter(TopCategoryActivity.this, data);
+                    apiResponseModel = response.body();
+                    adapter = new TopCategoriesMoreProductAdapter(TopCategoryActivity.this, apiResponseModel);
                     top_in_category_recycler_view.setAdapter(adapter);
+
+
                 }
             }
+
+
 
             @Override
             public void onFailure(Call<ApiResponseModel> call, Throwable t) {
@@ -115,6 +123,9 @@ public class TopCategoryActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
+
+
+    /*Check Internet Connectivity*/
 
     @Override
     protected void onStart() {

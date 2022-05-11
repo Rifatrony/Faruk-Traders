@@ -329,7 +329,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         topInCategoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        apiInterface.getTopInCategories().enqueue(new Callback<ApiResponseModel>() {
+
+        apiInterface.getTopInCategories(7).enqueue(new Callback<ApiResponseModel>() {
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 

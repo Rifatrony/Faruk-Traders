@@ -61,8 +61,10 @@ public interface ApiInterface {
     @GET("product/sale")
     Call<ApiResponseModel> getLatest();
 
-    @GET("product/random")
-    Call<ApiResponseModel> getTopInCategories();
+    @GET("product/products")
+    Call<ApiResponseModel> getTopInCategories(
+            @Query("page") int page
+    );
 
     @GET("category/index")
     Call<CategoryResponseModel> getCategories();
@@ -78,14 +80,14 @@ public interface ApiInterface {
 
     @GET("product/products")
     Call<ApiResponseModel> getRelatedProduct(
-            @Path("category") String category
+            @Query("category") String Category
             );
 
 
     @GET("product/products")
     Call<ApiResponseModel> getCategoryWiseProduct(
             @Query("category") String category,
-            @Query("search") String search
+            @Query("page") int page
             );
 
     @FormUrlEncoded
