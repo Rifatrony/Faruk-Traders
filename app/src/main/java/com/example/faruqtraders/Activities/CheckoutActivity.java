@@ -3,6 +3,7 @@ package com.example.faruqtraders.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -14,8 +15,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.DeliveryMethodResponse;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CheckoutActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,7 +35,9 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
 
     RadioGroup radioGroup;
     RadioButton radioButton;
-    int deliveryChargeInsideDhaka = 50, deliveryChargeOutsideDhaka = 90;
+    int deliveryChargeInsideDhaka = 80, deliveryChargeOutsideDhaka = 150, deliveryChargeInGulshanBanani = 0 ;
+
+    DeliveryMethodResponse deliveryMethodResponse;
 
 
     @Override
@@ -40,6 +49,25 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
         setListener();
         received_product_details();
 
+        //fetchDeliveryMethod();
+
+    }
+
+    private void fetchDeliveryMethod() {
+        RetrofitClient.getRetrofitClient().getDeliveryCharge().enqueue(new Callback<DeliveryMethodResponse>() {
+            @Override
+            public void onResponse(Call<DeliveryMethodResponse> call, Response<DeliveryMethodResponse> response) {
+                if (response.body() != null){
+                    deliveryMethodResponse = response.body();
+                    System.out.println("Delivery Charge is " + deliveryMethodResponse.rate);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeliveryMethodResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void initialization(){
@@ -64,6 +92,7 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -100,9 +129,14 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.radio_three:
                 /*We can use intent here for change the activity*/
-                showToast("Gulshan & Banani Free Delivery is free");
+                showToast("Gulshan & Banani Free Delivery is "+ deliveryChargeInGulshanBanani);
                 break;
+
+
         }
+
+
+
 
         /*Toast.makeText(this, "Selected Radio Button: " + radioButton.getText(),
                 Toast.LENGTH_SHORT).show();*/

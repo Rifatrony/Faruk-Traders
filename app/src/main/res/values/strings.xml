@@ -55,4 +55,7 @@
     <string name="name">Name*</string>
     <string name="address">Address</string>
     <string name="next">Next ...</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
 </resources>

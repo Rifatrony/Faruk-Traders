@@ -17,6 +17,15 @@
         android:theme="@style/Theme.FaruqTraders"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activities.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AccountDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CheckoutNextActivity"
             android:exported="false" />
         <activity

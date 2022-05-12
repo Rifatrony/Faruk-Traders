@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -33,6 +34,7 @@ import com.example.faruqtraders.Activities.AboutUsActivity;
 import com.example.faruqtraders.Activities.AllCategoryActivity;
 import com.example.faruqtraders.Activities.CartActivity;
 import com.example.faruqtraders.Activities.ContactUsActivity;
+import com.example.faruqtraders.Activities.DashboardActivity;
 import com.example.faruqtraders.Activities.LoginActivity;
 import com.example.faruqtraders.Activities.TopCategoryActivity;
 import com.example.faruqtraders.Adapter.FeatureAdapter;
@@ -52,7 +54,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -138,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 switch (id){
-                    case R.id.nav_home:
-                        Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                    case R.id.nav_dashboard:
+                        startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                         break;
 
                     case R.id.nav_categories:

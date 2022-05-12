@@ -11,10 +11,12 @@ import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CartResponseModel;
 import com.example.faruqtraders.Response.CategoryResponseModel;
+import com.example.faruqtraders.Response.DeliveryMethodResponse;
 import com.example.faruqtraders.Response.EachProductResponse;
 import com.example.faruqtraders.Response.FilterResponseModel;
 import com.example.faruqtraders.Response.LoginResponse;
 import com.example.faruqtraders.Response.ProductDetailsResponseModel;
+import com.example.faruqtraders.Response.UserDetailsResponse;
 import com.example.faruqtraders.Response.UserRegisterResponse;
 import com.example.faruqtraders.Response.VisitedProductResponse;
 import com.google.android.gms.common.api.Api;
@@ -109,5 +111,16 @@ public interface ApiInterface {
 
     @GET("carts")
     Call<CartResponseModel> getCartDetails();
+
+    @POST("user/profile/update")
+    Call<UserDetailsResponse> updateProfile(
+            @Field("name") String name,
+            @Field("email") String email,
+            @Field("phone") String phone,
+            @Field("address") String address
+
+    );
+    @GET("checkout/delivery/methods")
+    Call<DeliveryMethodResponse> getDeliveryCharge();
 
 }

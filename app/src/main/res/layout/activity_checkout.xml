@@ -69,7 +69,7 @@
                         android:layout_height="55dp"
                         android:text="Your Order"
                         android:padding="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="#4CAF50"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:gravity="center_vertical"
@@ -144,7 +144,7 @@
                             android:text="Shipping"
                             android:padding="10dp"
                             android:textStyle="bold"
-                            android:textColor="@color/black"
+                            android:textColor="#4CAF50"
                             android:textSize="18sp"
                             />
 

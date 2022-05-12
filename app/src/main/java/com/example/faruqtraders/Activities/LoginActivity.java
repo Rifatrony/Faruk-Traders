@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.lostYourPassword:
-                showToast("Lost Your Password");
+                startActivity(new Intent(getApplicationContext(), ResetPasswordActivity.class));
                 break;
 
             case R.id.loginButton:
