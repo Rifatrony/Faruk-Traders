@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.faruqtraders.API.RetrofitClient;
+import com.example.faruqtraders.MainActivity;
 import com.example.faruqtraders.Response.UserRegisterResponse;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
@@ -97,6 +98,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
+        System.out.println("Registration Name is ============== > " + name);
+
         if (name.isEmpty()){
             showToast("Enter Name");
             return;
@@ -146,6 +149,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
 
                 if (response.isSuccessful()){
+
                     showToast("Account Created Successfully...");
 
                     fullNameEditText.setText("");
@@ -153,6 +157,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     numberEditText.setText("");
                     passwordEditText.setText("");
                     confirmPasswordEditText.setText("");
+
+                    System.out.println("Registration User Name is ====== > " + name);
+                    System.out.println("Registration User Email is ====== > " + email);
+                    System.out.println("Registration User Name is ====== > " + phone);
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("name", name);
+                    intent.putExtra("email", email);
+                    intent.putExtra("phone", phone);
+
+                    startActivity(intent);
 
                 }
                 else {

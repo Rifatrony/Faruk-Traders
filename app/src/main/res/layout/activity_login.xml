@@ -45,7 +45,7 @@
                 />
 
             <EditText
-                android:id="@+id/loginEmailEditText"
+                android:id="@+id/loginNumberEditText"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="30dp"

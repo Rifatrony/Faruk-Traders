@@ -92,7 +92,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         checkoutButton = findViewById(R.id.checkoutButton);
 
-
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
         acct = GoogleSignIn.getLastSignedInAccount(this);
@@ -106,14 +105,12 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkLogin(){
         if (acct != null){
-            /*showToast(acct.getDisplayName());
-            showToast(acct.getId());*/
+
             showToast("Go for Checkout");
             Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
             intent.putExtra("name", acct.getDisplayName());
             intent.putExtra("email", acct.getEmail());
             startActivity(intent);
-            //startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
 
         }
 
@@ -136,6 +133,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 checkLogin();
                 break;
             default:
+
         }
     }
 
@@ -169,10 +167,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @SuppressLint("SetTextI18n")
         @Override
         public void onReceive(Context context, Intent intent) {
             grand_total_amount = intent.getIntExtra("totalAmount", 0);
-            grand_total.setText(String.valueOf(grand_total_amount) +" Tk.");
+            grand_total.setText(grand_total_amount +" Tk.");
             System.out.println("Sub Total Amount is ======> " + grand_total_amount);
         }
     };

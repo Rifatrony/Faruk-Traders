@@ -4,6 +4,9 @@ public class UserRegisterResponse {
 
     String access_token, token_type;
 
+    public UserRegisterResponse() {
+    }
+
     public UserRegisterResponse(String access_token, String token_type) {
         this.access_token = access_token;
         this.token_type = token_type;

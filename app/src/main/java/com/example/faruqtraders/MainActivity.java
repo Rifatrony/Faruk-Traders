@@ -37,6 +37,7 @@ import com.example.faruqtraders.Activities.ContactUsActivity;
 import com.example.faruqtraders.Activities.DashboardActivity;
 import com.example.faruqtraders.Activities.LoginActivity;
 import com.example.faruqtraders.Activities.TopCategoryActivity;
+import com.example.faruqtraders.Activities.WishlistActivity;
 import com.example.faruqtraders.Adapter.FeatureAdapter;
 import com.example.faruqtraders.Adapter.ImageAdapter;
 import com.example.faruqtraders.Adapter.LatestProductAdapter;
@@ -108,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView errorTextView;
     ProgressBar progressBar;
 
+    String name, email, phone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +126,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fetchPeopleAreLookingAlsoForProduct();
         ImageSlider();
         setListener();
+
+        name = getIntent().getStringExtra("name");
+        email = getIntent().getStringExtra("email");
+        phone = getIntent().getStringExtra("name");
+
+        updateHeaderFromRegister();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
 
                     case R.id.nav_favourite:
-                        Toast.makeText(MainActivity.this, "Favourite", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), WishlistActivity.class));
+                        //Toast.makeText(MainActivity.this, "Favourite", Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.nav_login:
@@ -243,7 +253,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager2 = findViewById(R.id.viewPagerImageSlider);
         imageModelList = new ArrayList<>();
 
-
         all_category_text_view = findViewById(R.id.all_category);
         top_in_categories_more_product = findViewById(R.id.top_in_categories_more_product);
         more_product = findViewById(R.id.more_product);
@@ -267,6 +276,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+
+    }
+
+    private void updateHeaderFromRegister(){
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        TextView navUserName = headerView.findViewById(R.id.user_name);
+        TextView navUserEmail = headerView.findViewById(R.id.user_email);
+        TextView navUserNumber = headerView.findViewById(R.id.user_phone);
+
+        navUserName.setText(name);
+        navUserEmail.setText(email);
+        navUserNumber.setText(phone);
 
     }
 

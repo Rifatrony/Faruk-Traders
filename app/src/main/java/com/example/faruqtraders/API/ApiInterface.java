@@ -47,12 +47,19 @@ public interface ApiInterface {
             );
 
     @FormUrlEncoded
-    @POST("/auth/user/login/")
+    @POST("auth/user/login")
     Call<UserRegisterResponse> userLogin(
-            @Field("email") String email,
+            @Field("phone") String phone,
             @Field("password") String password,
             @Field("device_name") String device_name
             );
+
+
+    /*Logout */
+
+    /*@POST("auth/user/logout")
+    Call<> logout();*/
+
 
     @GET("product/featured")
     Call<ApiResponseModel> getFeature();
@@ -120,7 +127,29 @@ public interface ApiInterface {
             @Field("address") String address
 
     );
+
+
+    @GET("user/orders")
+    Call<DeliveryMethodResponse> getOrder();
+
+    @GET("user/order/details/")
+    Call<DeliveryMethodResponse> getOrderDetails(
+            @Query("order_id") String order_id
+    );
+
+
     @GET("checkout/delivery/methods")
     Call<DeliveryMethodResponse> getDeliveryCharge();
+
+
+    @FormUrlEncoded
+    @POST("checkout/process")
+    Call<DeliveryMethodResponse> placeOrder(
+            @Field("name") String name,
+            @Field("email") String email,
+            @Field("phone") String phone,
+            @Field("delivery_method") String delivery_method,
+            @Field("address") String address
+    );
 
 }

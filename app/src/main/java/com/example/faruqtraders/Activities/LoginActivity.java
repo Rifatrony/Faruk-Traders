@@ -4,12 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,8 +17,6 @@ import android.widget.Toast;
 import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.MainActivity;
 import com.example.faruqtraders.R;
-import com.example.faruqtraders.Request.LoginRequest;
-import com.example.faruqtraders.Response.LoginResponse;
 import com.example.faruqtraders.Response.UserRegisterResponse;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -40,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     TextView textCreateNewAccount, lostYourPasswordTextView;
     AppCompatButton signInButton;
-    EditText loginEmailEditText, loginPasswordEditText;
+    EditText loginNumberEditText, loginPasswordEditText;
     CircleImageView facebook, google;
 
     GoogleSignInOptions gso;
@@ -61,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         lostYourPasswordTextView = findViewById(R.id.lostYourPassword);
         signInButton = findViewById(R.id.loginButton);
 
-        loginEmailEditText = findViewById(R.id.loginEmailEditText);
+        loginNumberEditText = findViewById(R.id.loginNumberEditText);
         loginPasswordEditText = findViewById(R.id.loginPasswordEditText);
 
         facebook = findViewById(R.id.facebookLogin);
@@ -81,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -135,17 +133,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
+    /*Phone Number Login*/
+
     private void userLogin() {
-        String loginEmail = loginEmailEditText.getText().toString().trim();
+        String loginEmail = loginNumberEditText.getText().toString().trim();
         String loginPassword = loginPasswordEditText.getText().toString().trim();
 
         if (loginEmail.isEmpty()) {
-            showToast("Enter Email");
+            showToast("Enter Number");
             return;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail).matches()) {
-            showToast("Enter a valid Email Address");
-            return;
-        } else if (loginPassword.isEmpty()) {
+        }
+        else if (loginPassword.isEmpty()) {
             showToast("Enter Password");
             return;
         } else if (loginPassword.length() < 6) {
@@ -158,14 +156,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /*Phone Number Login*/
 
-    private void Login(String email, String password, String device_name) {
-        RetrofitClient.getRetrofitClient().userLogin(email, password, "").enqueue(new Callback<UserRegisterResponse>() {
+    private void Login(String phone, String password, String device_name) {
+        RetrofitClient.getRetrofitClient().userLogin(phone, password, "redmi").enqueue(new Callback<UserRegisterResponse>() {
             @Override
             public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
-                if (response.isSuccessful() && response.body().getToken_type().isEmpty()){
+                if (response.body() != null){
 
-                    showToast("No token found");
+                    showToast("Login Success");
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                 }
                 else {
