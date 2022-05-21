@@ -59,9 +59,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
                     intent.putExtra("name", data.categories.data.get(position).name);
                     intent.putExtra("icon", data.categories.data.get(position).icon);
                     context.startActivity(intent);
-                    Toast.makeText(context, "Clicked item slug is: " + data.categories.data.get(position).slug
-                            + "\n Name :" + data.categories.data.get(position).name
-                            + "\n Category :" + data.categories.data.get(position).icon, Toast.LENGTH_SHORT).show();
+
                 }
             });
         }

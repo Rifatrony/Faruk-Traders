@@ -98,7 +98,7 @@ public class TopCategoryActivity extends AppCompatActivity implements View.OnCli
         progressDialog.setMessage("Loading Please Wait");
         progressDialog.setCancelable(false);
 
-        apiInterface.getTopInCategories(8).enqueue(new Callback<ApiResponseModel>() {
+        apiInterface.getTopInCategories(1).enqueue(new Callback<ApiResponseModel>() {
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 
@@ -108,7 +108,6 @@ public class TopCategoryActivity extends AppCompatActivity implements View.OnCli
                     apiResponseModel = response.body();
                     adapter = new TopCategoriesMoreProductAdapter(TopCategoryActivity.this, apiResponseModel);
                     top_in_category_recycler_view.setAdapter(adapter);
-
 
                 }
             }

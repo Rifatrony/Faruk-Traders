@@ -1,29 +1,24 @@
 package com.example.faruqtraders.Activities;
 
-import static com.example.faruqtraders.MainActivity.apiResponseData;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.faruqtraders.API.ApiInterface;
 import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.Adapter.CategoryDetailsAdapter;
-import com.example.faruqtraders.Adapter.PeopleAreAlsoLookingForAdapter;
-import com.example.faruqtraders.Adapter.TopCategoriesMoreProductAdapter;
-import com.example.faruqtraders.MainActivity;
+
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CategoryResponseModel;
@@ -43,6 +38,8 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
     FilterResponseModel filterResponseModel;
     String slug, name, icon;
     int position;
+    private int page = 1;
+    private static int per_page = 30;
 
     RecyclerView recyclerView;
     TextView titleTextView;
@@ -55,6 +52,8 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
 
     ProgressDialog progressDialog;
 
+    NestedScrollView nestedScrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,19 +62,12 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
         initialization();
 
         setListener();
-        fetchCategories();
+
 
         //position = getIntent().getIntExtra("position", 0);
 
-        slug = getIntent().getStringExtra("slug");
-        name = getIntent().getStringExtra("name");
-        icon = getIntent().getStringExtra("icon");
-
-        System.out.println("Slug is =======>" + slug);
-        System.out.println("Name is =======>" + name);
-        System.out.println("Icon is =======>" + icon);
-
         titleTextView.setText(name);
+        setUpPagination(true);
     }
 
     private void initialization(){
@@ -89,12 +81,33 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
         titleTextView = findViewById(R.id.title);
         recyclerView = findViewById(R.id.eachCategoryRecyclerView);
 
+        nestedScrollView = findViewById(R.id.nestedScrollView);
+
+        fetchCategories(page);
+
+    }
+
+    private void setUpPagination(boolean isPaginationAllowed) {
+
+        if (isPaginationAllowed){
+            nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                if (scrollY==v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight()){
+                    fetchCategories(++page);
+                }
+            });
+        }
+
+        else {
+            nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            });
+        }
     }
 
     private void setListener(){
         imageBack.setOnClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -106,7 +119,7 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
         }
     }
 
-    private void fetchCategories() {
+    private void fetchCategories(int page) {
 
         progressDialog.show();
         progressDialog.setCancelable(false);
@@ -114,20 +127,27 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
         progressDialog.setContentView(R.layout.progress_dialog);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        apiInterface.getCategoryWiseProduct("biscuitschips", 2).enqueue(new Callback<ApiResponseModel>() {
+        slug = getIntent().getStringExtra("slug");
+        name = getIntent().getStringExtra("name");
+        icon = getIntent().getStringExtra("icon");
 
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        apiInterface.getCategoryWiseProduct(slug, page,per_page).enqueue(new Callback<ApiResponseModel>() {
+
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 
                 if (response.body() != null){
 
                     progressDialog.dismiss();
-
                     apiResponseModel = response.body();
+
+                    System.out.println("current page is ----- >" + apiResponseModel.products.pagination.current_page);
+
                     detailsAdapter = new CategoryDetailsAdapter(CategoryWiseProductActivity.this, apiResponseModel);
                     recyclerView.setAdapter(detailsAdapter);
-                    Toast.makeText(getApplicationContext(),slug, Toast.LENGTH_SHORT).show();
+                    detailsAdapter.notifyDataSetChanged();
 
                 }
                 else {

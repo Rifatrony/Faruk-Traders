@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Paint;
 import android.net.ConnectivityManager;
@@ -61,6 +62,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     ApiResponseModel apiResponseModel;
 
+    AddCartResponse addCartResponse;
+
 
     int count = 1;
     int quantity;
@@ -72,8 +75,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     //ApiResponseModel data = null;
 
-    String name, main_price, discount_price, thumbnail, id, slug;
+    String name, main_price, discount_price, thumbnail, id, slug, category;
     int position;
+
+    TextView relatedProductMoreProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +89,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         //relateProduct();
         setListener();
 
-        fetchRelatedProduct();
+        //fetchRelatedProduct();
 
         received_product_details();
 
@@ -107,6 +112,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         recyclerView = findViewById(R.id.product_details_related_product_recyclerView);
 
         quantityNumberTextView = findViewById(R.id.quantityNumberTextView);
+        relatedProductMoreProduct = findViewById(R.id.relatedProductMoreProduct);
 
         imageBack = findViewById(R.id.imageBackId);
         add_button = findViewById(R.id.add_button);
@@ -118,9 +124,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     private void fetchRelatedProduct() {
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        //category = getIntent().getStringExtra("slug");
+        System.out.println("Slug 1 ----- > " + category);
 
-        apiInterface.getRelatedProduct("juicedrinks").enqueue(new Callback<ApiResponseModel>() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        apiInterface.getRelatedProduct(category).enqueue(new Callback<ApiResponseModel>() {
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 
@@ -144,6 +152,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         add_to_cart.setOnClickListener(this);
         add_to_favourite.setOnClickListener(this);
         imageBack.setOnClickListener(this);
+        relatedProductMoreProduct.setOnClickListener(this);
     }
 
     @SuppressLint("SetTextI18n")
@@ -156,9 +165,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         id = getIntent().getStringExtra("id");
         slug = getIntent().getStringExtra("slug");
 
-        //System.out.println("ID is ============ >" + apiResponseModel.products.data.get(position).id.toString());
-
-
         RetrofitClient.getRetrofitClient().getProductDetails(slug).enqueue(new Callback<ProductDetailsResponseModel>() {
             @Override
             public void onResponse(Call<ProductDetailsResponseModel> call, Response<ProductDetailsResponseModel> response) {
@@ -166,18 +172,34 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                     productDetails = response.body();
 
-                    System.out.println("Name is ====== >" +productDetails.getName());
-                    product_name.setText(productDetails.getName());
+                    product_name.setText(productDetails.name);
                     product_category.setText(productDetails.category.name);
                     Glide.with(getApplicationContext()).load(productDetails.brand.image).into(brand_image);
                     Glide.with(getApplicationContext()).load(productDetails.getThumbnail()).into(imageView);
-                    System.out.println("Category is ==== > " + productDetails.category.name);
-                    System.out.println("Id is ==== > " + productDetails.id);
-                    product_details_main_price.setText(productDetails.getPrice()+" ৳");
-                    product_discount_price.setText(productDetails.getFinal_price() + " ৳");
+
+                    category = productDetails.category.name;
+                    product_details_main_price.setText(productDetails.price + " ৳");
+                    product_discount_price.setText(productDetails.final_price + " ৳");
                     product_details_main_price.setPaintFlags(product_details_main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     quantityNumberTextView.setText(String.valueOf(count));
 
+                    recyclerView.setLayoutManager(new LinearLayoutManager(ProductDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    apiInterface.getRelatedProduct(category).enqueue(new Callback<ApiResponseModel>() {
+                        @Override
+                        public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+
+                            if (response.body() != null){
+                                apiResponseData = response.body();
+                                relatedProductAdapter = new RelatedProductAdapter(ProductDetailsActivity.this, apiResponseData);
+                                recyclerView.setAdapter(relatedProductAdapter);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+
+                        }
+                    });
                 }
                 else {
                     System.out.println("Error=========>" + response.errorBody());
@@ -189,7 +211,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 System.out.println("Failure========>" + t.getMessage());
             }
         });
-
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -217,8 +238,16 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 Toast.makeText(this, "Add to favourite Button is clicked", Toast.LENGTH_SHORT).show();
                 break;
 
+            case R.id.relatedProductMoreProduct:
+                relatedMoreProduct();
+                break;
+
             default:
         }
+    }
+
+    private void relatedMoreProduct(){
+        startActivity(new Intent(getApplicationContext(), TopCategoryActivity.class));
     }
 
     /*Added to the cart*/
@@ -233,27 +262,22 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         double price = productDetails.final_price;
         quantity = count;
 
-        System.out.println("Inside Cart quantity ================= > " + count);
-        System.out.println("Inside Cart Product ID ================= > " + product_id);
-
-        RetrofitClient.getRetrofitClient().addCart(quantity, product_id).enqueue(new Callback<AddCartResponse>() {
+        RetrofitClient.getRetrofitClient().addCart(product_id, count).enqueue(new Callback<AddCartResponse>() {
             @Override
             public void onResponse(Call<AddCartResponse> call, Response<AddCartResponse> response) {
-                if (response.isSuccessful()){
-                    showToast("Success");
+                if (response.body()!= null){
+                    showToast("Added to Cart");
                 }
-
                 else {
-                    showToast(response.errorBody().toString());
+                    showToast("Error : "+response.errorBody().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<AddCartResponse> call, Throwable t) {
-                showToast(t.getMessage());
+                showToast("Failure : "+t.getMessage());
             }
         });
-
     }
 
     private void increaseCount(){

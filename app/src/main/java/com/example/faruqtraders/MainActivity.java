@@ -36,6 +36,7 @@ import com.example.faruqtraders.Activities.CartActivity;
 import com.example.faruqtraders.Activities.ContactUsActivity;
 import com.example.faruqtraders.Activities.DashboardActivity;
 import com.example.faruqtraders.Activities.LoginActivity;
+import com.example.faruqtraders.Activities.OrderActivity;
 import com.example.faruqtraders.Activities.TopCategoryActivity;
 import com.example.faruqtraders.Activities.WishlistActivity;
 import com.example.faruqtraders.Adapter.FeatureAdapter;
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
 
                     case R.id.nav_track_order:
-                        Toast.makeText(MainActivity.this, "Track Order", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), OrderActivity.class));
                         break;
 
                     case R.id.nav_cart:
@@ -355,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         topInCategoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
-        apiInterface.getTopInCategories(7).enqueue(new Callback<ApiResponseModel>() {
+        apiInterface.getTopInCategories(1).enqueue(new Callback<ApiResponseModel>() {
             @Override
             public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
 
@@ -517,6 +518,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         backPressedTime = System.currentTimeMillis();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -19,6 +20,9 @@ import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.DeliveryMethodResponse;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +43,6 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
 
     DeliveryMethodResponse deliveryMethodResponse;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,26 +52,13 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
         setListener();
         received_product_details();
 
-        //fetchDeliveryMethod();
+        fetchDeliveryMethod();
+
+        System.out.println("Check Delivery");
 
     }
 
-    private void fetchDeliveryMethod() {
-        RetrofitClient.getRetrofitClient().getDeliveryCharge().enqueue(new Callback<DeliveryMethodResponse>() {
-            @Override
-            public void onResponse(Call<DeliveryMethodResponse> call, Response<DeliveryMethodResponse> response) {
-                if (response.body() != null){
-                    deliveryMethodResponse = response.body();
-                    System.out.println("Delivery Charge is " + deliveryMethodResponse.rate);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<DeliveryMethodResponse> call, Throwable t) {
-
-            }
-        });
-    }
 
     private void initialization(){
         imageView = findViewById(R.id.imageBack);
@@ -88,7 +78,7 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
         name = getIntent().getStringExtra("name");
         email = getIntent().getStringExtra("email");
 
-        System.out.println("Receive name is ====> + " + name + "\n Receive email is =====> " + email);
+        System.out.println("Receive name is ====> " + name + "\n Receive email is =====> " + email);
 
     }
 
@@ -112,6 +102,7 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
         startActivity(intent);
     }
 
+    @SuppressLint("NonConstantResourceId")
     public void checkButton(View v) {
         int radioId = radioGroup.getCheckedRadioButtonId();
 
@@ -121,6 +112,10 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
             case R.id.radio_one:
 
                 showToast("Inside Dhaka deliver Charge is " + deliveryChargeInsideDhaka);
+                Intent intent = new Intent(getApplicationContext(), CheckoutNextActivity.class);
+                intent.putExtra("charge", deliveryChargeInsideDhaka);
+                startActivity(intent);
+
                 break;
 
             case R.id.radio_two:
@@ -132,18 +127,30 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
                 showToast("Gulshan & Banani Free Delivery is "+ deliveryChargeInGulshanBanani);
                 break;
 
-
         }
-
-
-
-
         /*Toast.makeText(this, "Selected Radio Button: " + radioButton.getText(),
                 Toast.LENGTH_SHORT).show();*/
     }
 
     private void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void fetchDeliveryMethod() {
+        RetrofitClient.getRetrofitClient().getDeliveryCharge().enqueue(new Callback<DeliveryMethodResponse>() {
+            @Override
+            public void onResponse(Call<DeliveryMethodResponse> call, Response<DeliveryMethodResponse> response) {
+                if (response.body() != null){
+                    deliveryMethodResponse = response.body();
+                    System.out.println("Response is ------>  "+ response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeliveryMethodResponse> call, Throwable t) {
+                System.out.println("Failure : " + t.getMessage());
+            }
+        });
     }
 
     @Override

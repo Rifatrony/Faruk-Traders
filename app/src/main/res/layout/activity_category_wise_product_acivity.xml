@@ -34,7 +34,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/title"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -47,20 +46,20 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_below="@id/constraint_layout">
-
-            <androidx.recyclerview.widget.RecyclerView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/eachCategoryRecyclerView"
-                />
+                android:id="@+id/nestedScrollView"
+                android:layout_below="@id/constraint_layout"
+                >
 
-        </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/eachCategoryRecyclerView"
+                    />
+
+            </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
 

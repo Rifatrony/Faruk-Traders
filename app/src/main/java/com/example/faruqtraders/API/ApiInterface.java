@@ -75,11 +75,17 @@ public interface ApiInterface {
             @Query("page") int page
     );
 
+
+    /*Get all the categories*/
     @GET("category/index")
     Call<CategoryResponseModel> getCategories();
 
+
+    /*Get people are also looking for*/
     @GET("product/visited")
     Call<VisitedProductResponse> getSuggestion();
+
+
 
     @GET("product/details/{slug}")
     Call<ProductDetailsResponseModel> getProductDetails(
@@ -96,7 +102,8 @@ public interface ApiInterface {
     @GET("product/products")
     Call<ApiResponseModel> getCategoryWiseProduct(
             @Query("category") String category,
-            @Query("page") int page
+            @Query("page") int page,
+            @Query("per_page") int per_page
             );
 
     @FormUrlEncoded
@@ -112,8 +119,9 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("carts/add")
     Call<AddCartResponse> addCart(
-            @Field("quantity") int quantity,
-            @Query("product_id") String product_id
+            @Query("product_id") String product_id,
+            @Field("quantity") int quantity
+
     );
 
     @GET("carts")
@@ -127,6 +135,9 @@ public interface ApiInterface {
             @Field("address") String address
 
     );
+
+    @GET("user/profile")
+    Call<UserDetailsResponse> getUserDetails();
 
 
     @GET("user/orders")

@@ -20,8 +20,6 @@ import com.example.faruqtraders.Response.UserRegisterResponse;
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
 
-import java.io.IOException;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -138,7 +136,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             callApi(name, email, number, password, confirmPassword,"" );
             showToast("call Api");
         }
-
     }
 
     private void callApi(String name, String email, String phone, String password, String confirmPassword, String device_name) {

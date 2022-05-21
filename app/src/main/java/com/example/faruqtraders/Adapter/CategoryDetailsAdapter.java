@@ -35,6 +35,7 @@ public class CategoryDetailsAdapter extends RecyclerView.Adapter<CategoryDetails
         return new CategoriesDetailsViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CategoriesDetailsViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (apiResponseModel.products.data.size() > 0){
@@ -57,6 +58,7 @@ public class CategoryDetailsAdapter extends RecyclerView.Adapter<CategoryDetails
                     intent.putExtra("slug", apiResponseModel.products.data.get(position).slug);
                     intent.putExtra("id", apiResponseModel.products.data.get(position).id);
                     context.startActivity(intent);
+
                 }
             });
 

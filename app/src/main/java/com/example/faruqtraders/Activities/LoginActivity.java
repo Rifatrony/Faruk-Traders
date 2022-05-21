@@ -132,7 +132,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
-
     /*Phone Number Login*/
 
     private void userLogin() {

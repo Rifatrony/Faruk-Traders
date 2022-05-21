@@ -189,6 +189,7 @@
                         tools:ignore="TextFields" />
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/placeOrderButton"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:text="Place Order"

@@ -15,7 +15,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.faruqtraders.API.RetrofitClient;
+import com.example.faruqtraders.MainActivity;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.UserDetailsResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,7 +30,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     Toolbar toolbar;
 
-    TextView userNameText;
+    TextView userNameText, goToHomeTextView, emailTextView, phoneTextView, addressTextView;
+
+    UserDetailsResponse userDetailsResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         initialization();
         setListener();
 
+        getUserDetails();
 
         setSupportActionBar(toolbar);
 
@@ -52,18 +62,48 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    private void getUserDetails() {
+
+        RetrofitClient.getRetrofitClient().getUserDetails().enqueue(new Callback<UserDetailsResponse>() {
+            @Override
+            public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
+                if (response.body() != null){
+
+                    userDetailsResponse = response.body();
+                    System.out.println("Name is=========>" + userDetailsResponse.getUser().getName());
+                    System.out.println("Name is=========>" + userDetailsResponse.user.email);
+                    Toast.makeText(DashboardActivity.this, "Success", Toast.LENGTH_SHORT).show();
+
+                }
+
+                else {
+                    Toast.makeText(DashboardActivity.this, "Error "+response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
+                Toast.makeText(DashboardActivity.this, "Failure " +t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void initialization() {
         toolbar = findViewById(R.id.toolBar);
         orderCard = findViewById(R.id.orderCard);
         accountsCard = findViewById(R.id.accountsCard);
         wishlistCard = findViewById(R.id.wishlistCard);
         userNameText = findViewById(R.id.userNameText);
+        emailTextView = findViewById(R.id.emailText);
+        phoneTextView = findViewById(R.id.phoneText);
+        goToHomeTextView = findViewById(R.id.goToHomeTextView);
     }
 
     private void setListener() {
         orderCard.setOnClickListener(this);
         accountsCard.setOnClickListener(this);
         wishlistCard.setOnClickListener(this);
+        goToHomeTextView.setOnClickListener(this);
     }
 
     @Override
@@ -74,6 +114,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -84,7 +125,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.nav_account_details:
                 startActivity(new Intent(getApplicationContext(), AccountDetailsActivity.class));
-                Toast.makeText(this, "nav_account_details", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.nav_change_password:
@@ -93,7 +133,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.nav_wishlist:
-                Toast.makeText(this, "nav_wishlist", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), WishlistActivity.class));
                 break;
 
         }
@@ -105,6 +145,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+
+            case R.id.goToHomeTextView:
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+                break;
 
             case R.id.orderCard:
                 startActivity(new Intent(getApplicationContext(), OrderActivity.class));

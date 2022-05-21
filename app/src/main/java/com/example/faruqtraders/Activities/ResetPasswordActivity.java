@@ -16,7 +16,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
 
     AppCompatImageView imageBack;
     AppCompatButton resetPasswordButton;
-    EditText oldPassword, newPassword;
+    EditText oldPassword, newPassword, confirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
 
         oldPassword = findViewById(R.id.oldPasswordEditText);
         newPassword = findViewById(R.id.newPasswordEditText);
+        confirmPassword = findViewById(R.id.confirmPasswordEditText);
 
     }
 
@@ -60,6 +61,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
 
         String oldPasswordString = oldPassword.getText().toString().trim();
         String newPasswordString = newPassword.getText().toString().trim();
+        String confirmPasswordString = confirmPassword.getText().toString().trim();
 
         if (oldPasswordString.isEmpty()){
             showToast("Enter Old Password");
@@ -72,6 +74,19 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
             showToast("Enter New Password");
             return;
         }
+
+        if (confirmPasswordString.isEmpty()){
+            showToast("Enter New Password");
+            return;
+        }
+
+        if (!newPasswordString.equals(confirmPasswordString)) {
+
+            showToast("Password and Confirm Password Should be Same");
+            return;
+
+        }
+
         else {
             resetPassword();
         }

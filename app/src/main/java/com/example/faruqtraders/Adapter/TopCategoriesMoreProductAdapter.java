@@ -73,6 +73,7 @@ public class TopCategoriesMoreProductAdapter extends RecyclerView.Adapter<TopCat
 
     @Override
     public int getItemCount() {
+        //return (data.products.data == null) ? 0 : data.products.data.size();
         return data.products.data.size();
     }
 
