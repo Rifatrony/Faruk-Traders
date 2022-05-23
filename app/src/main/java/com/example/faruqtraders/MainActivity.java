@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 switch (id){
-                    case R.id.nav_dashboard:
+                    case R.id.nav_profile:
                         startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                         break;
 

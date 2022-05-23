@@ -12,10 +12,12 @@
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/bottom_nav_background.xml" value="0.1" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/button_background.xml" value="0.17" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/checkout_background.xml" value="0.1465" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/drawable/forward.xml" value="0.1955" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/image_icon_background.xml" value="0.139" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/menu.xml" value="0.1515" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/minus.xml" value="0.1485" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/plus.xml" value="0.156" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/drawable/profile.xml" value="0.1955" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/progress_dialog_background.xml" value="0.1" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/search_background.xml" value="0.1" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/selector_my_button.xml" value="0.1345" />
@@ -39,6 +41,7 @@
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_order.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_otp.xml" value="0.2" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_product_details.xml" value="0.22" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_reset_password.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
@@ -61,12 +64,12 @@
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/nav_header.xml" value="0.25" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/offer_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/product_details_layout.xml" value="0.20416666666666666" />
-        <entry key="..\:/FaruqTraders/app/src/main/res/layout/product_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout/product_layout.xml" value="0.1" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/progress_dialog.xml" value="0.18" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/related_product_layout.xml" value="0.22" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/sale_product_layout.xml" value="0.25" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/sell_product_layout.xml" value="0.20416666666666666" />
-        <entry key="..\:/FaruqTraders/app/src/main/res/layout/top_category_layout.xml" value="0.2" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout/top_category_layout.xml" value="0.33" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/top_in_categories.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/top_in_category_more_product_layout.xml" value="0.22" />
         <entry key="..\:/FaruqTraders/app/src/main/res/menu/botom_menu.xml" value="0.20416666666666666" />

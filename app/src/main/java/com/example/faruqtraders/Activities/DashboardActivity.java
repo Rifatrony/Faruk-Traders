@@ -31,6 +31,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     Toolbar toolbar;
 
     TextView userNameText, goToHomeTextView, emailTextView, phoneTextView, addressTextView;
+    TextView accountsTextView, orderTextView, wishListTextView;
 
     UserDetailsResponse userDetailsResponse;
 
@@ -97,13 +98,24 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         emailTextView = findViewById(R.id.emailText);
         phoneTextView = findViewById(R.id.phoneText);
         goToHomeTextView = findViewById(R.id.goToHomeTextView);
+
+
+        accountsTextView = findViewById(R.id.accountsTextView);
+        orderTextView = findViewById(R.id.orderTextView);
+        wishListTextView = findViewById(R.id.wishListTextView);
     }
 
     private void setListener() {
+
         orderCard.setOnClickListener(this);
         accountsCard.setOnClickListener(this);
         wishlistCard.setOnClickListener(this);
         goToHomeTextView.setOnClickListener(this);
+
+        accountsTextView.setOnClickListener(this);
+        orderTextView.setOnClickListener(this);
+        wishListTextView.setOnClickListener(this);
+
     }
 
     @Override
@@ -151,15 +163,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 finish();
                 break;
 
-            case R.id.orderCard:
+            case R.id.orderTextView:
                 startActivity(new Intent(getApplicationContext(), OrderActivity.class));
                 break;
 
-            case R.id.accountsCard:
+            case R.id.accountsTextView:
                 startActivity(new Intent(getApplicationContext(), AccountDetailsActivity.class));
                 break;
 
-            case R.id.wishlistCard:
+            case R.id.wishListTextView:
                 startActivity(new Intent(getApplicationContext(), WishlistActivity.class));
                 break;
 

@@ -17,6 +17,9 @@
         android:theme="@style/Theme.FaruqTraders"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activities.OtpActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.WishlistActivity"
             android:exported="false" />
         <activity

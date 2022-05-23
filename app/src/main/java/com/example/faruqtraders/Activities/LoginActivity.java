@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.faruqtraders.API.RetrofitClient;
 import com.example.faruqtraders.MainActivity;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.LoginResponse;
 import com.example.faruqtraders.Response.UserRegisterResponse;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
+    LoginResponse loginResponse;
 
 
     @Override
@@ -162,10 +164,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
                 if (response.body() != null){
-
                     showToast("Login Success");
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
                 }
                 else {
                     showToast(response.errorBody().toString());
