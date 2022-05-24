@@ -22,10 +22,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.faruqtraders.API.ApiInterface;
 import com.example.faruqtraders.API.RetrofitClient;
+import com.example.faruqtraders.API.RetrofitClientWithHeader;
 import com.example.faruqtraders.Adapter.RelatedProductAdapter;
 
 import com.example.faruqtraders.R;
 import com.example.faruqtraders.Response.AddCartResponse;
+import com.example.faruqtraders.Response.AddToCartPostModel;
 import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.ProductDetailsResponseModel;
@@ -254,30 +256,44 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     public void addToCart(){
 
-        String name = productDetails.name.trim();
-        String category = productDetails.category.name.trim();
-        String main_price = productDetails.price.trim();
+        String quantity = quantityNumberTextView.getText().toString().trim();
+        // String size = size.getText().toString().trim();
+        // String length = quantityNumberTextView.getText().toString().trim();
 
-        product_id = productDetails.id;
-        double price = productDetails.final_price;
-        quantity = count;
+        AddToCartPostModel.Options options = new AddToCartPostModel.Options("LARGE", "LONG");
+        AddToCartPostModel model = new AddToCartPostModel(Integer.parseInt(quantity), options);
 
-        RetrofitClient.getRetrofitClient().addCart(product_id, count).enqueue(new Callback<AddCartResponse>() {
+        System.out.println("ID IS "+id);
+
+        RetrofitClientWithHeader.getRetrofitClient().addToCart(id, model).enqueue(new Callback<AddCartResponse>() {
             @Override
             public void onResponse(Call<AddCartResponse> call, Response<AddCartResponse> response) {
-                if (response.body()!= null){
-                    showToast("Added to Cart");
+
+                if (response.body() != null) {
+
+                    if (response.code() == 200) {
+
+                        Toast.makeText(ProductDetailsActivity.this, "Added To cart", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
-                else {
-                    showToast("Error : "+response.errorBody().toString());
-                }
+
+
+
             }
 
             @Override
             public void onFailure(Call<AddCartResponse> call, Throwable t) {
-                showToast("Failure : "+t.getMessage());
+
+                System.out.println("ERROR: "+t.getMessage());
+
             }
         });
+
+
+
+
+
     }
 
     private void increaseCount(){

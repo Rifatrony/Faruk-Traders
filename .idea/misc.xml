@@ -25,7 +25,24 @@
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/text_background.xml" value="0.125" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/text_view_border.xml" value="0.1" />
         <entry key="..\:/FaruqTraders/app/src/main/res/drawable/textview_background.xml" value="0.17" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-large/all_category_layout.xml" value="0.153125" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-large/category_layout.xml" value="0.153125" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-large/product_layout.xml" value="0.47474747474747475" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-large/top_category_layout.xml" value="0.49473684210526314" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-normal/category_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-normal/top_category_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-small/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-small/all_category_layout.xml" value="0.6005830903790087" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-small/category_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-small/top_category_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout-v28/activity_contact_us.xml" value="0.20416666666666666" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-xlarge/activity_login.xml" value="0.153125" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-xlarge/activity_main.xml" value="0.153125" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-xlarge/activity_product_details.xml" value="0.2" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-xlarge/all_category_layout.xml" value="0.153125" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-xlarge/category_layout.xml" value="0.153125" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-xlarge/product_layout.xml" value="0.27325581395348836" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout-xlarge/top_category_layout.xml" value="0.153125" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_about_us.xml" value="0.22" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_account_details.xml" value="0.22" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_all_category.xml" value="0.18" />
@@ -35,11 +52,11 @@
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_checkout.xml" value="0.25" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_checkout_next.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_contact_us.xml" value="0.22" />
-        <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_dashboard.xml" value="0.2" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_dashboard.xml" value="0.1574074074074074" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_each_category.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_each_product.xml" value="0.25" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_login.xml" value="0.2" />
-        <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_main.xml" value="0.1574074074074074" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_order.xml" value="0.20416666666666666" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_otp.xml" value="0.2" />
         <entry key="..\:/FaruqTraders/app/src/main/res/layout/activity_product_details.xml" value="0.22" />

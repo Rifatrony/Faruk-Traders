@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.faruqtraders.API.ApiInterface;
 import com.example.faruqtraders.API.RetrofitClient;
+import com.example.faruqtraders.API.RetrofitClientWithHeader;
 import com.example.faruqtraders.Adapter.CartAdapter;
 import com.example.faruqtraders.Adapter.CartDetailsAdapter;
 import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
@@ -29,6 +30,7 @@ import com.example.faruqtraders.MainActivity;
 import com.example.faruqtraders.Model.CartModel;
 import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.AddToCartPostModel;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CartResponseModel;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
@@ -140,16 +142,17 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private void fetchCartProduct() {
 
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        RetrofitClient.getRetrofitClient().getCartDetails().enqueue(new Callback<CartResponseModel>() {
+        //AddToCartPostModel.Options options = new AddToCartPostModel.Options("LARGE", "LONG");
+        //AddToCartPostModel model = new AddToCartPostModel();
+        RetrofitClientWithHeader.getRetrofitClient().getCartDetails().enqueue(new Callback<CartResponseModel>() {
             @Override
             public void onResponse(@NonNull Call<CartResponseModel> call, Response<CartResponseModel> response) {
                 if (response.body() != null){
-                    cartResponseModelList = response.body();
-                    adapter = new CartDetailsAdapter(CartActivity.this,cartResponseModelList);
-                    cartRecyclerView.setAdapter(adapter);
+                        cartResponseModelList = response.body();
+                        adapter = new CartDetailsAdapter(CartActivity.this,cartResponseModelList);
+                        cartRecyclerView.setAdapter(adapter);
+                        Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
                 }
 
                 else {

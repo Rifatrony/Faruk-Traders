@@ -63,7 +63,7 @@
                         <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/viewPagerImageSlider"
                             android:layout_width="match_parent"
-                            android:layout_height="210dp"
+                            android:layout_height="450dp"
                             android:layout_marginTop="20dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:text="ALL CATEGORIES"
-                            android:textSize="20sp"
+                            android:textSize="28sp"
                             android:background="@drawable/textview_background"
                             android:textColor="@color/yellow"
                             android:textStyle="bold"
@@ -133,7 +133,7 @@
                                 android:layout_height="match_parent"
                                 android:text="@string/latest_product"
                                 android:textStyle="bold"
-                                android:textSize="18sp"
+                                android:textSize="28sp"
                                 android:gravity="center_vertical"
                                 android:padding="7dp"
                                 android:textColor="@color/black"
@@ -187,153 +187,109 @@
 
                         </FrameLayout>
 
-
-
-                        <LinearLayout
+                        <TextView
                             android:id="@+id/best_selling_category"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginRight="12dp"
-                            android:padding="3dp"
-                            android:background="@drawable/textview_background"
+                            android:layout_height="match_parent"
+                            android:text="@string/best_selling"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold"
+                            android:textSize="28sp"
+                            android:layout_marginTop="16dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="16dp"
+                            android:textColor="@color/black"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/frameOne"
-                            >
-                            <TextView
-                                android:id="@+id/best_selling_product"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:text="@string/best_selling"
-                                android:gravity="center_vertical"
-                                android:textStyle="bold"
-                                android:textSize="18sp"
-                                android:padding="7dp"
-                                android:textColor="@color/black"
-                                />
-                            <!--<TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:text="VIEW ALL"
-                                android:padding="10dp"
-                                android:gravity="center_vertical|end"
-                                android:textColor="@color/yellow"
-                                android:textStyle="bold"
-                                android:drawablePadding="10dp"
-                                android:drawableTint="@color/yellow"
-                                android:drawableRight="@drawable/arrow"
-                                />-->
+                            />
 
-                        </LinearLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/bestSellingRecyclerview"
+                        <LinearLayout
+                            android:id="@+id/ll2"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/best_selling_category"
-                            />
 
-                        <LinearLayout
-                            android:id="@+id/sell_product_category"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:orientation="horizontal"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginEnd="12dp"
-                            android:padding="3dp"
-                            android:background="@drawable/textview_background"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/bestSellingRecyclerview"
                             >
-                            <TextView
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/bestSellingRecyclerview"
                                 android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_gravity="center"
+                                 />
+
+                        </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/sell_product_category"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="@string/sale_product"
                                 android:textStyle="bold"
-                                android:textSize="18sp"
-                                android:padding="7dp"
+                                android:textSize="28sp"
+                                android:layout_marginTop="16dp"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="16dp"
                                 android:gravity="center_vertical"
                                 android:textColor="@color/black"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/ll2"
+
                                 />
-                            <!--<TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="match_parent"
-                                android:text="VIEW ALL"
-                                android:padding="8dp"
-                                android:gravity="center_vertical|end"
-                                android:textColor="@color/yellow"
-                                android:textStyle="bold"
-                                android:drawablePadding="10dp"
-                                android:drawableTint="@color/yellow"
-                                android:drawableRight="@drawable/arrow"
-                                />-->
 
-                        </LinearLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/sellProductRecyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="8dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/sell_product_category" />
 
                         <LinearLayout
-                            android:id="@+id/feature_product_category"
+                            android:id="@+id/ll3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginRight="12dp"
-                            android:padding="3dp"
-                            android:background="@drawable/textview_background"
-                            android:orientation="horizontal"
+                            android:gravity="center"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sellProductRecyclerview"
-                            >
-                            <TextView
+                            app:layout_constraintTop_toBottomOf="@+id/sell_product_category">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/sellProductRecyclerview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="@string/feature_product"
-                                android:textStyle="bold"
-                                android:textSize="18sp"
-                                android:gravity="center_vertical"
-                                android:padding="7dp"
-                                android:textColor="@color/black"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_gravity="center"
                                 />
-                            <!--<TextView
-                                android:layout_width="fill_parent"
-                                android:layout_height="match_parent"
-                                android:text="VIEW ALL"
-                                android:padding="10dp"
-                                android:gravity="center_vertical|end"
-                                android:textColor="@color/yellow"
-                                android:textStyle="bold"
-                                android:drawablePadding="10dp"
-                                android:drawableTint="@color/yellow"
-                                android:drawableRight="@drawable/arrow"
-                                />-->
 
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/feature_product_category"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/feature_product"
+                            android:textStyle="bold"
+                            android:textSize="28sp"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="16dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/ll3"
+                            />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/featureRecyclerView"
@@ -364,12 +320,12 @@
                             app:layout_constraintTop_toBottomOf="@id/featureRecyclerView"
                             >
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/top_in_categories"
                                 android:gravity="center_vertical"
                                 android:textStyle="bold"
-                                android:textSize="18sp"
+                                android:textSize="28sp"
                                 android:padding="7dp"
                                 android:textColor="@color/black"
                                 />
@@ -424,7 +380,7 @@
                                 android:text="@string/peoples_are_also_looking_for"
                                 android:gravity="center_vertical"
                                 android:textStyle="bold"
-                                android:textSize="18sp"
+                                android:textSize="28sp"
                                 android:padding="7dp"
                                 android:textColor="@color/black"
                                 />
@@ -433,6 +389,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="match_parent"
                                 android:text="@string/more"
+                                android:textSize="28sp"
                                 android:padding="8dp"
                                 android:gravity="center_vertical|end"
                                 android:textColor="@color/yellow"
@@ -464,7 +421,6 @@
 
                 </ScrollView>
 
-
             </LinearLayout>
 
             <!--<com.google.android.material.bottomnavigation.BottomNavigationView
@@ -482,9 +438,7 @@
                 android:textAlignment="center"
                 />-->
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </RelativeLayout>
 

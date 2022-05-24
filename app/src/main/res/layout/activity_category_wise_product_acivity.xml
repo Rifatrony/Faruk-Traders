@@ -46,20 +46,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.core.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/constraint_layout">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/eachCategoryRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/nestedScrollView"
-                android:layout_below="@id/constraint_layout"
-                >
+                android:layout_height="match_parent" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/eachCategoryRecyclerView"
-                    />
-
-            </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
 

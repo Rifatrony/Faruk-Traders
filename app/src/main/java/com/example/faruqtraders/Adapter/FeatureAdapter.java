@@ -68,8 +68,6 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureP
                     intent.putExtra("id", data.products.data.get(position).id);
                     //Toast.makeText(context, "Id is: " + data.products.data.get(position).id, Toast.LENGTH_SHORT).show();
                     context.startActivity(intent);
-
-                    Toast.makeText(context,data.products.data.get(position).slug, Toast.LENGTH_SHORT).show();
                 }
             });
 

@@ -92,7 +92,8 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
         if (isPaginationAllowed){
             nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
                 if (scrollY==v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight()){
-                    fetchCategories(++page);
+                    page = page + 1;
+                    fetchCategories(page);
                 }
             });
         }
@@ -132,7 +133,7 @@ public class CategoryWiseProductActivity extends AppCompatActivity implements Vi
         icon = getIntent().getStringExtra("icon");
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        apiInterface.getCategoryWiseProduct(slug, page,per_page).enqueue(new Callback<ApiResponseModel>() {
+        apiInterface.getCategoryWiseProduct(slug, page).enqueue(new Callback<ApiResponseModel>() {
 
             @SuppressLint("NotifyDataSetChanged")
             @Override

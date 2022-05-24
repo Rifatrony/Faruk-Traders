@@ -64,8 +64,6 @@ public class RelatedProductAdapter extends RecyclerView.Adapter<RelatedProductAd
                     intent.putExtra("thumbnail", data.products.data.get(position).thumbnail);
                     intent.putExtra("slug", data.products.data.get(position).slug);
                     context.startActivity(intent);
-
-                    Toast.makeText(context,data.products.data.get(position).slug, Toast.LENGTH_SHORT).show();
                 }
             });
 

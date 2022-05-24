@@ -7,6 +7,7 @@ import com.example.faruqtraders.Model.SellProductModel;
 import com.example.faruqtraders.Model.TopInCategoriesModel;
 import com.example.faruqtraders.Request.LoginRequest;
 import com.example.faruqtraders.Response.AddCartResponse;
+import com.example.faruqtraders.Response.AddToCartPostModel;
 import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
 import com.example.faruqtraders.Response.CartResponseModel;
@@ -102,30 +103,20 @@ public interface ApiInterface {
     @GET("product/products")
     Call<ApiResponseModel> getCategoryWiseProduct(
             @Query("category") String category,
-            @Query("page") int page,
-            @Query("per_page") int per_page
+            @Query("page") int page
             );
 
-    @FormUrlEncoded
-    @POST("carts/add")
-    Call<AddToCartResponse> addProductToCart(
-            @Field("name") String name,
-            @Field("total") String total,
-            @Field("price") String price,
-            @Field("quantity") String quantity,
-            @Query("product_id") String product_id
+    @POST("carts/add/{path}")
+    Call<AddCartResponse> addToCart(
+            @Path("path") String product_id,
+            @Body AddToCartPostModel addToCartPostModel
     );
 
-    @FormUrlEncoded
-    @POST("carts/add")
-    Call<AddCartResponse> addCart(
-            @Query("product_id") String product_id,
-            @Field("quantity") int quantity
 
-    );
 
     @GET("carts")
-    Call<CartResponseModel> getCartDetails();
+    Call<CartResponseModel> getCartDetails(
+    );
 
     @POST("user/profile/update")
     Call<UserDetailsResponse> updateProfile(
