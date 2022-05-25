@@ -43,6 +43,7 @@ public class TopCategoriesMoreProductAdapter extends RecyclerView.Adapter<TopCat
         return new TopCategoriesMoreProductViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TopCategoriesMoreProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (data.products.data.size() > 0){

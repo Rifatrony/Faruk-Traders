@@ -54,15 +54,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         haveAccountTextView = findViewById(R.id.haveAccountTextView);
         signUpButton = findViewById(R.id.signupButton);
-        facebookImage = findViewById(R.id.signupFacebookLogin);
-        googleImage = findViewById(R.id.signupGoogleLogin);
+
     }
 
     private void setListener(){
         haveAccountTextView.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
-        facebookImage.setOnClickListener(this);
-        googleImage.setOnClickListener(this);
+
     }
 
     @Override
@@ -75,14 +73,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             case R.id.signupButton:
                 SignupNewUser();
-                break;
-
-            case R.id.signupFacebookLogin:
-                Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.signupGoogleLogin:
-                Toast.makeText(this, "Google", Toast.LENGTH_SHORT).show();
                 break;
 
         }

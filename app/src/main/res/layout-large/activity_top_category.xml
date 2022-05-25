@@ -18,10 +18,10 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageBack"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/back"
                 android:tint="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
                 android:gravity="center"
                 android:text="Products"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
 
                 android:padding="10dp"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="10dp"
             android:layout_below="@id/constraint_layout">
 
             <androidx.recyclerview.widget.RecyclerView

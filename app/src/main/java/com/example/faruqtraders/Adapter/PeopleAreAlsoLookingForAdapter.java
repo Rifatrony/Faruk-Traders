@@ -39,6 +39,7 @@ public class PeopleAreAlsoLookingForAdapter extends RecyclerView.Adapter<PeopleA
         return new SuggestProductViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SuggestProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
 

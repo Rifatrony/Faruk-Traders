@@ -526,8 +526,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(getApplicationContext(), AllCategoryActivity.class));
                 break;
 
-            case R.id.top_in_categories_more_product:
-
             case R.id.more_product:
                 startActivity(new Intent(getApplicationContext(), TopCategoryActivity.class));
                 break;

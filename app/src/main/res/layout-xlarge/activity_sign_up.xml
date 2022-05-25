@@ -27,16 +27,16 @@
                 android:text="@string/create_new_account"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
-                android:padding="8dp"
+                android:padding="16dp"
                 android:layout_marginTop="30dp"
                 />
 
             <EditText
                 android:id="@+id/fullNameEditText"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="65dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/background_input"
                 android:hint="@string/full_name"
@@ -48,12 +48,12 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="13sp"
+                android:textSize="20sp"
                 />
             <EditText
                 android:id="@+id/signUpEmailEditText"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_input"
                 android:hint="@string/email"
@@ -65,13 +65,13 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="13sp"
+                android:textSize="20sp"
                 />
 
             <EditText
                 android:id="@+id/phoneNumberEditText"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_input"
                 android:hint="@string/number"
@@ -83,13 +83,13 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="13sp"
+                android:textSize="20sp"
                 />
 
             <EditText
                 android:id="@+id/signupPasswordEditText"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_input"
                 android:hint="@string/password"
@@ -101,12 +101,12 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="13sp"
+                android:textSize="20sp"
                 />
             <EditText
                 android:id="@+id/signupConfirmPasswordEditText"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_input"
                 android:hint="@string/confirm_password"
@@ -118,7 +118,7 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="13sp"
+                android:textSize="20sp"
                 />
 
             <FrameLayout
@@ -130,10 +130,10 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/signupButton"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="75dp"
                     android:text="@string/sing_up"
                     android:background="@drawable/button_background"
-                    android:textSize="18sp"
+                    android:textSize="28sp"
                     android:textStyle="bold"
                     app:cornerRadius="8dp"
                     android:textColor="@color/white"
@@ -155,7 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/already_have_account"
-                android:textSize="12sp"
+                android:textSize="30sp"
                 android:gravity="center"
                 android:layout_marginTop="30dp"
                 android:padding="10dp"
@@ -163,53 +163,8 @@
                 android:textColor="@color/black"
                 />
 
-
         </LinearLayout>
 
     </ScrollView>
-
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/category_imageBack"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/back"
-                android:tint="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Login"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/imageBack"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/imageBack" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-    </RelativeLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

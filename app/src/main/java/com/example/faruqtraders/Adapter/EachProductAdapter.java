@@ -1,5 +1,6 @@
 package com.example.faruqtraders.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ public class EachProductAdapter extends RecyclerView.Adapter<EachProductAdapter.
         return new EachProductViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull EachProductViewHolder holder, int position) {
 
@@ -43,8 +45,6 @@ public class EachProductAdapter extends RecyclerView.Adapter<EachProductAdapter.
         holder.category.setText(eachProductResponse.get(position).category.name);
         holder.main_price.setText(eachProductResponse.get(position).price);
         holder.discount_price.setText(eachProductResponse.get(position).final_price+ " Tk.");
-
-        // Toast.makeText(context, eachProductResponse.get(position).slug, Toast.LENGTH_SHORT).show();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +59,7 @@ public class EachProductAdapter extends RecyclerView.Adapter<EachProductAdapter.
         return eachProductResponse.size();
     }
 
-    public class EachProductViewHolder extends RecyclerView.ViewHolder {
+    public static class EachProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, category, sku, main_price, discount_price;
 

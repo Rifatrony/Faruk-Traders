@@ -291,17 +291,28 @@
                             app:layout_constraintTop_toBottomOf="@id/ll3"
                             />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/featureRecyclerView"
+                        <LinearLayout
+                            android:id="@+id/ll4"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/feature_product_category" />
+                            app:layout_constraintTop_toBottomOf="@+id/feature_product_category"
+                            >
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/featureRecyclerView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="8dp"
+                                 />
+
+                        </LinearLayout>
+
 
 
                         <LinearLayout
@@ -317,7 +328,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/featureRecyclerView"
+                            app:layout_constraintTop_toBottomOf="@id/ll4"
                             >
                             <TextView
                                 android:layout_width="match_parent"

@@ -91,9 +91,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     private void initialization() {
         toolbar = findViewById(R.id.toolBar);
-        orderCard = findViewById(R.id.orderCard);
-        accountsCard = findViewById(R.id.accountsCard);
-        wishlistCard = findViewById(R.id.wishlistCard);
         userNameText = findViewById(R.id.userNameText);
         emailTextView = findViewById(R.id.emailText);
         phoneTextView = findViewById(R.id.phoneText);
@@ -106,11 +103,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void setListener() {
-
-        orderCard.setOnClickListener(this);
-        accountsCard.setOnClickListener(this);
-        wishlistCard.setOnClickListener(this);
-        goToHomeTextView.setOnClickListener(this);
 
         accountsTextView.setOnClickListener(this);
         orderTextView.setOnClickListener(this);
