@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     AppCompatButton signUpButton;
     CircleImageView facebookImage, googleImage;
 
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         haveAccountTextView = findViewById(R.id.haveAccountTextView);
         signUpButton = findViewById(R.id.signupButton);
+
+        progressBar = findViewById(R.id.progressBar);
 
     }
 
@@ -130,12 +135,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void callApi(String name, String email, String phone, String password, String confirmPassword, String device_name) {
 
+        signUpButton.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+
         RetrofitClient.getRetrofitClient().createUser(name, email, phone, password, confirmPassword, device_name).enqueue(new Callback<UserRegisterResponse>() {
 
             @Override
             public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
 
                 if (response.isSuccessful()){
+
+                    signUpButton.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
 
                     showToast("Account Created Successfully...");
 
@@ -158,6 +169,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                 }
                 else {
+                    signUpButton.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
                     String errorMessage = response.errorBody().toString();
                     showToast(errorMessage);
                 }
@@ -165,6 +178,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onFailure(Call<UserRegisterResponse> call, Throwable t) {
+                signUpButton.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
                 showToast("Failure ....."+t.getLocalizedMessage());
                 Log.e("TAG", t.getLocalizedMessage());
             }

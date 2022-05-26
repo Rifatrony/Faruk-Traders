@@ -65,6 +65,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     ApiResponseModel apiResponseModel;
 
     AddCartResponse addCartResponse;
+    AddToCartPostModel addToCartPostModel;
 
 
     int count = 1;
@@ -257,10 +258,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     public void addToCart(){
 
         String quantity = quantityNumberTextView.getText().toString().trim();
-        // String size = size.getText().toString().trim();
-        // String length = quantityNumberTextView.getText().toString().trim();
 
-        AddToCartPostModel.Options options = new AddToCartPostModel.Options("LARGE", "LONG");
+        AddToCartPostModel.Options options = new AddToCartPostModel.Options("Large", "Long");
         AddToCartPostModel model = new AddToCartPostModel(Integer.parseInt(quantity), options);
 
         System.out.println("ID IS "+id);

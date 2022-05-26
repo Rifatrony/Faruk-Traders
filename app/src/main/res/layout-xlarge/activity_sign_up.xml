@@ -9,29 +9,30 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:padding="24dp"
-            android:layout_gravity="center_horizontal"
-            >
+            android:orientation="vertical"
+            android:padding="50dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:padding="16dp"
                 android:text="@string/create_new_account"
                 android:textColor="@color/black"
-                android:gravity="center"
-                android:textSize="34sp"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:layout_marginTop="30dp"
-                />
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/fullNameEditText"
@@ -39,34 +40,33 @@
                 android:layout_height="65dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/background_input"
-                android:hint="@string/full_name"
                 android:drawableStart="@drawable/person"
                 android:drawablePadding="15dp"
+                android:hint="@string/full_name"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
+
             <EditText
                 android:id="@+id/signUpEmailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_input"
-                android:hint="@string/email"
                 android:drawableStart="@drawable/email"
                 android:drawablePadding="15dp"
+                android:hint="@string/email"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/phoneNumberEditText"
@@ -74,17 +74,16 @@
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_input"
-                android:hint="@string/number"
                 android:drawableStart="@drawable/phone"
                 android:drawablePadding="15dp"
+                android:hint="@string/number"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="phone"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/signupPasswordEditText"
@@ -92,34 +91,33 @@
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_input"
-                android:hint="@string/password"
                 android:drawableStart="@drawable/password"
                 android:drawablePadding="15dp"
+                android:hint="@string/password"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
+
             <EditText
                 android:id="@+id/signupConfirmPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/background_input"
-                android:hint="@string/confirm_password"
                 android:drawableStart="@drawable/password"
                 android:drawablePadding="15dp"
+                android:hint="@string/confirm_password"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -130,23 +128,21 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/signupButton"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:text="@string/sing_up"
+                    android:layout_height="65dp"
                     android:background="@drawable/button_background"
+                    android:text="@string/sing_up"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    app:cornerRadius="8dp"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    />
+                    app:cornerRadius="8dp" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center"
-                    android:visibility="invisible"
-                    />
+                    android:visibility="invisible" />
 
             </FrameLayout>
 
@@ -154,14 +150,13 @@
                 android:id="@+id/haveAccountTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/already_have_account"
-                android:textSize="30sp"
-                android:gravity="center"
                 android:layout_marginTop="30dp"
+                android:gravity="center"
                 android:padding="10dp"
-                android:textStyle="bold"
+                android:text="@string/already_have_account"
                 android:textColor="@color/black"
-                />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

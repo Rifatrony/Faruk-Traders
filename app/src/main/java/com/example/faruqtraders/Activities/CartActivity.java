@@ -144,7 +144,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //AddToCartPostModel.Options options = new AddToCartPostModel.Options("LARGE", "LONG");
         //AddToCartPostModel model = new AddToCartPostModel();
-        RetrofitClientWithHeader.getRetrofitClient().getCartDetails().enqueue(new Callback<CartResponseModel>() {
+        RetrofitClient.getRetrofitClient().getCartDetails().enqueue(new Callback<CartResponseModel>() {
             @Override
             public void onResponse(@NonNull Call<CartResponseModel> call, Response<CartResponseModel> response) {
                 if (response.body() != null){

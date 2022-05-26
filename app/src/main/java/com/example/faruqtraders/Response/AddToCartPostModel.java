@@ -18,7 +18,6 @@ public class AddToCartPostModel {
         public Object size;
         public String length;
 
-
         public Options(Object size, String length) {
             this.size = size;
             this.length = length;
@@ -26,9 +25,4 @@ public class AddToCartPostModel {
 
 
     }
-
-
-
-
-
 }

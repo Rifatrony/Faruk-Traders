@@ -158,10 +158,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(new Intent(getApplicationContext(), AllCategoryActivity.class));
                         break;
 
-                    case R.id.nav_track_order:
-                        startActivity(new Intent(getApplicationContext(), OrderActivity.class));
-                        break;
-
                     case R.id.nav_cart:
                         startActivity(new Intent(getApplicationContext(), CartActivity.class));
                         break;
@@ -192,9 +188,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         //overridePendingTransition(0,0);
                         break;
 
-                    case R.id.nav_about_us:
+                    /*case R.id.nav_about_us:
                         startActivity(new Intent(getApplicationContext(), AboutUsActivity.class));
-                        break;
+                        break;*/
 
                     default:
                         return true;

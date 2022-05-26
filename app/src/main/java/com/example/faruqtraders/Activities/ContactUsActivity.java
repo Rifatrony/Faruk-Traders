@@ -28,6 +28,7 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
 
         initialization();
         setListener();
+
     }
 
     private void initialization() {
@@ -61,7 +62,6 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
     }
     @Override
     protected void onStart() {
-
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, filter);
         super.onStart();

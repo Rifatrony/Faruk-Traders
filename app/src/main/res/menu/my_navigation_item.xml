@@ -19,11 +19,6 @@
     <item
         android:title="Profile">
         <menu>
-            <item
-                android:id="@+id/nav_track_order"
-                android:icon="@drawable/location"
-                android:title="Track Order"
-                />
 
             <item
                 android:id="@+id/nav_cart"
@@ -78,11 +73,11 @@
                 android:title="Contact"
                 />
 
-            <item
+            <!--<item
                 android:id="@+id/nav_about_us"
                 android:icon="@drawable/about_us"
                 android:title="About Us"
-                />
+                />-->
 
         </menu>
     </item>

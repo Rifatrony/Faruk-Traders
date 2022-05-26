@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     GoogleSignInClient gsc;
     LoginResponse loginResponse;
 
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         loginNumberEditText = findViewById(R.id.loginNumberEditText);
         loginPasswordEditText = findViewById(R.id.loginPasswordEditText);
+
+        progressBar = findViewById(R.id.progressBar);
 
         facebook = findViewById(R.id.facebookLogin);
         google = findViewById(R.id.googleLogin);
@@ -134,8 +139,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
-    /*Phone Number Login*/
-
     private void userLogin() {
         String loginEmail = loginNumberEditText.getText().toString().trim();
         String loginPassword = loginPasswordEditText.getText().toString().trim();
@@ -147,6 +150,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         else if (loginPassword.isEmpty()) {
             showToast("Enter Password");
             return;
+
         } else if (loginPassword.length() < 6) {
             showToast("Minimum Password is 6");
             return;
@@ -160,10 +164,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /*Phone Number Login*/
 
     private void Login(String phone, String password, String device_name) {
+
+        signInButton.setVisibility(View.INVISIBLE);
+
+        progressBar.setVisibility(View.VISIBLE);
+
+
         RetrofitClient.getRetrofitClient().userLogin(phone, password, "redmi").enqueue(new Callback<UserRegisterResponse>() {
             @Override
             public void onResponse(Call<UserRegisterResponse> call, Response<UserRegisterResponse> response) {
                 if (response.body() != null){
+                    signInButton.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                     showToast("Login Success");
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
@@ -175,6 +187,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onFailure(Call<UserRegisterResponse> call, Throwable t) {
                 showToast(t.getLocalizedMessage());
+
+                signInButton.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
