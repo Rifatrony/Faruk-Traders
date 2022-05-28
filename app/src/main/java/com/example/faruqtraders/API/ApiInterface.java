@@ -10,6 +10,7 @@ import com.example.faruqtraders.Response.AddCartResponse;
 import com.example.faruqtraders.Response.AddToCartPostModel;
 import com.example.faruqtraders.Response.AddToCartResponse;
 import com.example.faruqtraders.Response.ApiResponseModel;
+import com.example.faruqtraders.Response.BannerResponse;
 import com.example.faruqtraders.Response.CartResponseModel;
 import com.example.faruqtraders.Response.CategoryResponseModel;
 import com.example.faruqtraders.Response.DeliveryMethodResponse;
@@ -61,6 +62,11 @@ public interface ApiInterface {
     /*@POST("auth/user/logout")
     Call<> logout();*/
 
+    @GET("banners")
+    Call<BannerResponse> getBanner();
+
+    @GET("product/sellings")
+    Call<ApiResponseModel> getBestSelling();
 
     @GET("product/featured")
     Call<ApiResponseModel> getFeature();

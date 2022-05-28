@@ -148,10 +148,13 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(@NonNull Call<CartResponseModel> call, Response<CartResponseModel> response) {
                 if (response.body() != null){
-                        cartResponseModelList = response.body();
-                        adapter = new CartDetailsAdapter(CartActivity.this,cartResponseModelList);
-                        cartRecyclerView.setAdapter(adapter);
-                        Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    cartResponseModelList = response.body();
+
+                    System.out.println("Data are : "+ CartResponseModel.Datum.class);
+
+                    adapter = new CartDetailsAdapter(CartActivity.this,cartResponseModelList);
+                    cartRecyclerView.setAdapter(adapter);
+                    Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
 
                 }
 

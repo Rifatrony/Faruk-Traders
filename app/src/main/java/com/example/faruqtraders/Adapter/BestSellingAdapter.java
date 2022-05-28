@@ -18,17 +18,21 @@ import com.bumptech.glide.Glide;
 import com.example.faruqtraders.Activities.ProductDetailsActivity;
 import com.example.faruqtraders.Model.BestSellingModel;
 import com.example.faruqtraders.R;
+import com.example.faruqtraders.Response.ApiResponseModel;
 
 import java.util.List;
 
 public class BestSellingAdapter extends RecyclerView.Adapter<BestSellingAdapter.BestSellerViewHolder> {
 
-    private List<BestSellingModel> bestSellingModelList;
-    private Context context;
+    Context context;
+    ApiResponseModel apiResponseModel;
 
-    public BestSellingAdapter(List<BestSellingModel> bestSellingModelList, Context context) {
-        this.bestSellingModelList = bestSellingModelList;
+    public BestSellingAdapter(Context context, ApiResponseModel apiResponseModel) {
         this.context = context;
+        this.apiResponseModel = apiResponseModel;
+    }
+
+    public BestSellingAdapter() {
     }
 
     @NonNull
@@ -41,33 +45,37 @@ public class BestSellingAdapter extends RecyclerView.Adapter<BestSellingAdapter.
     @Override
     public void onBindViewHolder(@NonNull BestSellerViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        BestSellingModel data = bestSellingModelList.get(position);
+        if (apiResponseModel.products.data.size() > 0){
+            holder.name.setText(apiResponseModel.products.data.get(position).name);
+            //holder.category.setText(data.products.data.get(position).slug);
+            holder.main_price.setText(apiResponseModel.products.data.get(position).price + "৳");
+            holder.discount_price.setText(apiResponseModel.products.data.get(position).discounted_price.toString() + "৳");
+            holder.main_price.setPaintFlags(holder.main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        holder.name.setText(data.getName());
-        //holder.category.setText(data.getCategory());
-        holder.main_price.setText(String.valueOf(data.getMain_price()));
-        holder.discount_price.setText(String.valueOf(data.getDiscount_price()));
-        holder.main_price.setPaintFlags(holder.main_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            Glide.with(context).load(apiResponseModel.products.data.get(position).thumbnail).into(holder.imageView);
 
-        Glide.with(context)
-                .load(data.getImage())
-                .into(holder.imageView);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    //intent.putExtra("position", holder.getAdapterPosition());
+                    intent.putExtra("name", apiResponseModel.products.data.get(position).name);
+                    intent.putExtra("main_price", apiResponseModel.products.data.get(position).price);
+                    intent.putExtra("discount_price", apiResponseModel.products.data.get(position).discounted_price.toString());
+                    intent.putExtra("thumbnail", apiResponseModel.products.data.get(position).thumbnail);
+                    intent.putExtra("slug", apiResponseModel.products.data.get(position).slug);
+                    intent.putExtra("id", apiResponseModel.products.data.get(position).id);
+                    context.startActivity(intent);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ProductDetailsActivity.class);
-                intent.putExtra("sell_details", data);
-                context.startActivity(intent);
-
-            }
-        });
+                }
+            });
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return bestSellingModelList.size();
+        return apiResponseModel.products.data.size();
     }
 
     public class BestSellerViewHolder extends RecyclerView.ViewHolder{

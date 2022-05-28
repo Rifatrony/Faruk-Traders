@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -39,6 +40,8 @@ import com.example.faruqtraders.Activities.LoginActivity;
 import com.example.faruqtraders.Activities.OrderActivity;
 import com.example.faruqtraders.Activities.TopCategoryActivity;
 import com.example.faruqtraders.Activities.WishlistActivity;
+import com.example.faruqtraders.Adapter.BannerAdapter;
+import com.example.faruqtraders.Adapter.BestSellingAdapter;
 import com.example.faruqtraders.Adapter.FeatureAdapter;
 import com.example.faruqtraders.Adapter.ImageAdapter;
 import com.example.faruqtraders.Adapter.LatestProductAdapter;
@@ -48,6 +51,7 @@ import com.example.faruqtraders.Adapter.SellProductAdapter;
 import com.example.faruqtraders.Adapter.TopInCategoriesAdapter;
 import com.example.faruqtraders.Model.ImageModel;
 import com.example.faruqtraders.Response.ApiResponseModel;
+import com.example.faruqtraders.Response.BannerResponse;
 import com.example.faruqtraders.Response.VisitedProductResponse;
 import com.example.faruqtraders.Utility.NetworkChangeListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -58,8 +62,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,12 +76,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
 
-    private RecyclerView featureRecyclerView , bestSellingRecyclerView,
+    private RecyclerView bannerRecyclerView,featureRecyclerView , bestSellingRecyclerView,
             sellProductRecyclerView, topInCategoriesRecyclerView, latestProductRecyclerView,
             peoplesAreAlsoLookingForRecyclerView;
 
     private long backPressedTime;
     private Toast backToast;
+
+    LinearLayoutManager layoutManager;
 
     EditText searchEditText;
     TextView all_category_text_view, top_in_categories_more_product, more_product;
@@ -94,11 +103,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SellProductAdapter sellProductAdapter;
     TopInCategoriesAdapter topInCategoriesAdapter;
     PeopleAreAlsoLookingForAdapter peopleAreAlsoLookingForAdapter;
+    BestSellingAdapter bestSellingAdapter;
+    BannerAdapter bannerAdapter;
 
     ApiInterface apiInterface;
     //public static ApiResponseModel apiResponseData;
     public static ApiResponseModel apiResponseData;
     VisitedProductResponse visitedProductResponse;
+    BannerResponse bannerResponse;
+
     ProgressDialog progressDialog;
 
     GoogleSignInOptions gso;
@@ -119,14 +132,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initialization();
 
+
         fetchLatestProduct();
         fetchBestSellingProduct();
         fetchSellProduct();
         fetchFeatureProduct();
         fetchTopInCategoriesProduct();
         fetchPeopleAreLookingAlsoForProduct();
-        ImageSlider();
+        //ImageSlider();
         setListener();
+        getBanner();
 
         name = getIntent().getStringExtra("name");
         email = getIntent().getStringExtra("email");
@@ -160,6 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     case R.id.nav_cart:
                         startActivity(new Intent(getApplicationContext(), CartActivity.class));
+                        break;
+
+                    case R.id.nav_order:
+                        startActivity(new Intent(getApplicationContext(), OrderActivity.class));
                         break;
 
                     case R.id.nav_favourite:
@@ -227,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     private void setListener(){
         all_category_text_view.setOnClickListener(this);
         top_in_categories_more_product.setOnClickListener(this);
@@ -247,18 +265,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView = findViewById(R.id.navigation_view);
         //bottomNavigationView = findViewById(R.id.bottom_nav);
 
-        viewPager2 = findViewById(R.id.viewPagerImageSlider);
         imageModelList = new ArrayList<>();
 
         all_category_text_view = findViewById(R.id.all_category);
         top_in_categories_more_product = findViewById(R.id.top_in_categories_more_product);
         more_product = findViewById(R.id.more_product);
 
+        bannerRecyclerView = findViewById(R.id.bannerRecyclerView);
         featureRecyclerView = findViewById(R.id.featureRecyclerView);
         sellProductRecyclerView = findViewById(R.id.sellProductRecyclerview);
         topInCategoriesRecyclerView = findViewById(R.id.topCategoriesRecyclerView);
         peoplesAreAlsoLookingForRecyclerView = findViewById(R.id.peoplesAreAlsoLookingForRecyclerView);
         latestProductRecyclerView = findViewById(R.id.latest_product_Recyclerview);
+        bestSellingRecyclerView = findViewById(R.id.bestSellingRecyclerview);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
@@ -319,6 +338,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void getBanner() {
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        bannerRecyclerView.setLayoutManager(layoutManager);
+
+        RetrofitClient.getRetrofitClient().getBanner().enqueue(new Callback<BannerResponse>() {
+            @Override
+            public void onResponse(Call<BannerResponse> call, Response<BannerResponse> response) {
+                if (response.body() != null){
+                    bannerResponse = response.body();
+                    bannerAdapter = new BannerAdapter(MainActivity.this, bannerResponse);
+                    bannerRecyclerView.setAdapter(bannerAdapter);
+
+                    LinearSnapHelper snapHelper = new LinearSnapHelper();
+                    snapHelper.attachToRecyclerView(bannerRecyclerView);
+
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (layoutManager.findLastCompletelyVisibleItemPosition() < bannerAdapter.getItemCount() -1){
+                                layoutManager.smoothScrollToPosition(bannerRecyclerView, new RecyclerView.State(), layoutManager.findLastCompletelyVisibleItemPosition() + 1);
+                            }else if (layoutManager.findLastCompletelyVisibleItemPosition() < bannerAdapter.getItemCount() -1){
+                                layoutManager.smoothScrollToPosition(bannerRecyclerView, new RecyclerView.State(), 0);
+                            }
+                        }
+                    },0, 3000);
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BannerResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void fetchPeopleAreLookingAlsoForProduct() {
@@ -414,7 +472,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // best sell RecyclerView
     private void fetchBestSellingProduct() {
+        bestSellingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
+        apiInterface.getBestSelling().enqueue(new Callback<ApiResponseModel>() {
+            @Override
+            public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+                if (response.body() != null){
+                    apiResponseData = response.body();
+                    bestSellingAdapter = new BestSellingAdapter(MainActivity.this, apiResponseData);
+                    bestSellingRecyclerView.setAdapter(bestSellingAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+
+            }
+        });
 
     }
 
@@ -442,59 +516,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /*Image Slider using view pager*/
-
-    private void ImageSlider(){
-        imageModelList.add(new ImageModel(R.drawable.first));
-        imageModelList.add(new ImageModel(R.drawable.second));
-        imageModelList.add(new ImageModel(R.drawable.third));
-        imageModelList.add(new ImageModel(R.drawable.fourth));
-
-        adapter = new ImageAdapter(imageModelList, viewPager2);
-        viewPager2.setAdapter(adapter);
-
-        viewPager2.setOffscreenPageLimit(3);
-        viewPager2.setClipChildren(false);
-        viewPager2.setClipToPadding(false);
-
-        viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-
-        CompositePageTransformer transformer = new CompositePageTransformer();
-        transformer.addTransformer(new MarginPageTransformer(4));
-
-
-        viewPager2.setPageTransformer(transformer);
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-
-                slideHandler.removeCallbacks(slideRunnable);
-                slideHandler.postDelayed(slideRunnable, 10000);
-
-            }
-        });
-
-    }
-
-    private Runnable slideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
-        }
-    };
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        slideHandler.removeCallbacks(slideRunnable);
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        slideHandler.postDelayed(slideRunnable, 2000);
-    }
 
     private void loginUser() {
 

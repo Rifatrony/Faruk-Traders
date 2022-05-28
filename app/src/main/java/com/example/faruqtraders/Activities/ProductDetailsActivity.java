@@ -238,7 +238,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.add_to_favourite_button:
-                Toast.makeText(this, "Add to favourite Button is clicked", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.relatedProductMoreProduct:

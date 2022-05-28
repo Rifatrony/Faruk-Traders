@@ -22,7 +22,6 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         initialization();
 
         setListener();
-
     }
 
     private void setListener() {

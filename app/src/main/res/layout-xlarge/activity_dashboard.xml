@@ -15,31 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
-            <!--<androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageBack"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/back"
-                android:tint="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Dashboard"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:padding="10dp"
-                app:layout_constraintBottom_toBottomOf="@id/imageBack"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/imageBack" />-->
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"

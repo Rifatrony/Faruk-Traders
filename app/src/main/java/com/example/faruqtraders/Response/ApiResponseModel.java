@@ -1,6 +1,5 @@
 package com.example.faruqtraders.Response;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ApiResponseModel {
